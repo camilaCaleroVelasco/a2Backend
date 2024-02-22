@@ -1,0 +1,162 @@
+.wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    border: 5px solid;
+    justify-content: center;
+    width: 700px;
+    height: 800px;
+    background: transparent;
+    transition:.6s;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: (-50%, -50%);
+    margin: -50px 0 0 -350px;
+
+} 
+
+
+
+.wrapper h1 {
+    text-align: center;
+    text-decoration: none;
+}
+
+
+.button {
+    margin-top: auto;
+    margin-bottom: 15px;
+}
+
+
+.wrapper .input-box {
+    position: relative;
+    width : 150%;
+    height: 60px;
+    margin : 50px 0;
+    align-items: center;
+    border-radius: 40px;
+}
+
+
+/*
+.wrapper .input-box:hover {
+    border: 4px solid  #317DFF;
+    box-shadow: 0 0 30px  #317DFF, inset 0 0 30px  #317DFF;
+    border-radius: 40px;
+    align-items: relative;
+   
+    transform: (-100%, -200%);
+ 
+} 
+*/ /* hover thing */
+
+.button-box {
+    position: relative;
+    width : 100%;
+    height: 50px;
+    /*margin : 40px 0; */
+    transform: (-50%, -50%);
+    margin: -40px 0 0 -70px;
+}
+
+.wrapper.input-box {
+    border-radius: 40px;  
+}
+
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 2px solid rgb(50, 49, 49);
+    outline: none;
+    border-radius: 40px;
+    padding: 0 10px 0 35px;
+    transform: (-50%, -50%);
+    margin: -40px 0 0 -150px;
+
+
+
+} 
+.input-box {
+    width: 70%;
+    margin: 20px auto;
+    text-align: center;
+} 
+
+
+.wrapper .button {
+    width: 150%;
+    height: 60px;
+    border-radius: 40px;
+    background:#317DFF;
+    cursor: pointer;
+    font-size : 1em;
+    font-weight: 600;
+
+}
+
+
+.forgot-password a {
+    color:#317DFF;
+    font-size: large;
+    position: left;
+
+} 
+
+.forgot-password p {
+    font-size: large;
+    position: left;
+    text-align: center;
+
+} 
+
+.forgot-password a:hover{
+    text-decoration: underline;
+ }
+ 
+.wrapper .register-link p {
+    text-align: center;
+    font-size: large;
+    position: calc(0,0,0);
+    margin-top: 20px;
+}
+
+.wrapper .register-link a {
+    text-align:center;
+    color: #317DFF;
+    font-size: large;
+    margin-top: 20px;
+}
+.register-link {
+    text-align: center;
+}
+
+.wrapper:hover {
+    border: 5px solid  #317DFF;
+    box-shadow: 0 0 30px  #317DFF, inset 0 0 30px  #317DFF;
+
+} 
+
+
+    
+    
+    
+    
+    
+    
+    
+      
+       
+
+
+
+
+
+
+
+  
+   

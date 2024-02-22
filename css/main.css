@@ -1,0 +1,137 @@
+* {
+   
+    color: white; 
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+
+  } 
+
+  @media only screen and (max-width: 940px) {
+  .menu-container {
+    display: none;
+  }
+}
+  
+  
+  header {
+    width:100%;
+   
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 10%
+  }
+
+  .logo{
+    width: 300px;
+    cursor: pointer;
+    left: 0;
+    
+  }
+   
+  .nav__links {
+  list-style: none;
+  text-decoration: none;
+
+  } 
+
+  .nav__links li {
+    display: inline-block;
+    padding: 0px 20px;
+    text-decoration: none;
+
+  }
+  /* Navigation Links for Admin, Login and Movies */
+  .nav__links li a {
+    transition: all 0.3s ease 0s;
+    text-decoration: none;
+  }
+
+  .nav__links li a:hover {
+    color:#317DFF;
+    font-size: large;
+  }
+ 
+  .search {
+    margin-left: 20px; 
+    background-color: #ccc; 
+    border-radius: 10px; 
+}
+
+.search form input[type="text"] {
+    color: #333; 
+    background-color: #ccc; 
+    border: none; 
+    padding: 8px; 
+    outline: none;
+}
+
+.search form input[type="text"]::placeholder {
+    color: #000000; 
+}
+ 
+ .content-holder {
+ margin-left: 50px;
+ background-color: #ffffff; 
+
+ }
+
+ .movies-type-title{
+  position: relative;
+ }
+ 
+ .movies-poster-img {
+  padding: 20px;
+  height :600px;
+  width: 400px;
+  object-fit: cover;
+  transition: all 1s ease-in-out;
+  position: relative;
+
+ }
+ 
+
+ /** Title for movies that are playing **/
+  
+
+ .movies-list{
+  display: flex;
+  align-items: center;
+  transform: translate(0);
+  height : 700px;
+  transition: all 1s ease-in-out;
+  
+ }
+
+ .movies-list-item:hover .movies-poster-img {
+  transform: scale(1.2);
+
+ } 
+
+
+ .arrowicon {
+  position: absolute;
+  top: 290px;
+  right: 0;
+  cursor: pointer;
+  background: transparent;
+ }
+
+ .movies-list-wrapper {
+  position: relative;
+  overflow: hidden;
+ }
+
+
+
+
+ 
+
+ 
+
+ 
+ 
+ 
+

@@ -1,0 +1,73 @@
+h1 {
+    font-size: 50px;
+    font-weight: 100;
+    text-align: center;
+    display:flex;
+    flex-wrap: wrap;
+    position: relative;
+    top: 100px;
+
+   
+}
+
+p {
+    top: -130px;
+    position: relative;
+}
+
+
+.wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    border: 5px solid;
+    justify-content: center;
+    width: 700px;
+    height: 800px;
+    background: transparent;
+    transition:.6s;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: (-50%, -50%);
+    margin: -50px 0 0 -350px;
+
+} 
+
+.wrapper img.logo-check{
+    width: 100px;
+    border-radius: 100px;
+    background-color: white;
+    padding: 2px;
+    
+
+} 
+
+
+.wrapper img.logo-check:hover {
+    border: 5px solid  #317DFF;
+    box-shadow: 0 0 30px  #317DFF, inset 0 0 30px  #317DFF;
+    
+
+}  
+
+
+
+
+
+/* Registration sucessful text header */
+.wrapper h1 {
+    text-align: center;
+    text-decoration: none;
+    top: -150px;
+}
+
+
+
+.wrapper:hover {
+    border: 5px solid  #317DFF;
+    box-shadow: 0 0 30px  #317DFF, inset 0 0 30px  #317DFF;
+} 
+
+
