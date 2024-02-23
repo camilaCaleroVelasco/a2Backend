@@ -41,8 +41,9 @@
                         <div class = "movies-list-item">
 
                             <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/MeanGirls.jpeg" alt = "">
-                           
+                            <button id="imageButton" onclick="search.php">
+                                <img class="movies-poster-img" src="images/MeanGirls.jpeg" alt = "button image">
+                            </button>
                         </div>
                         <div class = "movies-list-item">
 
@@ -253,5 +254,8 @@
 
 
 <script src="javascript/index.js"></script>
+<script> 
+
+</script>
 </body>
 </html>
