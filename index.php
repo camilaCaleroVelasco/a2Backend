@@ -17,7 +17,7 @@
             <ul class="nav__links">
                 <li><a href="booking.php">Placeholder</a></li>
                 <li><a href="#">MOVIES</a></li>
-                <li><a href="#">ADMIN</a></li>
+                <li><a href="admin.php">ADMIN</a></li>
                 <li><a href="login.php">LOGIN</a></li> <!-- Link to the login page -->
                 <li class="search">
                     <form action="search.php" method="POST"> <!-- Specify the action and method for the form -->
@@ -41,8 +41,9 @@
                         <div class = "movies-list-item">
 
                             <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/MeanGirls.jpeg" alt = "">
-                           
+                            <button id="imageButton" onclick="movieDetails.php">
+                                <img class="movies-poster-img" src="images/MeanGirls.jpeg" alt = "button image">
+                            </button>
                         </div>
                         <div class = "movies-list-item">
 
@@ -253,5 +254,8 @@
 
 
 <script src="javascript/index.js"></script>
+<script> 
+
+</script>
 </body>
 </html>

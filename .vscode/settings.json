@@ -7,23 +7,9 @@
             },
             "previewLimit": 50,
             "server": "localhost",
-            "port": 3306,
-            "driver": "MySQL",
-            "name": "demo",
-            "database": "a2movs",
-            "username": "root",
-            "password": "Conito0117"
-        },
-        {
-            "mysqlOptions": {
-                "authProtocol": "default",
-                "enableSsl": "Disabled"
-            },
-            "previewLimit": 50,
-            "server": "localhost",
             "port": 4306,
             "driver": "MySQL",
-            "name": "fistsqlconnection",
+            "name": "MovieDatabase",
             "database": "movies",
             "username": "root",
             "password": ""
