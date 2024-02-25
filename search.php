@@ -50,19 +50,21 @@
             echo "<p> There were no results! </p>";
             echo "</div>";
         }
-else {
-    foreach ($results as $row) {
-        echo "<div>";
-    
-                    //<!---Create the image as a button--->
-
-                    echo "<h4>";
-                    echo "<button> <img id='movie' src=" . htmlspecialchars($row["picture"]) . "width='300'
-                    height='400'</h4>" ;
-                    echo "</div>";
-                }
+        else {
+            foreach ($results as $row) {
+                echo "<div>";
+                //direct to movieDetails when button is clicked
+                echo "<a href='movieDetails.php?movie_id=" . $row["id"] . "'>";
+                //<!---Create the image as a button--->
+                echo "<h4>";
+                echo "<button> <img id='movie' src=" . htmlspecialchars($row["picture"]) . "width='300'
+                height='400'</h4>" ;
+                echo "</a>";
+              
+                echo "</div>";
             }
-        ?>
+        }
+    ?>
 
     </section>
 
