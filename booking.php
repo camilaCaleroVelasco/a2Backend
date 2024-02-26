@@ -1,8 +1,47 @@
+<?php
+
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
+
+    $movie_id = $_GET["movie_id"];
+
+    try {
+        require_once "includes/databaseConnection.inc.php";
+
+        $query = "SELECT * FROM movies WHERE id = :movie_id"; // Corrected query
+
+        $stmt = $pdo->prepare($query);
+        $stmt->bindValue(':movie_id', $movie_id, PDO::PARAM_INT); // Correct binding
+        $stmt->execute();
+
+        $movie = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch single movie
+
+        if ($movie) { // Check if movie found
+            // Display movie details
+        } else {
+            // Handle movie not found
+            echo "<p>Movie not found.</p>";
+        }
+
+        $pdo = null;
+        $stmt = null;
+
+    } catch (PDOException $e) {
+        die("Query failed: " . $e->getMessage());
+    }
+} else {
+    header("Location: ../index.php"); // Redirect if no movie ID
+}
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA Compatible" content="IE=edge">
   <title>Ticket Booking</title>
   <!--Google Fonts and Icons-->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round|Material+Icons+Sharp|Material+Icons+Two+Tone" rel="stylesheet" />
@@ -17,7 +56,7 @@
     <div class="tickets">
       <div class="ticket-selector">
         <div class="head">
-          <div class="title">Movie Name</div>
+          <div class="title"> <?php echo $movie['movie_title']; echo "</div>"; ?>
         </div>
         <div class="seats">
           <div class="status">
@@ -115,7 +154,9 @@
       // sessionStorage.setItem("bookingDetails", JSON.stringify(bookingDetails));
 
       // Redirect to the order summary page
-      window.location.href = "ageselect.php";
+      <?php
+      echo "window.location.href = 'ageselect.php?movie_id=" . $movie["id"] . "'";
+      ?>
     });
 
     // Disable booked seats

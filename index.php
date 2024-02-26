@@ -1,3 +1,12 @@
+<?php
+    include 'includes/databaseConnection.inc.php';
+        $mysqli = new mysqli("localhost","root","","movies");
+        $sqlNP = "SELECT * FROM movies WHERE movie_status LIKE '%now playing%'";
+        $sqlCS = "SELECT * FROM movies WHERE movie_status LIKE '%coming soon%'";
+        $resultNP = mysqli_query( $mysqli, $sqlNP ) or die("bad query: $sql");
+        $resultCS = mysqli_query( $mysqli, $sqlCS ) or die("bad query: $sql");
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,8 +24,6 @@
         <img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo">  
         <nav>
             <ul class="nav__links">
-                <li><a href="booking.php">Placeholder</a></li>
-                <li><a href="#">MOVIES</a></li>
                 <li><a href="admin.php">ADMIN</a></li>
                 <li><a href="login.php">LOGIN</a></li> <!-- Link to the login page -->
                 <li class="search">
@@ -31,227 +38,59 @@
 
 
     <!-- Creating Container to Hold now showing movies --> 
-    
-    <div class = "containter">   <!-- div class container starts here -->
-        <div class = "content-holder">
-            <div class="now-playing-movies">
-                <h1 class ="movies-type-title"> NOW PLAYING</h1>
-                <div class =" movies-list-wrapper">
-                    <div class ="movies-list">
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <button id="imageButton" onclick="movieDetails.php">
-                                <img class="movies-poster-img" src="images/MeanGirls.jpeg" alt = "button image">
-                            </button>
-                        </div>
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/PoorThings.jpeg" alt = "">
-
-                        </div>
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/ABY.jpeg" alt = "">
-                        </div>
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/Oppenheimer.jpeg" alt = "">
-                        </div>
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/MadameWeb.jpeg" alt = "">
-                        </div>
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/MarleyOneLove.jpeg" alt = "">
-                        </div>
-                        <div class = "movies-list-item">
-
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/BeeKeeper.jpeg" alt = "">
-                        </div>
-                        <div class = "movies-list-item">           
-
-                            <!-- Place Holder Image for Movies-->
-                            
-                            <img class="movies-poster-img" src="images/Wonka.jpeg" alt = "">
-                        </div>
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/Frankenstein.jpeg" alt = "">
-                        </div>
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/TheChoosen.jpeg" alt = "">
-                        </div>
-
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/LandOfBad.jpeg" alt = "">
-                        </div>
-
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/Argylle.jpeg" alt = "">
-                        </div>
-
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/OrdinaryAngels.jpeg" alt = "">
-                        </div>
-
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/AmericanFiction.jpeg" alt = "">
-                        </div>
-
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/OutOFDarkness.jpeg" alt = "">
-                        </div>
-
-                    </div>
-
-                    <!-- Icon from Awesome Icons -->
-                    <svg id = "arrow-icon" class = "arrowicon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width ="150" height = "150"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#023f9f" 
-                        d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
-                </div>    
-            </div>
-
-            <div class="now-playing-movies">
-                <h1 class ="movies-type-title"> COMING SOON</h1>
-                <div class =" movies-list-wrapper">
-                    <div class ="movies-list">
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies will eventually be replaced by posters from an API--> 
-                            <img class="movies-poster-img" src="images/Dune.jpeg" alt = "">
-                           
-                        </div>
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/Wicked.jpeg" alt = "">
-
-                        </div>
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/PlanetOfApes.jpeg" alt = "">
-                        </div>
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/GhostBusters.jpeg" alt = "">
-                        </div>
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/Imaginary.jpeg" alt = "">
-                        </div>
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/GodZilla.jpeg" alt = "">
-                        </div>
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/Cabrini.jpeg" alt = "">
-                        </div>
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/NightShift.jpeg" alt = "">
-                        </div> 
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/Mickey17.jpeg" alt = "">
-                        </div>
-
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/KungFuPanda.jpeg" alt = "">
-                        </div>
-
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/InsideOut2.jpeg" alt = "">
-                        </div>
-
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/Challengers.jpeg" alt = "">
-                        </div>
-
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/Furiosa.jpeg" alt = "">
-                        </div>
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/QuietPlace.jpeg" alt = "">
-                        </div>
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/If.jpeg" alt = "">
-                        </div>
-
-
-                        <div class = "movies-list-item">
-
-                            <!-- Place Holder Image for Movies-->
-                            <img class="movies-poster-img" src="images/ArthurTheKing.jpeg" alt = "">
-                        </div>
-
-                    </div>
-                     <!-- Icon from Awesome Icons -->
-                    <svg id = "arrow-icon" class = "arrowicon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width ="150" height = "150"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#023f9f" 
-                        d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
-                </div>    
-            </div>
-        </div>
-    </div>  <!-- div class container ends here -->
-
+    <?php
+echo "<div class = 'containter'>   <!-- div class container starts here -->
+        <div class = 'content-holder'>
+            <div class='now-playing-movies'>
+                    <h1 class ='movies-type-title'> NOW PLAYING</h1>
+                    <div class =' movies-list-wrapper'>
+                        <div class ='movies-list'>";
+                            while( $row = mysqli_fetch_array( $resultNP ) ) {
+                                echo "
+                                <div class = 'movies-list-item'>
+                                    <!-- Button for Movies-->
+                                    <a href='movieDetails.php?movie_id=" . $row["id"] . "'>
+                                    <button>
+                                        <img class='movies-poster-img' src=" . htmlspecialchars($row["picture"]) . "alt = 'button image'>
+                                    </button></a>
+                                </div> <!-- movies-list-item-->";
+                            }      
+                            echo "
+                        </div> <!-- movies-list-->
+
+                        <!-- Icon from Awesome Icons -->
+                        <svg id = 'arrow-icon' class = 'arrowicon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512' width ='150' height = '150'><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill='#023f9f' 
+                            d='M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z'/></svg>
+                        </div> <!-- movies-list-wrapper -->   
+                        </div> <!--now-playing-movies -->
+
+
+                <div class='now-playing-movies'>
+                    <h1 class ='movies-type-title'> COMING SOON</h1>
+                    <div class ='movies-list-wrapper'>
+                        <div class ='movies-list'>";
+                            while( $row = mysqli_fetch_array( $resultCS ) ) {
+                                echo "
+                                <div class = 'movies-list-item'>
+
+                                <!-- Button for Movies-->
+                                <a href='movieDetails.php?movie_id=" . $row["id"] . "'>
+                                <button>
+                                    <img class='movies-poster-img' src=" . htmlspecialchars($row["picture"]) . "alt = 'button image'>
+                                </button></a>
+                                    
+                                </div> <!-- movies-list-item -->";
+                            }
+                            echo "
+                        </div> <!-- movies-list -->
+                        <!-- Icon from Awesome Icons -->
+                        <svg id = 'arrow-icon' class = 'arrowicon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512' width ='150' height = '150'><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill='#023f9f' 
+                            d='M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z'/></svg>
+                   </div> <!-- movies-list-wrapper -->    
+                </div> <!-- now-playing-movies -->
+        </div> <!--content-holder -->
+    </div>  <!-- div class container ends here -->";
+?>
 
 <script src="javascript/index.js"></script>
 <script> 

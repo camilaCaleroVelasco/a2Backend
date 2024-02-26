@@ -1,3 +1,40 @@
+<?php
+
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
+
+    $movie_id = $_GET["movie_id"];
+
+    try {
+        require_once "includes/databaseConnection.inc.php";
+
+        $query = "SELECT * FROM movies WHERE id = :movie_id"; // Corrected query
+
+        $stmt = $pdo->prepare($query);
+        $stmt->bindValue(':movie_id', $movie_id, PDO::PARAM_INT); // Correct binding
+        $stmt->execute();
+
+        $movie = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch single movie
+
+        if ($movie) { // Check if movie found
+            // Display movie details
+        } else {
+            // Handle movie not found
+            echo "<p>Movie not found.</p>";
+        }
+
+        $pdo = null;
+        $stmt = null;
+
+    } catch (PDOException $e) {
+        die("Query failed: " . $e->getMessage());
+    }
+} else {
+    header("Location: ../index.php"); // Redirect if no movie ID
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,13 +58,13 @@
       <div class="ticket-details">
         <h2>Ticket Details</h2>
         <div class="ticket">
-          <p class="ticket-info">Movie: Avengers: Endgame</p>
+          <p class="ticket-info"><?php echo $movie['movie_title']; ?></p>
           <p class="ticket-info">Date: February 13, 2024</p>
           <p class="ticket-info">Time: 11:00 AM</p>
           <p class="ticket-info">Adult Ticket x 2 - $30.00 <span class="delete-ticket" onclick="deleteTicket(this)">X</span></p>
         </div>
         <div class="ticket">
-          <p class="ticket-info">Movie: Avengers: Endgame</p>
+          <p class="ticket-info"><?php echo $movie['movie_title']; ?></p>
           <p class="ticket-info">Date: February 13, 2024</p>
           <p class="ticket-info">Time: 11:00 AM</p>
           <p class="ticket-info">Child Ticket x 1 - $15.00 <span class="delete-ticket" onclick="deleteTicket(this)">X</span></p>
@@ -62,7 +99,9 @@
     }
 
     function goToBooking() {
-      window.location.href = "booking.php";
+    <?php
+      echo "window.location.href = 'booking.php?movie_id=" . $movie["id"] . "'";
+    ?>
     }
 
     function goToCheckout() {
