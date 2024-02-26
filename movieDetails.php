@@ -7,19 +7,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
     try {
         require_once "includes/databaseConnection.inc.php";
 
-        $query = "SELECT * FROM movies WHERE id = :movie_id"; // Corrected query
+        $query = "SELECT * FROM movies WHERE id = :movie_id";
 
         $stmt = $pdo->prepare($query);
-        $stmt->bindValue(':movie_id', $movie_id, PDO::PARAM_INT); // Correct binding
+        $stmt->bindValue(':movie_id', $movie_id, PDO::PARAM_INT);
         $stmt->execute();
 
-        $movie = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch single movie
+        $result = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch single movie
 
-        if ($movie) { // Check if movie found
-            // Display movie details
-        } else {
-            // Handle movie not found
-            echo "<p>Movie not found.</p>";
+        if (!$result) {
+            echo "<p>Sorry, movie was not found!.</p>";
         }
 
         $pdo = null;
@@ -29,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
         die("Query failed: " . $e->getMessage());
     }
 } else {
-    header("Location: ../index.php"); // Redirect if no movie ID
+    header("Location: ../index.php"); //Redirect so DB is not accessible
 }
 ?>
 
@@ -60,17 +57,21 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
         </nav>
     </header>
 <body>
-    <?php if ($movie) : ?>
-        <h2><?php echo $movie['movie_title']; ?></h2>
+    <?php if ($result) : ?>
+        <h2>
+            <?php echo $result['movie_title']; ?>
+        </h2>
 
-            <iframe width="560" height="315" src="<?php echo $movie['video']; ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="560" height="315" src="<?php echo $result['video']; ?>" 
+            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <?php endif ?>
     <?php 
     echo "<div>";
     //direct to movieDetails when button is clicked
-    echo "<a href='booking.php?movie_id=" . $movie["id"] . "'>";
-    //<!---Create the image as a button--->
+    echo "<a href='booking.php?movie_id=" . $result["id"] . "'>";
+    //Image button
     echo "<h4>";
+    //button for booking
     echo "<button class = 'bookingButton'> Book Movie </h4>" ;
     echo "</a>
     <br>";

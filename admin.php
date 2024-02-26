@@ -13,7 +13,7 @@
             <ul class="nav__links">
                 <li><a href="adminmovie.php" >MOVIES</a></li>
                 <li><a href="admin.php">USERS</a></li>
-                <li><a href="adminLogin.php">PROMOTIONS</a></li>
+                <li><a href="$$$">PROMOTIONS</a></li>
                 </li>
             </ul>
         </nav>

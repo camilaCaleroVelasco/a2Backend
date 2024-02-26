@@ -30,7 +30,7 @@
             
             <!-- Input Box for filling out Email Address-->
              <div class="input-box" >
-                <input type="text" placeholder=" Email Address" required>  
+                <input type="text" placeholder=" Email Address" required> 
             </div>
             <!-- Input Box for filling out Password-->
             <div class=" input-box" >
@@ -39,12 +39,18 @@
 
             <!-- Button Box for log in-->
             <div class = "button-box">
-                <button type = "submit" class ="button" onclick="admin.php"> Login </button>
-                
+                <button type = "submit" class ="button" id= "submit"> Login </button>
             </div>
     
         </form>
     </div> <!--Div class for wrapper login ends  here -->
+    <script>
+        document.getElementById("submit").addEventListener("click", () => {
+            event.preventDefault();
+            window.location.href="admin.php"; //directs to admin.php
+        });
+    </script>
+
 
 </body>
 </html>
