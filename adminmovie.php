@@ -1,3 +1,12 @@
+<?php
+    include 'includes/databaseConnection.inc.php';
+        $mysqli = new mysqli("localhost","root","","movies");
+        $sqlNP = "SELECT * FROM movies WHERE movie_status LIKE '%now playing%'";
+        $sqlCS = "SELECT * FROM movies WHERE movie_status LIKE '%coming soon%'";
+        $resultNP = mysqli_query( $mysqli, $sqlNP ) or die("bad query: $sql");
+        $resultCS = mysqli_query( $mysqli, $sqlCS ) or die("bad query: $sql");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,12 +31,26 @@
         <div class="admin-content">
             <h2>Manage Movies</h2>
             <ul class="movie-list">
-                <li>
-                    <span class="movie-info">Movie 1 - <a href="#" class="edit-show-time">Edit Show Time</a> | <a href="#" class="edit-detail">Edit Details</a> | <a href="#" class="delete-movie">Delete Movie</a></span>
-                </li>
-                <li>
-                    <span class="movie-info">Movie 2 - <a href="#" class="edit-show-time">Edit Show Time</a> | <a href="#" class="edit-detail">Edit Details</a> | <a href="#" class="delete-movie">Delete Movie</a></span>
-                </li>
+                <h3>Now Playing</h3>
+                <?php
+                while($row = mysqli_fetch_assoc($resultNP)){
+                    echo 
+                        '<li>
+                        <span class="movie-info">' . $row['movie_title'] . ' - <a href="#" class="edit-show-time">Edit Show Time</a> | <a href="#" class="edit-detail">Edit Details</a> | <a href="#" class="delete-movie">Delete Movie</a></span>
+                        </li>';
+                }
+                
+                ?>
+                <h3>Coming Soon</h3>
+                <?php
+                while($row = mysqli_fetch_assoc($resultCS)){
+                    echo 
+                        '<li>
+                        <span class="movie-info">' . $row['movie_title'] . ' - <a href="#" class="edit-show-time">Edit Show Time</a> | <a href="#" class="edit-detail">Edit Details</a> | <a href="#" class="delete-movie">Delete Movie</a></span>
+                        </li>';
+                }
+                
+                ?>
                 <!-- Add more movies as needed -->
             </ul>
             <button class="add-movie-btn">Add Movie</button>
