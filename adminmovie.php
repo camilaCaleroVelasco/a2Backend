@@ -53,9 +53,21 @@
                 ?>
                 <!-- Add more movies as needed -->
             </ul>
-            <button class="add-movie-btn">Add Movie</button>
+            <div class="button-box">
+                <button type ="add" class="add-movie-btn" id="add">Add Movie</button>
+            </div>
+            
         </div>
     </div>
+    <script>
+        document.getElementById("add").addEventListener("click", () => {
+            event.preventDefault();
+            window.location.href="addMovie.php"; //directs to addMovie.php
+        });
+    </script>
+
 </body>
 </html>
+
+    
 
