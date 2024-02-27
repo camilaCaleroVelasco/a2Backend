@@ -1,12 +1,3 @@
-<?php
-    include 'includes/databaseConnection.inc.php';
-        $mysqli = new mysqli("localhost","root","","movies");
-        $sqlNP = "SELECT * FROM movies WHERE movie_status LIKE '%now playing%'";
-        $sqlCS = "SELECT * FROM movies WHERE movie_status LIKE '%coming soon%'";
-        $resultNP = mysqli_query( $mysqli, $sqlNP ) or die("bad query: $sql");
-        $resultCS = mysqli_query( $mysqli, $sqlCS ) or die("bad query: $sql");
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +17,7 @@
             </ul>
         </nav>
     </header>
-    <form action="includes/add.inc.php" method="POST">
+    <form action="add.inc.php" method="POST">
         <input type="text" name="movie_title" placeholder="Movie Title">
         <br>
         <input type="text" name="category" placeholder="Movie Category">
@@ -35,7 +26,7 @@
         <br>
         <input type="text" name="producer" placeholder="Producer">
         <br>
-        <input type="text" name="sypnosis" placeholder="Sypnosis">
+        <input type="text" name="synopsis" placeholder="Sypnosis">
         <br>
         <input type="text" name="reviews" placeholder="Reviews">
         <br>
