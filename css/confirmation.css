@@ -16,7 +16,8 @@ body {
 }
 
 .order-confirmation {
-  width: 400px;
+  width: 90%; /* Adjust for smaller screens */
+  max-width: 750px; /* Limit for bigger screens */
   padding: 20px;
   border: 0.4mm solid rgba(0, 0, 0, 0.08);
   border-radius: 3mm;
@@ -42,5 +43,17 @@ button {
 }
 
 button:hover {
-    background-color: rgb(80, 128, 242);
+  background-color: rgb(80, 128, 242);
+}
+
+@media screen and (min-width: 768px) {
+  .order-confirmation {
+    width: 80%; /* Adjust for bigger screens */
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .order-confirmation {
+    width: 80%; /* Further adjustment for larger screens */
+  }
 }

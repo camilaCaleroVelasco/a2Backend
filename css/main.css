@@ -124,6 +124,10 @@
   overflow: hidden;
  }
 
+ button{
+  padding: 0;
+  border: none;
+}
 
 
 

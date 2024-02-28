@@ -16,7 +16,8 @@ body {
 }
 
 .checkout-form {
-  width: 400px; /* Adjusted width of the form */
+  width: 90%; /* Adjusted width of the form for responsiveness */
+  max-width: 750px; /* Set a maximum width for larger screens */
   padding: 30px; /* Increased padding for better spacing */
   border-radius: 5px;
   box-sizing: border-box;
@@ -46,11 +47,11 @@ input[type="tel"],
 select,
 textarea {
   width: 100%; /* Made the input fields full width */
-  padding: 10px; /* Increased padding for better appearance */
+  padding: 12px; /* Increased padding for better appearance */
   border: 1px solid #ccc;
-  border-radius: 3px;
+  border-radius: 5px; /* Increased border-radius for better appearance */
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 16px; /* Increased font size for better readability */
 }
 
 select {
@@ -74,4 +75,16 @@ select {
 
 .buttons button:hover {
   background-color:  rgb(80, 128, 242);
+}
+
+@media screen and (min-width: 768px) {
+  .checkout-form {
+    width: 80%; /* Adjusted width of the form for bigger screens */
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .checkout-form {
+    width: 80%; /* Further adjustment for larger screens */
+  }
 }

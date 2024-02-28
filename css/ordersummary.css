@@ -16,7 +16,8 @@ body {
 }
 
 .order-summary {
-  width: 650px;
+  width: 90%; /* Adjusted width for responsiveness */
+  max-width: 650px; /* Set a maximum width for larger screens */
   height: fit-content;
   border: 0.4mm solid rgba(0, 0, 0, 0.08);
   border-radius: 3mm;
@@ -82,5 +83,17 @@ body {
 }
 
 .options button:hover {
-    background-color: rgb(80, 128, 242);
+  background-color: rgb(80, 128, 242);
+}
+
+@media screen and (min-width: 768px) {
+  .order-summary {
+    width: 70%; /* Adjusted width of the form for bigger screens */
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .order-summary {
+    width: 60%; /* Further adjustment for larger screens */
+  }
 }

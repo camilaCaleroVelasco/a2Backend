@@ -16,7 +16,8 @@ body {
 }
 
 .tickets {
-  width: 650px; /* Adjusted width for larger content box */
+  width: 90%; /* Adjusted width for responsiveness */
+  max-width: 850px; /* Set a maximum width for larger screens */
   height: fit-content;
   border: 0.4mm solid rgba(0, 0, 0, 0.08);
   border-radius: 3mm;
@@ -108,4 +109,16 @@ body {
 
 .options button:hover {
     background-color: rgb(80, 128, 242);
+}
+
+@media screen and (min-width: 768px) {
+  .tickets {
+    width: 80%; /* Adjusted width of the form for bigger screens */
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .tickets {
+    width: 80%; /* Further adjustment for larger screens */
+  }
 }
