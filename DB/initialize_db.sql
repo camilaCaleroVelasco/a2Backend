@@ -355,7 +355,7 @@ VALUES (
         'Angel Lopez',
         'THE AMERICAN SOCIETY OF MAGICAL NEGROES is a fresh, satirical comedy about a young man, Aren, who is recruited into a secret society of magical Black people who dedicate their lives to a cause of utmost importance: making white people’s lives easier.',
         '0',
-        'https://imgur.com/GN5nkwg.jpeg',
+        'https://m.media-amazon.com/images/M/MV5BYTY5MDQ0ZDItMTU3Ni00ZGZhLWJjODctMjI4NTljZmUwYTZjXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg',
         'https://www.youtube.com/embed/gizIbhk5Eu4?si=q4-elV-32efkF6UT',
         'NR',
         'now playing'
