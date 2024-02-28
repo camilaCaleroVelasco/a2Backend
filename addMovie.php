@@ -17,7 +17,7 @@
             </ul>
         </nav>
     </header>
-    <form action="add.inc.php" method="POST">
+    <form action="add.php" method="POST">
         <input type="text" name="movie_title" placeholder="Movie Title">
         <br>
         <input type="text" name="category" placeholder="Movie Category">
@@ -48,7 +48,6 @@
         <br>
         <input type="text" name="cast_5" placeholder="Cast 5">
         <br>
-        <button type="submit" name="submit"> Add </button>
-    </form>
+        <button id = "submit" type="submit" name="submit"> Add </button>
 </body>
 </html>

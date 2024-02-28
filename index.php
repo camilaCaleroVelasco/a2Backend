@@ -93,8 +93,6 @@ echo "<div class = 'containter'>   <!-- div class container starts here -->
 ?>
 
 <script src="javascript/index.js"></script>
-<script> 
 
-</script>
 </body>
 </html>
