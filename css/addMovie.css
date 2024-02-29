@@ -1,0 +1,161 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: white;
+    background-color: black;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 10%;
+}
+
+.logo {
+    width: 300px;
+    cursor: pointer;
+    text-decoration: none; /* Remove underline from logo */
+}
+
+.nav__links {
+    list-style: none;
+}
+
+.nav__links li {
+    display: inline-block;
+    padding: 0px 20px;
+}
+
+.nav__links li a {
+    transition: all 0.3s ease 0s;
+    text-decoration: none; /* Remove underline from nav links */
+}
+
+.nav__links li a:hover {
+    color: #317dff;
+    font-size: large;
+}
+
+.admin-view {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px);
+}
+
+.admin-content {
+    padding: 40px;
+    text-align: center;
+}
+
+.admin-content h2 {
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.movie-list {
+    list-style: none;
+    margin-top: 20px;
+    color: white; /* Set movie list content text color to white */
+}
+
+.movie-list li {
+    margin-bottom: 20px; /* Add margin between each movie info */
+    text-decoration: none; /* Remove underline from movie list */
+}
+
+.movie-title {
+    font-weight: bold;
+}
+
+.movie-options a {
+    color: #317dff;
+    text-decoration: none;
+}
+
+.movie-options a:hover {
+    color: #1356eb;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid white; /* Set border color to white */
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.admin-content p.movie-info {
+    font-size: 18px; /* Make the info text bigger */
+}
+
+.add-movie-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #317dff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-movie-btn:hover {
+    background-color: #1356eb;
+}
+
+/* CSS styles for the form and button */
+form {
+    max-width: 500px;
+    margin: 5% auto; /* Center the form vertically and horizontally */
+    padding: 15px;
+    background-color: #333;
+    border-radius: 10px;
+}
+
+input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin: 6px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #555;
+    color: white;
+    font-size: 16px;
+}
+
+button[type="submit"] {
+    width: calc(100% - 30px);
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #317dff;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #1356eb;
+}
+
+/* Adjust margin for header to create gap */
+header {
+    margin-bottom: 20px;
+}
+
+/* Media query for smaller screens */
+@media only screen and (max-width: 600px) {
+    form {
+        margin-left: 5%; /* Move the form to the left on smaller screens */
+        margin-right: 5%;
+    }
+}

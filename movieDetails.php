@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
     <title>Movie Details</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/movieDetails.css">
 </head>
 <body>
 <header>
@@ -66,13 +66,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
             frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
         </br>
-        Rating: <?php echo $result['reviews'];?>/5</h3>
+       <h3> Rating: <?php echo $result['reviews'];?>/5</h3>
+    </br>
                 <p> 
-                    Director: <?php echo $result['producer'];?>, Producer: <?php echo $result['producer']; ?>
+                <strong>Director:</strong> <?php echo $result['producer'];?></strong>
+    </br> <strong> Producer: </strong> <?php echo $result['producer']; ?>
                     </br>
-                    Category: <?php echo $result['category'];?>
+                    <strong>Category:</strong> <?php echo $result['category'];?>
                     </br>
-                    <?php echo $result['synopsis'];?>
+                    </br>   
+                   <i> <?php echo $result['synopsis'];?> </i>
                     </br>
     <?php endif ?>
 
@@ -82,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
                 <!-- Image button -->
                 <h4>
                     <!-- button for booking -->
-                    <button id = "detailsbutton"> Book Movie </button>
+                    <button id = "detailsbutton"> BOOK MOVIE </button>
                 </h4>
             </a>
         </div>

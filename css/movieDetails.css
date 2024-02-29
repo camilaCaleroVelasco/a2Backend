@@ -144,25 +144,61 @@
 
 /* CSS for button */
 #detailsbutton {
-  display: block; /* Ensure button takes full width */
-  margin: 20px auto 0; /* Center the button vertically and horizontally */
-  padding: 12px 24px;
-  background-color: rgb(80, 128, 242);
-  color: white; /* Change button text color */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    display: inline-block; /* Ensure button takes necessary width */
+    margin-top: 20px; /* Add space above button */
+    padding: 12px 24px;
+    background-color: rgb(80, 128, 242);
+    color: white; /* Change button text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none; /* Remove underline from button */
+    margin-left: 10%;
+    font-weight: bolder;
 }
 
 #detailsbutton:hover {
-  background-color: #317DFF; /* Change button background color on hover */
+    background-color: #317DFF; /* Change button background color on hover */
 }
  
+/* CSS for all content */
+body {
+    font-family: Arial, sans-serif; /* Set font family to Arial */
+}
 
- 
+.content-holder {
+    margin: 50px auto; /* Center content horizontally */
+    max-width: 800px; /* Limit width for better readability */
+    text-align: center; /* Center-align content */
+    border: 2px solid #ccc; /* Add border */
+    border-radius: 10px; /* Add border radius */
+    padding: 20px; /* Add padding inside the box */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+}
 
- 
- 
- 
+iframe {
+    width: 80%; /* Make the trailer video responsive */
+    display: block; /* Ensure iframe behaves like a block element */
+    margin: 0 auto; /* Set left and right margins to auto to center horizontally */
+    height: 600px; /* Set a larger fixed height for the trailer */
+    margin-bottom: 20px; /* Add space between trailer and info */
+}
 
+h2 {
+    font-size: 28px; /* Increase font size of movie title */
+    margin-bottom: 10px; /* Add space below movie title */
+    padding-left: 10%;
+    margin-top: 2%;
+}
+
+p {
+    margin-bottom: 10px; /* Add space between paragraphs */
+    line-height: 1.5; 
+    max-width: 80%; /* Set max-width to ensure paragraph content doesn't exceed trailer width */
+    margin: 0 auto; /* Center-align paragraph content */
+}
+
+h3{
+    padding-left: 10%;
+}
