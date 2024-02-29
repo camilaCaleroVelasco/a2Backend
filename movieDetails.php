@@ -59,24 +59,32 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
 <body>
     <?php if ($result) : ?>
         <h2>
-            <?php echo $result['movie_title']; ?>
+            <?php echo $result['movie_title']; ?>, (<?php echo $result['rating_code']; ?>)
         </h2>
 
-            <iframe width="560" height="315" src="<?php echo $result['video']; ?>" 
+        <iframe width="560" height="315" src="<?php echo $result['video']; ?>" 
             frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+        </br>
+        Rating: <?php echo $result['reviews'];?>/5</h3>
+                <p> 
+                    Director: <?php echo $result['producer'];?>, Producer: <?php echo $result['producer']; ?>
+                    </br>
+                    Category: <?php echo $result['category'];?>
+                    </br>
+                    <?php echo $result['synopsis'];?>
+                    </br>
     <?php endif ?>
-    <?php 
-    echo "<div>";
-    //direct to movieDetails when button is clicked
-    echo "<a href='booking.php?movie_id=" . $result["id"] . "'>";
-    //Image button
-    echo "<h4>";
-    //button for booking
-    echo "<button class = 'bookingButton'> Book Movie </h4>" ;
-    echo "</a>
-    <br>";
-  
-    echo "</div>";
-    ?>
+
+        <div>
+        <!-- direct to movieDetails when button is clicked -->
+            <a href="booking.php?movie_id=<?php echo $result['id']?>">
+                <!-- Image button -->
+                <h4>
+                    <!-- button for booking -->
+                    <button> Book Movie </button>
+                </h4>
+            </a>
+        </div>
 </body>
 </html>
