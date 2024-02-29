@@ -16,6 +16,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 30px 10%;
+    font-weight: bold;
 }
 
 .logo {
@@ -55,14 +56,19 @@ header {
     text-align: center;
 }
 
+.admin-content h3 {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    color: #ffffff;
+}
 .admin-content h2 {
     margin-bottom: 20px;
     color: #ffffff;
+    margin-top: 100%;
 }
 
 .movie-list {
     list-style: none;
-    margin-top: 20px;
     color: white; /* Set movie list content text color to white */
 }
 
@@ -104,6 +110,7 @@ hr {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-weight: bolder;
 }
 
 .add-movie-btn:hover {

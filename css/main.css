@@ -8,6 +8,10 @@
 
   } 
 
+  body {
+    font-family: Arial, sans-serif; /* Set font family to Arial */
+}
+
   @media only screen and (max-width: 940px) {
   .menu-container {
     display: none;
@@ -17,11 +21,11 @@
   
   header {
     width:100%;
-   
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px 10%
+    padding: 30px 10%;
+    font-weight: bold;
   }
 
   .logo{
@@ -75,6 +79,7 @@
  .content-holder {
  margin-left: 50px;
  background-color: #ffffff; 
+ margin-top: 2%;
 
  }
 
