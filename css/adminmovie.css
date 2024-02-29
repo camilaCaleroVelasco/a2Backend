@@ -109,3 +109,53 @@ hr {
 .add-movie-btn:hover {
     background-color: #1356eb;
 }
+
+/* CSS styles for the form and button */
+form {
+    max-width: 500px;
+    margin: 5% auto; /* Center the form vertically and horizontally */
+    padding: 15px;
+    background-color: #333;
+    border-radius: 10px;
+}
+
+input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin: 6px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #555;
+    color: white;
+    font-size: 16px;
+}
+
+button[type="submit"] {
+    width: calc(100% - 30px);
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #317dff;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #1356eb;
+}
+
+/* Adjust margin for header to create gap */
+header {
+    margin-bottom: 20px;
+}
+
+/* Media query for smaller screens */
+@media only screen and (max-width: 600px) {
+    form {
+        margin-left: 5%; /* Move the form to the left on smaller screens */
+        margin-right: 5%;
+    }
+}

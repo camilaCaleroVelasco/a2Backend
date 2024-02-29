@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
                 <!-- Image button -->
                 <h4>
                     <!-- button for booking -->
-                    <button> Book Movie </button>
+                    <button id = "detailsbutton"> Book Movie </button>
                 </h4>
             </a>
         </div>

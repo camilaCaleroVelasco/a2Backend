@@ -124,6 +124,18 @@
   overflow: hidden;
  }
 
+ #detailsbutton{
+  padding: 12px 24px;
+  margin: 0 10px;
+  background-color: rgb(80, 128, 242);
+  color: rgb(80, 128, 242);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+ }
+
  button{
   padding: 0;
   border: none;
