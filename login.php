@@ -38,7 +38,7 @@
 
             <!-- Button Box for log in-->
             <div class = "button-box">
-                <button type = "submit" class ="button"> Login </button>
+                <button type = "submit" class ="button" id="submit"> Login </button>
             </div>
     
             <div class= "register-link">
@@ -50,6 +50,12 @@
             </div>
         </form>
     </div> <!--Div class for wrapper login ends  here -->
+    <script>
+        document.getElementById("submit").addEventListener("click", () => {
+            event.preventDefault();
+            window.location.href="userLogin.php"; //directs to admin.php
+        });
+    </script>
 
 </body>
 </html>
