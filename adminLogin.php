@@ -17,7 +17,7 @@
 
     <header>
     <a href= "index.php">
-        <img class="logo" src="images/A2 Movies Icon 2.png" alt="logo">
+        <img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo">
     </a>
     </header>
 

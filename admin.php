@@ -8,12 +8,12 @@
 </head>
 <body>
     <header>
-        <a href="index.php"><img class="logo" src="images/A2 Movies Icon 2.png" alt="logo"></a>
+        <a href="index.php"><img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo"></a>
         <nav>
             <ul class="nav__links">
                 <li><a href="adminmovie.php" >MOVIES</a></li>
                 <li><a href="admin.php">USERS</a></li>
-                <li><a href="$$$">PROMOTIONS</a></li>
+                <li><a href="promotions.php">PROMOTIONS</a></li>
                 </li>
             </ul>
         </nav>
