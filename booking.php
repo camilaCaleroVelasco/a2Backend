@@ -73,38 +73,38 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
           <div class="dates">
             <input type="radio" name="date" id="d1" checked />
             <label for="d1" class="dates-item">
-              <div class="day">Sun</div>
-              <div class="date">11</div>
+              <div class="day">Fri</div>
+              <div class="date">1</div>
             </label>
             <input type="radio" id="d2" name="date" />
             <label class="dates-item" for="d2">
-              <div class="day">Mon</div>
-              <div class="date">12</div>
+              <div class="day">Sat</div>
+              <div class="date">2</div>
             </label>
             <input type="radio" id="d3" name="date" />
             <label class="dates-item" for="d3">
-              <div class="day">Tue</div>
-              <div class="date">13</div>
+              <div class="day">Sun</div>
+              <div class="date">3</div>
             </label>
             <input type="radio" id="d4" name="date" />
             <label class="dates-item" for="d4">
-              <div class="day">Wed</div>
-              <div class="date">14</div>
+              <div class="day">Mon</div>
+              <div class="date">4</div>
             </label>
             <input type="radio" id="d5" name="date" />
             <label class="dates-item" for="d5">
-              <div class="day">Thu</div>
-              <div class="date">15</div>
+              <div class="day">Tue</div>
+              <div class="date">5</div>
             </label>
             <input type="radio" id="d6" name="date" />
             <label class="dates-item" for="d6">
-              <div class="day">Fri</div>
-              <div class="date">16</div>
+              <div class="day">Wed</div>
+              <div class="date">6</div>
             </label>
             <input type="radio" id="d7" name="date" />
             <label class="dates-item" for="d7">
-              <div class="day">Sat</div>
-              <div class="date">17</div>
+              <div class="day">Thu</div>
+              <div class="date">7</div>
             </label>
           </div>
           <div class="times">
