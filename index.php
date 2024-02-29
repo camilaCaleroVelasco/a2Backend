@@ -38,14 +38,13 @@
 
 
     <!-- Creating Container to Hold now showing movies --> 
-    <?php
-echo "<div class = 'containter'>   <!-- div class container starts here -->
-        <div class = 'content-holder'>
-            <div class='now-playing-movies'>
-                    <h1 class ='movies-type-title'> NOW PLAYING</h1>
-                    <div class =' movies-list-wrapper'>
-                        <div class ='movies-list'>";
-                            while( $row = mysqli_fetch_array( $resultNP ) ) {
+    <div class = "containter">   <!-- div class container starts here -->
+        <div class = "content-holder">
+            <div class="now-playing-movies">
+                    <h1 class ="movies-type-title"> NOW PLAYING</h1>
+                    <div class =" movies-list-wrapper">
+                        <div class ="movies-list">
+                        <?php while( $row = mysqli_fetch_array( $resultNP ) ) {
                                 echo "
                                 <div class = 'movies-list-item'>
                                     <!-- Button for Movies-->
@@ -54,22 +53,21 @@ echo "<div class = 'containter'>   <!-- div class container starts here -->
                                         <img class='movies-poster-img' src=" . htmlspecialchars($row["picture"]) . "alt = 'button image'>
                                     </button></a>
                                 </div> <!-- movies-list-item-->";
-                            }      
-                            echo "
+                            };?>
                         </div> <!-- movies-list-->
 
                         <!-- Icon from Awesome Icons -->
-                        <svg id = 'arrow-icon' class = 'arrowicon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512' width ='150' height = '150'><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill='#023f9f' 
-                            d='M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z'/></svg>
+                        <svg id = "arrow-icon" class = "arrowicon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width ="150" height = "150"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#023f9f" 
+                            d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
                         </div> <!-- movies-list-wrapper -->   
                         </div> <!--now-playing-movies -->
 
 
-                <div class='now-playing-movies'>
-                    <h1 class ='movies-type-title'> COMING SOON</h1>
-                    <div class ='movies-list-wrapper'>
-                        <div class ='movies-list'>";
-                            while( $row = mysqli_fetch_array( $resultCS ) ) {
+                <div class="now-playing-movies">
+                    <h1 class ="movies-type-title"> COMING SOON</h1>
+                    <div class ="movies-list-wrapper">
+                        <div class ="movies-list">
+                            <?php while( $row = mysqli_fetch_array( $resultCS ) ) {
                                 echo "
                                 <div class = 'movies-list-item'>
 
@@ -80,17 +78,15 @@ echo "<div class = 'containter'>   <!-- div class container starts here -->
                                 </button></a>
                                     
                                 </div> <!-- movies-list-item -->";
-                            }
-                            echo "
+                            }; ?>
                         </div> <!-- movies-list -->
                         <!-- Icon from Awesome Icons -->
-                        <svg id = 'arrow-icon' class = 'arrowicon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512' width ='150' height = '150'><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill='#023f9f' 
-                            d='M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z'/></svg>
+                        <svg id = "arrow-icon" class = "arrowicon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width ="150" height = "150"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#023f9f" 
+                            d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
                    </div> <!-- movies-list-wrapper -->    
                 </div> <!-- now-playing-movies -->
         </div> <!--content-holder -->
-    </div>  <!-- div class container ends here -->";
-?>
+    </div>  <!-- div class container ends here -->
 
 <script src="javascript/index.js"></script>
 
