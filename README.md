@@ -15,10 +15,11 @@
 
 ## Running
 Before running the website, you need to install Xampp which can be downloaded [here](https://www.apachefriends.org/download.html).<br>
-Clone the repository into the 'htdocs' folder inside of your Xampp directory.
+Clone the repository into the `htdocs` folder inside of your Xampp directory.
 You should then be able to run the website from localhost.
-You should use phpmyadmin 'localhost/phpmyadmin' to initialize the movie database using the 'initialize_db.sql' file found inside of the DB folder. 
-You should adjust the 'includes/databaseConnection.inc.php' file according to your local database login info.
+You should use phpmyadmin `localhost/phpmyadmin` to initialize the movie database using the `initialize_db.sql` file found inside of the DB folder. 
+You should adjust the `includes/databaseConnection.inc.php` file according to your local database login info.
+
 
 ## Project Architecture
 
