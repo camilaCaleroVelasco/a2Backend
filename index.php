@@ -43,6 +43,7 @@
             <div class="now-playing-movies">
                     <h1 class ="movies-type-title"> NOW PLAYING</h1>
                     <div class =" movies-list-wrapper">
+                        
                         <div class ="movies-list">
                         <?php while( $row = mysqli_fetch_array( $resultNP ) ) {
                                 echo "
