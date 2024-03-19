@@ -38,8 +38,9 @@
           <label for="payment-method">Payment Method</label>
           <select id="payment-method" name="payment-method" required>
             <option value="">Select Payment Method</option>
-            <option value="credit-card">Credit Card</option>
+            <option value="credit-card">Debit Card</option>
             <option value="paypal">PayPal</option>
+            <option value="paypal">Venmo</option>
           </select>
         </div>
         <div class="buttons">

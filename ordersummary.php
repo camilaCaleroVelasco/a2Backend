@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
   <div class="center">
     <div class="order-summary">
       <div class="head">
-        <div class="title">Order Summary</div>
+        <div class="title"><h3>Order Summary</h3></div>
       </div>
       <div class="ticket-details">
         <h2>Ticket Details</h2>

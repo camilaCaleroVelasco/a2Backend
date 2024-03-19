@@ -89,6 +89,21 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
             <button class="quantity-btn plus">+</button>
           </div>
         </div>
+        <!-- Senior ticket type -->
+<div class="ticket-type">
+  <div class="icon">
+    <i class="material-icons">person_outline</i>
+  </div>
+  <div class="type-details">
+    <div class="type-name">Senior (Age 65+)</div>
+    <div class="price">$12.00</div>
+  </div>
+  <div class="quantity">
+    <button class="quantity-btn minus">-</button>
+    <span class="quantity-value">0</span>
+    <button class="quantity-btn plus">+</button>
+  </div>
+</div>
       </div>
       <!-- Continue button -->
       <div class="options">

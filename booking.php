@@ -108,14 +108,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
             </label>
           </div>
           <div class="times">
-            <input type="radio" name="time" id="t1" checked />
-            <label for="t1" class="time">11:00</label>
-            <input type="radio" id="t2" name="time" />
-            <label for="t2" class="time"> 4:30 </label>
-            <input type="radio" id="t3" name="time" />
-            <label for="t3" class="time"> 8:00 </label>
-            <input type="radio" id="t4" name="time" />
-            <label for="t4" class="time"> 10:30 </label>
+              <input type="radio" name="time" id="t1" checked />
+              <label for="t1" class="time">11:00</label>
+              <input type="radio" id="t2" name="time" />
+              <label for="t2" class="time"> 2:00 </label>
+              <input type="radio" id="t3" name="time" />
+              <label for="t3" class="time"> 4:30 </label>
+              <input type="radio" id="t4" name="time" />
+              <label for="t4" class="time"> 6:30 </label>
+              <input type="radio" id="t5" name="time" />
+              <label for="t5" class="time"> 8:00 </label>
+              <input type="radio" id="t6" name="time" />
+              <label for="t6" class="time"> 10:30 </label>
           </div>
         </div>
       </div>
