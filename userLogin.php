@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <a href="index.php"><img class="logo" src="images/A2 Movies Icon 2.png" alt="logo"></a>
+        <a href="index.php"><img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo">
         <nav>
             <ul class="nav__links">
                 <li><a href="editProfile.php" >EDIT PROFILE</a></li>

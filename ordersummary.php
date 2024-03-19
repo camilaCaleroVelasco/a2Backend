@@ -59,13 +59,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
         <h2>Ticket Details</h2>
         <div class="ticket">
           <p class="ticket-info"><?php echo $movie['movie_title']; ?></p>
-          <p class="ticket-info">Date: February 13, 2024</p>
+          <p class="ticket-info">Date: March 1, 2024</p>
           <p class="ticket-info">Time: 11:00 AM</p>
           <p class="ticket-info">Adult Ticket x 2 - $30.00 <span class="delete-ticket" onclick="deleteTicket(this)">X</span></p>
         </div>
         <div class="ticket">
           <p class="ticket-info"><?php echo $movie['movie_title']; ?></p>
-          <p class="ticket-info">Date: February 13, 2024</p>
+          <p class="ticket-info">Date: March 1, 2024</p>
           <p class="ticket-info">Time: 11:00 AM</p>
           <p class="ticket-info">Child Ticket x 1 - $15.00 <span class="delete-ticket" onclick="deleteTicket(this)">X</span></p>
         </div>
