@@ -1,7 +1,4 @@
-<?php
-    include("includes/databaseConnection.inc.php");
-    include("registrationconfirmation.php");
-?>
+
 <!DOCTYPE html>
 <html>
 <head>
