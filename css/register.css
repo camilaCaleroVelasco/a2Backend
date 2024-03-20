@@ -107,14 +107,10 @@ body::before {
     color: #fff;
     font-size: 3rem;
     padding: 20px;
-
     position: relative;
-   
-    /* margin-right: -300px; */
     align-items: center;
-    
-   right: -90px; 
-   top: 40px; 
+    right: -90px; 
+    top: 40px; 
  
 }
 
@@ -124,44 +120,20 @@ body::before {
     padding: 100px;
     position: relative;
     align-items: center;
-    right: -5px; 
     top: 40px; 
     
-
-
 }
 
 
 .wrapper h2 {
-
-    color: #fff;
-    
+    color: #fff;    
     padding: 20px;
-   
-    color: #fff;
     font-size: 1rem;
-  
     position: relative;
-   
-    /* margin-right: -300px; */
     align-items: center;
-    
-   right: -90px; 
-   top: 40px; 
-    
-   /* left: 50px; 
-    top: 60%; 
-    */
-   /*
-   transform: translateY(2%); 
-
-   transform: translateX(-15%); 
-   */
-   
-
-    
-
-
+    right: -80px; 
+    top: 40px; 
+     
 }
 
 .wrapper .input-box {
@@ -172,15 +144,8 @@ body::before {
     display: flex;
     flex-wrap: wrap;
     padding-bottom: 15px;
-    margin-left: 100px;
+    margin-left: 100px; 
 
-
-
-    
-    
-    
-
-  
 }
 
 .wrapper form {
@@ -292,11 +257,6 @@ form button:hover {
 
 
 
-
-
-
-
-
 form .subscribe-promos input {
 
 
@@ -346,7 +306,7 @@ form .subscribe-promos input {
 .field input[type ="password"],
 .field input[type ="number"],
 .field input[type ="date"] {
-    padding: 25px;
+    padding: 15px;
 }
 .field input[type ="date"]::-webkit-calendar-picker-indicator {
     display: none;
@@ -372,24 +332,3 @@ form .subscribe-promos input {
    }
 
 }
-
-
-
-
-
-
-
-
- 
-
- 
-
-
- 
-
-
-
-
-
-
- 
