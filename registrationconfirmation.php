@@ -1,3 +1,10 @@
+<?php
+    include("includes/databaseConnection.inc.php");
+    if(isset($_POST['submit'])) {
+        
+    }
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
