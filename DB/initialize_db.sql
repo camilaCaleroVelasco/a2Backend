@@ -30,6 +30,8 @@ CREATE TABLE Users(
     type VARCHAR(255),
     email VARCHAR(255),
     password VARCHAR(255),
+    firstName VARCHAR(255),
+    lastName VARCHAR(255),
     status_id INT,
     FOREIGN KEY (status_id) REFERENCES Status(status_id)
 );
@@ -38,8 +40,6 @@ CREATE TABLE Users(
 CREATE TABLE Administrator(
     id INT PRIMARY KEY AUTO_INCREMENT,
     users_id INT,
-    firstName VARCHAR(255),
-    lastName VARCHAR(255),
     FOREIGN KEY (users_id) REFERENCES Users(users_id)
 );
 
@@ -47,8 +47,6 @@ CREATE TABLE Administrator(
 CREATE TABLE Customer(
     customer_id INT PRIMARY KEY AUTO_INCREMENT,
     users_id INT,
-    firstName VARCHAR(255),
-    lastName VARCHAR(255),
     numOfCards INT,
     FOREIGN KEY (users_id) REFERENCES Users(users_id)
 );
