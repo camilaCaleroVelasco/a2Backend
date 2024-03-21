@@ -292,15 +292,30 @@ form .subscribe-promos input {
 
 
 
-.icon {
+.field .icon {
     position: absolute;
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
     right: 70px;
     bottom: 15px;
+    transition: .5s;
     
 }
+
+
+
+
+.field:hover .icon {
+    border: 5px solid  #317DFF;
+    box-shadow: 0 0 30px  #317DFF, inset 0 0 30px  #317DFF;
+
+} 
+
+
+
+
+
 
 .field input[type ="text"],
 .field input[type ="password"],

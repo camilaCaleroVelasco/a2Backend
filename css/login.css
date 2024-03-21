@@ -228,12 +228,20 @@ form .remember-me  {
 
 } 
 
-.mailicon, .lockicon {
+.input-box .mailicon, .input-box .lockicon {
     position: absolute;
     right: 8px;
     bottom: 15px;
+    transition: .5s;
+
     
 }
+
+.input-box:hover .lockicon , .input-box:hover .mailicon{
+    border: 5px solid  #317DFF;
+    box-shadow: 0 0 30px  #317DFF, inset 0 0 30px  #317DFF;
+
+} 
 
 
 

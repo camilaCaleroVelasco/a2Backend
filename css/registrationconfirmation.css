@@ -1,19 +1,53 @@
-h1 {
-    font-size: 50px;
-    font-weight: 100;
+
+.code-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+
+}
+
+.field-opt {
+    border-radius :5px;
+    font-size: 60px;
+    height: 100px;
+    width: 100px;
+    border: 3px solid #3b3e43;
+    margin: 1%;
     text-align: center;
-    display:flex;
-    flex-wrap: wrap;
-    position: relative;
-    top: 100px;
-
-   
+    font-weight: 600;
+    outline: none;
 }
 
-p {
-    top: -130px;
+
+.field-opt::-webkit-inner-spin-button, .field-opt::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+
+} 
+
+
+.field-opt:valid {
+    border-color: #317DFF;
+    box-shadow: 0 10px 10px -5px rgb(246, 236, 236);
+
+}
+
+
+
+
+
+
+.wrapper p {
+  
+    text-align: center;
+    font-size: 15px;
     position: relative;
 }
+
+
+
+
 
 
 .wrapper {
@@ -24,33 +58,29 @@ p {
     border: 5px solid;
     justify-content: center;
     width: 700px;
-    height: 800px;
+    height: 600px;
     background: transparent;
     transition:.6s;
     align-items: center;
-    top: 50%;
+    top: 350px;
     left: 50%;
-    transform: (-50%, -50%);
-    margin: -50px 0 0 -350px;
-
-} 
-
-.wrapper img.logo-check{
-    width: 100px;
-    border-radius: 100px;
-    background-color: white;
-    padding: 2px;
+    transform: translate(-50%, -50%);
     
 
-} 
+    background: rgb(0, 0, 0);
+  
+    max-width: 500px;
+    border-radius: 12px;
+    box-shadow: -3px 3px 10px -5px rgba(0,0,0,0.2);
+    padding: 30px 30px;
+}
 
 
-.wrapper img.logo-check:hover {
-    border: 5px solid  #317DFF;
-    box-shadow: 0 0 30px  #317DFF, inset 0 0 30px  #317DFF;
-    
 
-}  
+
+
+
+
 
 
 
@@ -60,7 +90,41 @@ p {
 .wrapper h1 {
     text-align: center;
     text-decoration: none;
-    top: -150px;
+    top: -70px;
+    display:flex;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+
+form button {
+    width : 300px;
+    padding :16px 0;
+    font-size: 1rem;
+    background:#317DFF;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 25px 0 10px;
+    margin-left: 50px;
+
+
+
+
+}
+
+
+
+
+
+form button:hover {
+    border: 5px solid  #317DFF;
+    box-shadow: 0 0 30px   #317DFF, inset 0 0 30px  #317DFF;
+
+
 }
 
 
@@ -70,4 +134,6 @@ p {
     box-shadow: 0 0 30px  #317DFF, inset 0 0 30px  #317DFF;
 } 
 
+@media only screen and (max-width: 455px) {
 
+}

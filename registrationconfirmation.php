@@ -17,12 +17,27 @@
             <img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo">
         </a> 
     </header>
+    
+    <div class="wrapper">  <!-- div class wrapper starts here -->
+        <h1> Verify Account Now!</h1> <!-- form class starts here -->
+        <p>  Registration was successful! Please check your email and enter the 4 digit code that was sent to verify your account.</p>
+        <form action = "" autocomplete = "off">
+            
+            <div class="code-input">
+                <input type="number" name= "opt1"  class= "field-opt"  placeholder = "0"  min = "0" max ="9" required onpaste = "false">
+                <input type="number" name= "opt2"  class= "field-opt"  placeholder = "0"  min = "0" max ="9" required onpaste = "false">
+                <input type="number" name= "opt3"  class= "field-opt"  placeholder = "0"  min = "0" max ="9" required onpaste = "false">
+                <input type="number" name= "opt4"  class= "field-opt"  placeholder = "0"  min = "0" max ="9" required onpaste = "false">
+            </div>
+
+            <div class = "button-box">
+                <button type = "submit" class ="button" id="submit"> Verify </button>
+            </div>
         
-        <div class=" wrapper">
-            <h1> Registration was Successful!</h1>
-            <p> Please check your email and click the link to verify your account.</p>  
-            <img class="logo-check" src="images/checkIcon.jpeg" alt="logo-check">  
-        </div>
+
+        </form>  <!-- form class ends here -->
+    
+    </div>  <!-- div class wrapper ends here -->
     
 
 
