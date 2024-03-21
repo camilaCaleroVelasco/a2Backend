@@ -1,3 +1,7 @@
+<?php
+  include_once 'includes/databaseConnection.inc.php'; 
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +29,7 @@
          <h2> Personal Info</h2>
 
 
-        <form action="registrationconfirmation.php">  <!--link to confirmation page when formed is filled out  replace this when  when you want to submit the form-->
+        <form action="register.php">  <!--link to confirmation page when formed is filled out -->
      
 
          <div class="input-box"> <!-- div class input-box starts here -->
