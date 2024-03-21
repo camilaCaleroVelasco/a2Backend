@@ -39,8 +39,8 @@
     
     $pdo = require __DIR__ . "/includes/databaseConnection.inc.php";
     
-    $sql = "INSERT INTO Users (email, password, firstName, lastName)
-            VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO Users (type, email, password, firstName, lastName)
+            VALUES ('customer', ?, ?, ?, ?)";
             
     $stmt = $pdo->prepare($sql);
     
