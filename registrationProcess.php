@@ -37,26 +37,31 @@
     
     $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
     
-    $mysqli = require __DIR__ . "/includes/databaseConnection.inc.php";
+    $pdo = require __DIR__ . "/includes/databaseConnection.inc.php";
     
     $sql = "INSERT INTO Users (email, password, firstName, lastName)
             VALUES (?, ?, ?, ?)";
             
-    $stmt = $mysqli->stmt_init();
+    $stmt = $pdo->prepare($sql);
     
-    if ( ! $stmt->prepare($sql)) {
-        die("SQL error: " . $mysqli->error);
+    if ( ! $stmt) {
+        die("SQL error: " . $pdo->errorInfo()[2]);
     }
     
-    $stmt->bind_param("ssss", $_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"]);
-   
-    $stmt->execute();
+    // Execute the prepared statement with provided parameters
+    if (!$stmt->execute([$_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"]])) {
+        // If execution fails, display an error message
+        die("Error: Failed to execute the query.");
+    }
 
-if ($stmt->affected_rows > 0) { // Check if any rows were affected
-    header("Location: ../registrationconfirmation.php");
-    exit;
-} else {
-    die("Error: Failed to execute the query.");
-}
-    
+    // Check if any rows were affected by the insert operation
+    if ($stmt->rowCount() > 0) {
+        // Redirect to the confirmation page if successful
+        header("Location: registrationconfirmation.php");
+        exit;
+    } else {
+        // If no rows were affected, display an error message
+        die("Error: Failed to execute the query.");
+    }
+        
 ?>
