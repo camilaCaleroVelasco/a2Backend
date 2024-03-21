@@ -29,7 +29,7 @@
     if ( ! preg_match("/[0-9]/", $_POST["password"])) {
         die("Password must contain at least one number");
     }
-    
+    ################ add payment stuff and promo
     # check that password and confirmation password
     if ($_POST["password"] !== $_POST["confirm-password"]) {
         die("Confirmation password must match password");
