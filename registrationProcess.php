@@ -42,50 +42,50 @@
 
     //Check if email already exists
     $email = $_POST["email-address"];
-    $sqlCheckEmail = "SELECT COUNT(*) AS count FROM Users WHERE email = ?";
-    $stmtCheckEmail = $pdo->prepare($sqlCheckEmail);
-    $stmtCheckEmail->execute([$email]);
-    $resultCheckEmail = $stmtCheckEmail->fetch(PDO::FETCH_ASSOC);
+    $sqlCheck = "SELECT COUNT(*) AS count FROM Users WHERE email = ?";
+    $stmtCheck = $pdo->prepare($sqlCheck);
+    $stmtCheck->execute([$email]);
+    $resultCheck = $stmtCheck->fetch(PDO::FETCH_ASSOC);
 
-    if ($resultCheckEmail['count'] > 0) {
+    if ($resultCheck['count'] > 0) {
         die("Error: Email already exists.");
     }
 
 
-    // Retrieve $userStatus_id based on the status name (e.g., 'Active', 'Inactive')
-    $userStatusName = 'Active'; //user just created account so active
+    // Retrieve $userStatus_id (Active, Inactive)
+    $userStatus = 'Active'; //user just created account so active
     $sqlUserStatus = "SELECT userStatus_id FROM UserStatus WHERE status = ?";
-    $stmtUserStatus = $pdo->prepare($sqlUserStatus);
-    $stmtUserStatus->execute([$userStatusName]);
-    $userStatusRow = $stmtUserStatus->fetch(PDO::FETCH_ASSOC);
+    $stmtStatus = $pdo->prepare($sqlUserStatus);
+    $stmtStatus->execute([$userStatus]);
+    $userStatusRow = $stmtStatus->fetch(PDO::FETCH_ASSOC);
     if ($userStatusRow) {
         $userStatus_id = $userStatusRow['userStatus_id'];
     } else {
-        die("UserStatus not found for status: $userStatusName");
+        die("UserStatus not found for status: $userStatus");
     }
 
-    // Retrieve $userType_id based on the type name (e.g., 'Customer', 'Admin')
-    $userTypeName = 'Customer'; //default user creation has to be customer
+    // Retrieve $userType_id (Customer, Admin)
+    $userType = 'Customer'; //default user creation has to be customer
     $sqlUserType = "SELECT userType_id FROM UserType WHERE type = ?";
     $stmtUserType = $pdo->prepare($sqlUserType);
-    $stmtUserType->execute([$userTypeName]);
+    $stmtUserType->execute([$userType]);
     $userTypeRow = $stmtUserType->fetch(PDO::FETCH_ASSOC);
     if ($userTypeRow) {
         $userType_id = $userTypeRow['userType_id'];
     } else {
-        die("UserType not found for type: $userTypeName");
+        die("UserType not found for type: $userType");
     }
 
-    // Retrieve $cardType_id based on the card type (e.g., 'Visa', 'MasterCard', 'AmericanExpress')
-    $cardTypeName = $_POST["card-type"];
+    // Retrieve $cardType_id based on card type (Visa, MasterCard, AmericanExpress)
+    $cardType = $_POST["card-type"];
     $sqlCardType = "SELECT cardType_id FROM PaymentCardType WHERE type = ?";
     $stmtCardType = $pdo->prepare($sqlCardType);
-    $stmtCardType->execute([$cardTypeName]);
+    $stmtCardType->execute([$cardType]);
     $cardTypeRow = $stmtCardType->fetch(PDO::FETCH_ASSOC);
     if ($cardTypeRow) {
         $cardType_id = $cardTypeRow['cardType_id'];
     } else {
-        die("CardType not found for type: $cardTypeName");
+        die("CardType not found for type: $cardType");
     }
 
     // Insert into Users table
