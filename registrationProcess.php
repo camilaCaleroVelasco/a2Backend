@@ -30,7 +30,6 @@
         die("Password must contain at least one number");
     }
 
-    ################ add payment stuff and promo
 
     # check that password and confirmation password
     if ($_POST["password"] !== $_POST["confirm-password"]) {
@@ -40,54 +39,89 @@
     $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
     
     $pdo = require __DIR__ . "/includes/databaseConnection.inc.php";
-    
-    $sql = "INSERT INTO Users (email, password, firstName, lastName, numOfCards)
-            VALUES (?, ?, ?, ?, '1')";
 
-    $stmt = $pdo->prepare($sql);
-   
-    
-    if ( ! $stmt) {
+    //Check if email already exists
+    $email = $_POST["email-address"];
+    $sqlCheckEmail = "SELECT COUNT(*) AS count FROM Users WHERE email = ?";
+    $stmtCheckEmail = $pdo->prepare($sqlCheckEmail);
+    $stmtCheckEmail->execute([$email]);
+    $resultCheckEmail = $stmtCheckEmail->fetch(PDO::FETCH_ASSOC);
+
+    if ($resultCheckEmail['count'] > 0) {
+        die("Error: Email already exists.");
+    }
+
+
+    // Retrieve $userStatus_id based on the status name (e.g., 'Active', 'Inactive')
+    $userStatusName = 'Active'; //user just created account so active
+    $sqlUserStatus = "SELECT userStatus_id FROM UserStatus WHERE status = ?";
+    $stmtUserStatus = $pdo->prepare($sqlUserStatus);
+    $stmtUserStatus->execute([$userStatusName]);
+    $userStatusRow = $stmtUserStatus->fetch(PDO::FETCH_ASSOC);
+    if ($userStatusRow) {
+        $userStatus_id = $userStatusRow['userStatus_id'];
+    } else {
+        die("UserStatus not found for status: $userStatusName");
+    }
+
+    // Retrieve $userType_id based on the type name (e.g., 'Customer', 'Admin')
+    $userTypeName = 'Customer'; //default user creation has to be customer
+    $sqlUserType = "SELECT userType_id FROM UserType WHERE type = ?";
+    $stmtUserType = $pdo->prepare($sqlUserType);
+    $stmtUserType->execute([$userTypeName]);
+    $userTypeRow = $stmtUserType->fetch(PDO::FETCH_ASSOC);
+    if ($userTypeRow) {
+        $userType_id = $userTypeRow['userType_id'];
+    } else {
+        die("UserType not found for type: $userTypeName");
+    }
+
+    // Retrieve $cardType_id based on the card type (e.g., 'Visa', 'MasterCard', 'AmericanExpress')
+    $cardTypeName = $_POST["card-type"];
+    $sqlCardType = "SELECT cardType_id FROM PaymentCardType WHERE type = ?";
+    $stmtCardType = $pdo->prepare($sqlCardType);
+    $stmtCardType->execute([$cardTypeName]);
+    $cardTypeRow = $stmtCardType->fetch(PDO::FETCH_ASSOC);
+    if ($cardTypeRow) {
+        $cardType_id = $cardTypeRow['cardType_id'];
+    } else {
+        die("CardType not found for type: $cardTypeName");
+    }
+
+    // Insert into Users table
+    $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, numOfCards, userStatus_id, userType_id)
+                VALUES (?, ?, ?, ?, '1', ?, ?)";
+    $stmtUsers = $pdo->prepare($sqlUsers);
+    if (!$stmtUsers) {
         die("SQL error: " . $pdo->errorInfo()[2]);
     }
-    
-    try {
-        // Execute 
-        if (!$stmt->execute([$_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"]])) {
-            // If execution fails, display an error message
-            die("Error: Failed to execute the query.");
-        }
+    if (!$stmtUsers->execute([$_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $userStatus_id, $userType_id])) {
+        die("Error: Failed to execute the Users query.");
+    }
 
-         // Check if payment card information is provided and execute the second SQL query if so
+    // Check if any rows were affected by the insert operation
+    if ($stmtUsers->rowCount() > 0) {
+        // Retrieve the last inserted user ID
+        $lastUserId = $pdo->lastInsertId();
+        
+        // Check if payment card information is provided and insert into PaymentCard table
         if (!empty($_POST["card-number"]) && !empty($_POST["expiration-month"]) && !empty($_POST["expiration-year"])) {
-            $sql2 = "INSERT INTO PaymentCard (cardNum, expMonth, expYear, name)
-                    VALUES (?, ?, ?, ?)";
-            $stmt2 = $pdo->prepare($sql2);
-            
-            if (!$stmt2) {
+            $sqlPaymentCard = "INSERT INTO PaymentCard (cardNum, cardType_id, expMonth, expYear, name, users_id)
+                            VALUES (?, ?, ?, ?, ?, ?)";
+            $stmtPaymentCard = $pdo->prepare($sqlPaymentCard);
+            if (!$stmtPaymentCard) {
                 die("SQL error: " . $pdo->errorInfo()[2]);
             }
-            
-            if (!$stmt2->execute([$_POST["card-number"], $_POST["expiration-month"], $_POST["expiration-year"], $_POST["first-name"]])) {
-                die("Error: Failed to execute the second query.");
+            if (!$stmtPaymentCard->execute([$_POST["card-number"], $cardType_id, $_POST["expiration-month"], $_POST["expiration-year"], $_POST["first-name"], $lastUserId])) {
+                die("Error: Failed to execute the PaymentCard query.");
             }
         }
-    
-        // Check if any rows were affected by the insert operation
-        if ($stmt->rowCount() > 0 || $stmt2->rowCount() > 0) {
-            // Redirect to the confirmation page if successful
-            header("Location: registrationconfirmation.php");
-            exit;
-        }
-    
-   } catch (PDOException $e) {
 
-        //check if email has been used before
-        if ($e->getCode() == 23000 && strpos($e->getMessage(), 'email_UNIQUE') !== false) {
-            die("Email is already taken");
-        } else {
-            die("Error: " . $e->getMessage());
-        }
+        // Redirect to the confirmation page if successful
+        header("Location: registrationconfirmation.php");
+        exit;
+    } else {
+        die("Error: Failed to execute the Users query.");
     }
         
 ?>
