@@ -29,7 +29,7 @@
     if ( ! preg_match("/[0-9]/", $_POST["password"])) {
         die("Password must contain at least one number");
     }
-    
+
     ################ add payment stuff and promo
 
     # check that password and confirmation password
@@ -41,8 +41,8 @@
     
     $pdo = require __DIR__ . "/includes/databaseConnection.inc.php";
     
-    $sql = "INSERT INTO Users (type, email, password, firstName, lastName)
-            VALUES ('customer', ?, ?, ?, ?)";
+    $sql = "INSERT INTO Users (email, password, firstName, lastName, numOfCards)
+            VALUES (?, ?, ?, ?, '1')";
             
     $stmt = $pdo->prepare($sql);
     
@@ -51,7 +51,7 @@
     }
     
     try {
-        // Execute the prepared statement with provided parameters
+        // Execute 
         if (!$stmt->execute([$_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"]])) {
             // If execution fails, display an error message
             die("Error: Failed to execute the query.");
@@ -62,9 +62,9 @@
             // Redirect to the confirmation page if successful
             header("Location: registrationconfirmation.php");
             exit;
-    }
+        }
     
-    } catch (PDOException $e) {
+   } catch (PDOException $e) {
 
         //check if email has been used before
         if ($e->getCode() == 23000 && strpos($e->getMessage(), 'email_UNIQUE') !== false) {

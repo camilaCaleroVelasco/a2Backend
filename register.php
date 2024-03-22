@@ -29,7 +29,7 @@
          <h2> Personal Info</h2>
 
 
-        <form action="register.php">  <!--link to confirmation page when formed is filled out -->
+        <form action="registrationProcess.php" method="post">  <!--link to confirmation page when formed is filled out -->
      
 
          <div class="input-box"> <!-- div class input-box starts here -->
