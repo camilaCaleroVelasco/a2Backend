@@ -1,6 +1,6 @@
 
 CREATE TABLE Movies(
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    movie_id INT PRIMARY KEY AUTO_INCREMENT,
     movie_title VARCHAR(255) NOT NULL UNIQUE,
     category VARCHAR(255),
     cast TEXT,

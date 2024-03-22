@@ -129,3 +129,113 @@ CREATE TABLE Promotion(
     FOREIGN KEY (promoStatus_id) REFERENCES PromoStatus(promoStatus_id),
     percentDiscount INT
 );
+
+
+
+
+
+
+
+-- BOOKING STATUS ENUMERATION
+CREATE TABLE BookingStatus(
+    bookingStatus_id INT PRIMARY KEY AUTO_INCREMENT,
+    bookingStatus VARCHAR(255)
+);
+
+-- Key = 1
+INSERT INTO BookingStatus(bookingStatus)
+VALUES(
+    'ACTIVE'
+);
+
+-- Key = 2
+INSERT INTO BookingStatus(bookingStatus)
+VALUES(
+    'EXPIRED'
+);
+-- END OF ENUMERATION
+
+
+CREATE TABLE Booking(
+    booking_id INT PRIMARY KEY AUTO_INCREMENT,
+    bookingNumber INT,
+    bookingDay INT,
+    bookingMonth INT,
+    bookingYear INT,
+    bookingStatus_id INT,
+    FOREIGN KEY (bookingStatus_id) REFERENCES BookingStatus(bookingStatus_id),
+    numberOfSeats INT,
+    promo_id INT,
+    FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id)
+);
+
+
+-- TICKET TYPE ENUMERATION
+CREATE TABLE TicketType(
+    ticketType_id INT PRIMARY KEY AUTO_INCREMENT,
+    ticketType VARCHAR(255)
+);
+
+-- Key = 1
+INSERT INTO TicketType(ticketType)
+VALUES(
+    'CHILD'
+);
+
+-- Key = 2
+INSERT INTO TicketType(ticketType)
+VALUES(
+    'ADULT'
+);
+
+-- Key = 3
+INSERT INTO TicketType(ticketType)
+VALUES(
+    'SENIOR'
+);
+-- END OF ENUMERATION
+
+CREATE TABLE Theater(
+    theater_id INT PRIMARY KEY AUTO_INCREMENT,
+    theaterName VARCHAR(255),
+    theaterLocation VARCHAR(255),
+    numOfShowrooms INT
+);
+
+CREATE TABLE Showroom(
+    room_id INT PRIMARY KEY AUTO_INCREMENT,
+    totalNumOfSeats INT,
+    roomTitle VARCHAR(255),
+    roomNumber VARCHAR(255),
+    theater_id INT,
+    FOREIGN KEY (theater_id) REFERENCES Theater(theater_id)
+);
+
+CREATE TABLE Showing(
+    show_id INT PRIMARY KEY AUTO_INCREMENT,
+    movie_id INT,
+    FOREIGN KEY (movie_id) REFERENCES Movies(movie_id),
+    room_id INT,
+    FOREIGN KEY (room_id) REFERENCES Showroom(room_id),
+    showTime VARCHAR(255),
+    showDay INT,
+    showMonth INT,
+    showYear INT,
+    numOfAvailableSeats INT
+);
+
+CREATE TABLE Ticket(
+    ticket_id INT PRIMARY KEY AUTO_INCREMENT,
+    ticketDay INT,
+    ticketMonth INT,
+    ticketYear INT,
+    ticketType_id INT,
+    FOREIGN KEY (ticketType_id) REFERENCES TicketType(ticketType_id),
+    booking_id INT,
+    FOREIGN KEY (booking_id) REFERENCES Booking(booking_id),
+    show_id INT,
+    FOREIGN KEY (show_id) REFERENCES Showing(show_id),
+    seat VARCHAR(255)
+);
+
+
