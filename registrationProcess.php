@@ -1,5 +1,4 @@
 <?php
-
     include_once 'includes/databaseConnection.inc.php'; 
 
     if (empty($_POST["first-name"])) {
@@ -86,7 +85,6 @@
     $stmtCardType = $pdo->prepare($sqlCardType);
     $stmtCardType->execute([$cardType]);
     $cardTypeRow = $stmtCardType->fetch(PDO::FETCH_ASSOC);
-
     if ($cardTypeRow) {
         $cardType_id = $cardTypeRow['cardType_id'];
     } else {
@@ -102,17 +100,39 @@
         }
     }
 
+    // Encrypt the credit card number
+    $encryptedCardNumber = null;
+    if (!empty($_POST["card-number"])) {
+        $cardNumber = $_POST["card-number"];
+        $encryptionKey = 'encription-012df';
+        $encryptedCardNumber = openssl_encrypt($cardNumber, 'aes-256-cbc', $encryptionKey, 0, $encryptionKey);
+    }
+
+
 
     // Insert into Users table
     $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, numOfCards, userStatus_id, userType_id)
-                VALUES (?, ?, ?, ?, '1', ?, ?)";
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmtUsers = $pdo->prepare($sqlUsers);
     if (!$stmtUsers) {
         die("SQL error: " . $pdo->errorInfo()[2]);
     }
-    if (!$stmtUsers->execute([$_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $userStatus_id, $userType_id])) {
+
+    //Number of cards added
+    $numOfCards = 0; // Default value
+    $lastUserId = null;
+    if (!empty($encryptedCardNumber) && !empty($_POST["expiration-month"]) && !empty($_POST["expiration-year"])) {
+        // Check if user has less than 3 cards before incrementing...
+        $sqlNumOfCards = "SELECT COUNT(*) AS cardCount FROM PaymentCard WHERE users_id = ?";
+        $stmtNumOfCards = $pdo->prepare($sqlNumOfCards);
+        $stmtNumOfCards->execute([$lastUserId]);
+        $cardCountRow = $stmtNumOfCards->fetch(PDO::FETCH_ASSOC);
+        $numOfCards = $cardCountRow['cardCount'] < 3 ? $cardCountRow['cardCount'] + 1 : 3;
+    }
+    if (!$stmtUsers->execute([$_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $numOfCards, $userStatus_id, $userType_id])) {
         die("Error: Failed to execute the Users query.");
     }
+
 
     // Check if any rows were affected by the insert operation
     if ($stmtUsers->rowCount() > 0) {
@@ -120,23 +140,23 @@
         $lastUserId = $pdo->lastInsertId();
         
         // Check if payment card information is provided and insert into PaymentCard table
-        if (!empty($_POST["card-number"]) && !empty($_POST["expiration-month"]) && !empty($_POST["expiration-year"])) {
+        if (!empty($encryptedCardNumber) && !empty($_POST["expiration-month"]) && !empty($_POST["expiration-year"])) {
             $sqlPaymentCard = "INSERT INTO PaymentCard (cardNum, cardType_id, expMonth, expYear, name, users_id)
                             VALUES (?, ?, ?, ?, ?, ?)";
             $stmtPaymentCard = $pdo->prepare($sqlPaymentCard);
             if (!$stmtPaymentCard) {
                 die("SQL error: " . $pdo->errorInfo()[2]);
             }
-            if (!$stmtPaymentCard->execute([$_POST["card-number"], $cardType_id, $_POST["expiration-month"], $_POST["expiration-year"], $_POST["first-name"], $lastUserId])) {
+            if (!$stmtPaymentCard->execute([$encryptedCardNumber, $cardType_id, $_POST["expiration-month"], $_POST["expiration-year"], $_POST["first-name"], $lastUserId])) {
                 die("Error: Failed to execute the PaymentCard query.");
             }
         }
-
         // Redirect to the confirmation page if successful
         header("Location: registrationconfirmation.php");
         exit;
-    } else {
+    } 
+    else {
         die("Error: Failed to execute the Users query.");
-    }
+    } 
         
 ?>
