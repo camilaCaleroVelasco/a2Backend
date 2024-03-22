@@ -24,6 +24,37 @@ VALUES(
 );
 -- End of setting up Status enumeration
     
+-- PROMO STATUS ENUMERATION
+CREATE TABLE PromoStatus(
+    promoStatus_id INT PRIMARY KEY AUTO_INCREMENT,
+    promoStatus VARCHAR(255)  
+);
+
+-- Key = 1
+INSERT INTO PromoStatus(promoStatus)
+VALUES(
+    'ACTIVE'
+);
+
+-- Key = 2
+INSERT INTO PromoStatus(promoStatus)
+VALUES(
+    'INACTIVE'
+);
+-- END OF ENUMERATION
+
+
+CREATE TABLE Promotion(
+    promo_id INT PRIMARY KEY AUTO_INCREMENT,
+    promoCode VARCHAR(255),
+    startDay INT,
+    startMonth INT,
+    endDay INT,
+    endMonth INT,
+    promoStatus_id INT,
+    FOREIGN KEY (promoStatus_id) REFERENCES PromoStatus(promoStatus_id),
+    percentDiscount INT
+);
 
 -- Create User Type Enumeration
 CREATE TABLE UserType(
@@ -56,7 +87,9 @@ CREATE TABLE Users(
     userStatus_id INT,
     userType_id INT,
     FOREIGN KEY (userStatus_id) REFERENCES UserStatus(userStatus_id),
-    FOREIGN KEY (userType_id) REFERENCES UserType(userType_id)
+    FOREIGN KEY (userType_id) REFERENCES UserType(userType_id),
+    promo_id INT,
+    FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id)
 );
 
 
@@ -98,43 +131,6 @@ CREATE TABLE PaymentCard(
     FOREIGN KEY (users_id) REFERENCES Users(users_id),
     FOREIGN KEY (cardType_id) REFERENCES PaymentCardType(cardType_id)
 );
-
--- PROMO STATUS ENUMERATION
-CREATE TABLE PromoStatus(
-    promoStatus_id INT PRIMARY KEY AUTO_INCREMENT,
-    promoStatus VARCHAR(255)  
-);
-
--- Key = 1
-INSERT INTO PromoStatus(promoStatus)
-VALUES(
-    'ACTIVE'
-);
-
--- Key = 2
-INSERT INTO PromoStatus(promoStatus)
-VALUES(
-    'INACTIVE'
-);
--- END OF ENUMERATION
-
-
-CREATE TABLE Promotion(
-    promo_id INT PRIMARY KEY AUTO_INCREMENT,
-    startDay INT,
-    startMonth INT,
-    endDay INT,
-    endMonth INT,
-    promoStatus_id INT,
-    FOREIGN KEY (promoStatus_id) REFERENCES PromoStatus(promoStatus_id),
-    percentDiscount INT
-);
-
-
-
-
-
-
 
 -- BOOKING STATUS ENUMERATION
 CREATE TABLE BookingStatus(
