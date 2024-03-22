@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,9 +20,9 @@
     </header>
     
     <div class="wrapper">  <!-- div class wrapper starts here -->
-        <h1> Verify Account Now!</h1> <!-- form class starts here -->
-        <p>  Registration was successful! Please check your email and enter the 4 digit code that was sent to verify your account.</p>
-        <form action = "" autocomplete = "off">  <!-- specify url post later -->
+        <h1> Reset Password</h1> <!-- form class starts here -->
+        <p> Please check your email and enter the 4 digit code that was sent to reset your password.</p>
+        <form action = "resetPassword.php" autocomplete = "off">
             
             <div class="code-input">
                 <input type="number" name= "opt1"  class= "field-opt"  placeholder = "0"  min = "0" max ="9" required onpaste = "false">

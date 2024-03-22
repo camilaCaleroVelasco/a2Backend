@@ -62,7 +62,7 @@
             
             <!-- Forgot Password -->
             <div class="forgot-password">
-                <p> Forgot Password? <a href="forgotPassword.php">Reset Here!</a><p>  <!--eventually replace with reset account page-->
+                <p> Forgot Password? <a href="forgotPassword.php">Reset Here!</a><p>  
              </div>
              
                <!-- register link -->          

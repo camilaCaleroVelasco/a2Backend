@@ -9,6 +9,7 @@
 
     <!-- Enable to put style on page -->
      <link rel="stylesheet" href="css/login.css">
+     <link rel="stylesheet" href="css/forgotPassword.css">
      <link href='https://unpkg.com/boxicons@2.1.4/dist/boxicons.js' rel='stylesheet'>
      
 </head>
@@ -26,9 +27,9 @@
 
 
     <div class ="wrapper">   <!--Div class for wrapper login starts here -->
-        <form action=" "> <!-- will later specify url post-->
+        <form action= "resetPasswordVerif.php"> <!-- will later specify url post but for now  it is linked to resetPasswordVerfication-->
             <h1>Forgot Password</h1>
-            <p style = "text-align: center;">  Enter Email Address Associated with account.</p>
+            <p style = "text-align: center; margin-bottom: 30px; ">  Enter Email Address Associated with account.</p>
             
             <!-- Input Box for filling out Email Address-->
              <div class="input-box" >
