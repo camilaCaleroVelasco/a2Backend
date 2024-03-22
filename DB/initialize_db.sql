@@ -1,68 +1,131 @@
 
 -- Status enumeration stored in separate table, accessed using primary key
-CREATE TABLE Status(
-    status_id INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE UserStatus(
+    userStatus_id INT PRIMARY KEY AUTO_INCREMENT,
     status VARCHAR(255)
 );
 
 -- Key = 1
-INSERT INTO Status(status)
+INSERT INTO UserStatus(status)
 VALUES(
     'ACTIVE'
 );
 
 -- Key = 2
-INSERT INTO Status(status)
+INSERT INTO UserStatus(status)
 VALUES(
     'INACTIVE'
 );
 
 -- Key = 3
-INSERT INTO Status(status)
+INSERT INTO UserStatus(status)
 VALUES(
     'SUSPENDED'
 );
 -- End of setting up Status enumeration
     
+
+-- Create User Type Enumeration
+CREATE TABLE UserType(
+userType_id INT PRIMARY KEY AUTO_INCREMENT,
+type VARCHAR(255)
+);
+
+-- Key = 1
+INSERT INTO UserType(type)
+VALUES(
+    'CUSTOMER'
+);
+
+-- Key = 2
+INSERT INTO UserType(type)
+VALUES(
+    'ADMIN'
+);
+-- END OF ENUMERATION
+
+
 -- Create Users table
 CREATE TABLE Users(
     users_id INT PRIMARY KEY AUTO_INCREMENT,
-    type VARCHAR(255),
     email VARCHAR(255),
     password VARCHAR(255),
     firstName VARCHAR(255),
     lastName VARCHAR(255),
-    status_id INT,
-    FOREIGN KEY (status_id) REFERENCES Status(status_id)
-);
-
--- Create Admin table, store reference to parent object in User table
-CREATE TABLE Administrator(
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    users_id INT,
-    FOREIGN KEY (users_id) REFERENCES Users(users_id)
-);
-
--- Create Customer table, store reference to parent object in User table
-CREATE TABLE Customer(
-    customer_id INT PRIMARY KEY AUTO_INCREMENT,
-    users_id INT,
     numOfCards INT,
-    FOREIGN KEY (users_id) REFERENCES Users(users_id)
+    userStatus_id INT,
+    userType_id INT,
+    FOREIGN KEY (userStatus_id) REFERENCES UserStatus(userStatus_id),
+    FOREIGN KEY (userType_id) REFERENCES UserType(userType_id)
 );
--- INHERITANCE: Child and Parent have separate tables, child table stores key to parent table.
--- Requires LEFT OUTER JOIN to retrieve all attributes.
--- Syntax:
--- SELECT * FROM
--- Parent LEFT OUTER JOIN Child ON
--- Parent.id = Child.parentid;
+
+
+-- PAYMENT CARD TYPE ENUMERATION
+CREATE TABLE PaymentCardType(
+    cardType_id INT PRIMARY KEY AUTO_INCREMENT,
+    type VARCHAR(255)
+);
+
+-- Key = 1
+INSERT INTO PaymentCardType(type)
+VALUES(
+    'VISA'
+);
+
+-- Key = 2
+INSERT INTO PaymentCardType(type)
+VALUES(
+    'MASTERCARD'
+);
+
+-- Key = 3
+INSERT INTO PaymentCardType(type)
+VALUES(
+    'AMERICAN EXPRESS'
+);
+-- END OF ENUMERATION
+
 
 CREATE TABLE PaymentCard(
     card_id INT PRIMARY KEY AUTO_INCREMENT,
     cardNum INT,
-    billingAddress VARCHAR(255),
-    expDate VARCHAR(255),
+    cardType_id INT, 
+    expMonth VARCHAR(255),
+    expYear VARCHAR(255),
+    securityCode INT,
     name VARCHAR(255),
-    customer_id INT,
-    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
+    users_id INT,
+    FOREIGN KEY (users_id) REFERENCES Users(users_id),
+    FOREIGN KEY (cardType_id) REFERENCES PaymentCardType(cardType_id)
+);
+
+-- PROMO STATUS ENUMERATION
+CREATE TABLE PromoStatus(
+    promoStatus_id INT PRIMARY KEY AUTO_INCREMENT,
+    promoStatus VARCHAR(255)  
+);
+
+-- Key = 1
+INSERT INTO PromoStatus(promoStatus)
+VALUES(
+    'ACTIVE'
+);
+
+-- Key = 2
+INSERT INTO PromoStatus(promoStatus)
+VALUES(
+    'INACTIVE'
+);
+-- END OF ENUMERATION
+
+
+CREATE TABLE Promotion(
+    promo_id INT PRIMARY KEY AUTO_INCREMENT,
+    startDay INT,
+    startMonth INT,
+    endDay INT,
+    endMonth INT,
+    promoStatus_id INT,
+    FOREIGN KEY (promoStatus_id) REFERENCES PromoStatus(promoStatus_id),
+    percentDiscount INT
 );
