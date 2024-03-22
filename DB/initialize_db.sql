@@ -75,6 +75,22 @@ VALUES(
 );
 -- END OF ENUMERATION
 
+CREATE TABLE BillingAddress(
+    billing_id INT PRIMARY KEY AUTO_INCREMENT,
+    billingStreetAddress VARCHAR(255),
+    billingCity VARCHAR(255),
+    billingState VARCHAR(255),
+    billingZipCode INT
+);
+
+CREATE TABLE DeliveryAddress(
+    delivery_id INT PRIMARY KEY AUTO_INCREMENT,
+    deliveryStreetAddress VARCHAR(255),
+    deliveryCity VARCHAR(255),
+    deliveryState VARCHAR(255),
+    deliveryZipCode INT
+);
+
 
 -- Create Users table
 CREATE TABLE Users(
@@ -89,7 +105,11 @@ CREATE TABLE Users(
     FOREIGN KEY (userStatus_id) REFERENCES UserStatus(userStatus_id),
     FOREIGN KEY (userType_id) REFERENCES UserType(userType_id),
     promo_id INT,
-    FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id)
+    FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id),
+    billing_id INT,
+    FOREIGN KEY (billing_id) REFERENCES BillingAddress(billing_id),
+    delivery_id INT,
+    FOREIGN KEY (delivery_id) REFERENCES DeliveryAddress(delivery_id)
 );
 
 
@@ -121,7 +141,7 @@ VALUES(
 
 CREATE TABLE PaymentCard(
     card_id INT PRIMARY KEY AUTO_INCREMENT,
-    cardNum INT,
+    cardNum VARCHAR(255),
     cardType_id INT, 
     expMonth VARCHAR(255),
     expYear VARCHAR(255),
@@ -198,7 +218,7 @@ CREATE TABLE Theater(
     numOfShowrooms INT
 );
 
-CREATE TABLE Showroom(
+CREATE TABLE Room(
     room_id INT PRIMARY KEY AUTO_INCREMENT,
     totalNumOfSeats INT,
     roomTitle VARCHAR(255),
@@ -207,13 +227,45 @@ CREATE TABLE Showroom(
     FOREIGN KEY (theater_id) REFERENCES Theater(theater_id)
 );
 
+-- SHOW PERIOD ENUMERATION
+CREATE TABLE ShowPeriod(
+    showPeriod_id INT PRIMARY KEY AUTO_INCREMENT,
+    startTime VARCHAR(255)
+);
+
+-- Key = 1
+INSERT INTO ShowPeriod(startTime)
+VALUES(
+    '11:00'
+);
+
+-- Key = 2
+INSERT INTO ShowPeriod(startTime)
+VALUES(
+    '4:30'
+);
+
+-- Key = 3
+INSERT INTO ShowPeriod(startTime)
+VALUES(
+    '8:00'
+);
+
+-- Key = 2
+INSERT INTO ShowPeriod(startTime)
+VALUES(
+    '10:30'
+);
+-- END OF ENUMERATION
+
 CREATE TABLE Showing(
     show_id INT PRIMARY KEY AUTO_INCREMENT,
     movie_id INT,
     FOREIGN KEY (movie_id) REFERENCES Movies(movie_id),
     room_id INT,
-    FOREIGN KEY (room_id) REFERENCES Showroom(room_id),
-    showTime VARCHAR(255),
+    FOREIGN KEY (room_id) REFERENCES Room(room_id),
+    showPeriod_id INT,
+    FOREIGN KEY (showPeriod_id) REFERENCES ShowPeriod(showPeriod_id),
     showDay INT,
     showMonth INT,
     showYear INT,
