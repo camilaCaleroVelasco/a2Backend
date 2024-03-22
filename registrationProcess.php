@@ -78,15 +78,30 @@
 
     // Retrieve $cardType_id based on card type (Visa, MasterCard, AmericanExpress)
     $cardType = $_POST["card-type"];
+
+    // Default card type in case the specified card type doesn't exist
+    $defaultCardType = 'Visa';
+
     $sqlCardType = "SELECT cardType_id FROM PaymentCardType WHERE type = ?";
     $stmtCardType = $pdo->prepare($sqlCardType);
     $stmtCardType->execute([$cardType]);
     $cardTypeRow = $stmtCardType->fetch(PDO::FETCH_ASSOC);
+
     if ($cardTypeRow) {
         $cardType_id = $cardTypeRow['cardType_id'];
     } else {
-        die("CardType not found for type: $cardType");
+        // Use default card type if the specified card type doesn't exist
+        $stmtDefaultCardType = $pdo->prepare($sqlCardType);
+        $stmtDefaultCardType->execute([$defaultCardType]);
+        $defaultCardTypeRow = $stmtDefaultCardType->fetch(PDO::FETCH_ASSOC);
+
+        if ($defaultCardTypeRow) {
+            $cardType_id = $defaultCardTypeRow['cardType_id'];
+        } else {
+            die("Default CardType not found: $defaultCardType");
+        }
     }
+
 
     // Insert into Users table
     $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, numOfCards, userStatus_id, userType_id)
