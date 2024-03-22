@@ -191,7 +191,7 @@
         </div>
 
 
-</div>  <!--Shipping Address Fields ends here-->
+    </div>  <!--Shipping Address Fields ends here-->
 
  
           <div class="subscribe-promos" >
@@ -202,7 +202,7 @@
             <button type = "submit" class ="button" id="submit"> Register </button>    
 
 
-        </form>
+</form>
 
 
 

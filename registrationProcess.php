@@ -43,8 +43,9 @@
     
     $sql = "INSERT INTO Users (email, password, firstName, lastName, numOfCards)
             VALUES (?, ?, ?, ?, '1')";
-            
+
     $stmt = $pdo->prepare($sql);
+   
     
     if ( ! $stmt) {
         die("SQL error: " . $pdo->errorInfo()[2]);
@@ -57,8 +58,23 @@
             die("Error: Failed to execute the query.");
         }
 
+         // Check if payment card information is provided and execute the second SQL query if so
+        if (!empty($_POST["card-number"]) && !empty($_POST["expiration-month"]) && !empty($_POST["expiration-year"])) {
+            $sql2 = "INSERT INTO PaymentCard (cardNum, expMonth, expYear, name)
+                    VALUES (?, ?, ?, ?)";
+            $stmt2 = $pdo->prepare($sql2);
+            
+            if (!$stmt2) {
+                die("SQL error: " . $pdo->errorInfo()[2]);
+            }
+            
+            if (!$stmt2->execute([$_POST["card-number"], $_POST["expiration-month"], $_POST["expiration-year"], $_POST["first-name"]])) {
+                die("Error: Failed to execute the second query.");
+            }
+        }
+    
         // Check if any rows were affected by the insert operation
-        if ($stmt->rowCount() > 0) {
+        if ($stmt->rowCount() > 0 || $stmt2->rowCount() > 0) {
             // Redirect to the confirmation page if successful
             header("Location: registrationconfirmation.php");
             exit;
