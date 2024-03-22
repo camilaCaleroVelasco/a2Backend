@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
     try {
         require_once "includes/databaseConnection.inc.php";
 
-        $query = "SELECT * FROM movies WHERE id = :movie_id";
+        $query = "SELECT * FROM movies WHERE movie_id = :movie_id";
 
         $stmt = $pdo->prepare($query);
         $stmt->bindValue(':movie_id', $movie_id, PDO::PARAM_INT);
@@ -68,11 +68,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
         </br>
        <h3> Rating: <?php echo $result['reviews'];?>/5</h3>
     </br>
-                <p> 
-                <strong>Director:</strong> <?php echo $result['producer'];?></strong>
-    </br> <strong> Producer: </strong> <?php echo $result['producer']; ?>
-                    </br>
-                    <strong>Category:</strong> <?php echo $result['category'];?>
+    <p> 
+        <strong>Director:</strong> <?php echo $result['producer'];?></strong>
+        </br> 
+        <strong> Producer: </strong> <?php echo $result['producer']; ?>
+        </br>
+        <strong>Category:</strong> <?php echo $result['category'];?>
+        <br>
+        <strong>Cast:</strong> <?php echo $result['cast'];?></strong>
                     </br>
                     </br>   
                    <i> <?php echo $result['synopsis'];?> </i>
@@ -81,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
 
         <div>
         <!-- direct to movieDetails when button is clicked -->
-            <a href="booking.php?movie_id=<?php echo $result['id']?>">
+            <a href="booking.php?movie_id=<?php echo $result['movie_id']?>">
                 <!-- Image button -->
                 <h4>
                     <!-- button for booking -->

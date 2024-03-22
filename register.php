@@ -195,8 +195,8 @@
 
  
           <div class="subscribe-promos" >
-                <input type= "checkbox" id= "subscribe-promos">
-                <label for ="subscribe-promos"> Subscribe for Promotions </label>
+                <input type= "checkbox" id= "subscribe-promos" name="promo_id" value="1">
+                <label for ="subscribe-promos" > Subscribe for Promotions </label>
             </div> 
             
             <button type = "submit" class ="button" id="submit"> Register </button>    

@@ -49,7 +49,7 @@
                                 echo "
                                 <div class = 'movies-list-item'>
                                     <!-- Button for Movies-->
-                                    <a href='movieDetails.php?movie_id=" . $row["id"] . "'>
+                                    <a href='movieDetails.php?movie_id=" . $row["movie_id"] . "'>
                                     <button>
                                         <img class='movies-poster-img' src=" . htmlspecialchars($row["picture"]) . "alt = 'button image'>
                                     </button></a>
@@ -73,7 +73,7 @@
                                 <div class = 'movies-list-item'>
 
                                 <!-- Button for Movies-->
-                                <a href='movieDetails.php?movie_id=" . $row["id"] . "'>
+                                <a href='movieDetails.php?movie_id=" . $row["movie_id"] . "'>
                                 <button>
                                     <img class='movies-poster-img' src=" . htmlspecialchars($row["picture"]) . "alt = 'button image'>
                                 </button></a>
