@@ -100,15 +100,9 @@
         }
     }
 
-    // Encrypt the credit card number
-    $encryptedCardNumber = null;
-    if (!empty($_POST["card-number"])) {
-        $cardNumber = $_POST["card-number"];
-        $encryptionKey = 'encription-012df';
-        $encryptedCardNumber = openssl_encrypt($cardNumber, 'aes-256-cbc', $encryptionKey, 0, $encryptionKey);
-    }
-
-    //Billing Address
+    // Insert into BillingAddress table if provided
+$billingAddressId = null;
+if (!empty($_POST["street-address-billing"]) && !empty($_POST["city-billing"]) && !empty($_POST["state-billing"]) && !empty($_POST["zip-code-billing"])) {
     $sqlInsertBillingAddress = "INSERT INTO BillingAddress (billingStreetAddress, billingCity, billingState, billingZipCode) VALUES (?, ?, ?, ?)";
     $stmtInsertBillingAddress = $pdo->prepare($sqlInsertBillingAddress);
     if (!$stmtInsertBillingAddress) {
@@ -128,8 +122,11 @@
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
     }
+}
 
-    //Delivery Address
+// Insert into DeliveryAddress table if provided
+$deliveryAddressId = null;
+if (!empty($_POST["street-address-shipping"]) && !empty($_POST["city-shipping"]) && !empty($_POST["state-shipping"]) && !empty($_POST["zip-code-shipping"])) {
     $sqlInsertDeliveryAddress = "INSERT INTO DeliveryAddress (deliveryStreetAddress, deliveryCity, deliveryState, deliveryZipCode) VALUES (?, ?, ?, ?)";
     $stmtInsertDeliveryAddress = $pdo->prepare($sqlInsertDeliveryAddress);
     if (!$stmtInsertDeliveryAddress) {
@@ -138,7 +135,7 @@
 
     // Execute the query and handle errors
     try {
-        $successInsertDeliveryAddress = $stmtInsertDeliveryAddress->execute([$_POST["treet-address-shipping"], $_POST["city-shipping"], $_POST["state-shipping"], $_POST["zip-code-shipping"]]);
+        $successInsertDeliveryAddress = $stmtInsertDeliveryAddress->execute([$_POST["street-address-shipping"], $_POST["city-shipping"], $_POST["state-shipping"], $_POST["zip-code-shipping"]]);
 
         if (!$successInsertDeliveryAddress) {
             die("Error: Failed to insert delivery address. " . implode(", ", $stmtInsertDeliveryAddress->errorInfo()));
@@ -149,8 +146,7 @@
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
     }
-
-
+}
 
     // Insert into Users table
     $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, numOfCards, userStatus_id, userType_id, billing_id, delivery_id)
