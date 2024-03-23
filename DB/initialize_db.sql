@@ -94,19 +94,19 @@ CREATE TABLE DeliveryAddress(
 -- PromoSubscription enumeration
 CREATE TABLE PromoSubscription(
     promoSub_id INT PRIMARY KEY AUTO_INCREMENT,
-    isSubscribed INT
+    type VARCHAR(255),
 );
 
 -- Key = 1 (SUBSCRIBED)
-INSERT INTO PromoSubscription(isSubscribed)
+INSERT INTO PromoSubscription(type)
 VALUES(
-    '1'
+    'SUBSCRIBED'
 );
 
 -- Key = 2 (NOT SUBSCRIBED)
-INSERT INTO PromoSubscription(isSubscribed)
+INSERT INTO PromoSubscription(type)
 VALUES(
-    '2'
+    'NOT-SUBSCRIBED'
 );
 -- END OF ENUMERATION
 
@@ -117,6 +117,7 @@ CREATE TABLE Users(
     password VARCHAR(255),
     firstName VARCHAR(255),
     lastName VARCHAR(255),
+    phoneNumber INT,
     numOfCards INT,
     userStatus_id INT,
     userType_id INT,
