@@ -69,7 +69,7 @@
             foreach ($results as $row) {
                 echo "<div>";
                 //direct to movieDetails when button is clicked
-                echo "<a href='movieDetails.php?movie_id=" . $row["id"] . "'>";
+                echo "<a href='movieDetails.php?movie_id=" . $row["movie_id"] . "'>";
                 //<!---Create the image as a button--->
                 echo "<h4>";
                 echo "<button class = 'image-button'> <img id='movie' src=" . htmlspecialchars($row["picture"]) . "width='300'
