@@ -100,53 +100,61 @@
         }
     }
 
+    // Encrypt the credit card number
+    $encryptedCardNumber = null;
+    if (!empty($_POST["card-number"])) {
+        $cardNumber = $_POST["card-number"];
+        $encryptionKey = 'encription-012df';
+        $encryptedCardNumber = openssl_encrypt($cardNumber, 'aes-256-cbc', $encryptionKey, 0, $encryptionKey);
+    }
+
     // Insert into BillingAddress table if provided
-$billingAddressId = null;
-if (!empty($_POST["street-address-billing"]) && !empty($_POST["city-billing"]) && !empty($_POST["state-billing"]) && !empty($_POST["zip-code-billing"])) {
-    $sqlInsertBillingAddress = "INSERT INTO BillingAddress (billingStreetAddress, billingCity, billingState, billingZipCode) VALUES (?, ?, ?, ?)";
-    $stmtInsertBillingAddress = $pdo->prepare($sqlInsertBillingAddress);
-    if (!$stmtInsertBillingAddress) {
-        die("SQL error: " . $pdo->errorInfo()[2]);
-    }
-
-    // Execute the query and handle errors
-    try {
-        $successInsertBillingAddress = $stmtInsertBillingAddress->execute([$_POST["street-address-billing"], $_POST["city-billing"], $_POST["state-billing"], $_POST["zip-code-billing"]]);
-
-        if (!$successInsertBillingAddress) {
-            die("Error: Failed to insert billing address. " . implode(", ", $stmtInsertBillingAddress->errorInfo()));
+    $billingAddressId = null;
+    if (!empty($_POST["street-address-billing"]) && !empty($_POST["city-billing"]) && !empty($_POST["state-billing"]) && !empty($_POST["zip-code-billing"])) {
+        $sqlInsertBillingAddress = "INSERT INTO BillingAddress (billingStreetAddress, billingCity, billingState, billingZipCode) VALUES (?, ?, ?, ?)";
+        $stmtInsertBillingAddress = $pdo->prepare($sqlInsertBillingAddress);
+        if (!$stmtInsertBillingAddress) {
+            die("SQL error: " . $pdo->errorInfo()[2]);
         }
 
-        // Retrieve the auto-generated billing ID
-        $billingAddressId = $pdo->lastInsertId();
-    } catch (PDOException $e) {
-        die("Error: " . $e->getMessage());
+        // Execute the query and handle errors
+        try {
+            $successInsertBillingAddress = $stmtInsertBillingAddress->execute([$_POST["street-address-billing"], $_POST["city-billing"], $_POST["state-billing"], $_POST["zip-code-billing"]]);
+
+            if (!$successInsertBillingAddress) {
+                die("Error: Failed to insert billing address. " . implode(", ", $stmtInsertBillingAddress->errorInfo()));
+            }
+
+            // Retrieve the auto-generated billing ID
+            $billingAddressId = $pdo->lastInsertId();
+        } catch (PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
     }
-}
 
-// Insert into DeliveryAddress table if provided
-$deliveryAddressId = null;
-if (!empty($_POST["street-address-shipping"]) && !empty($_POST["city-shipping"]) && !empty($_POST["state-shipping"]) && !empty($_POST["zip-code-shipping"])) {
-    $sqlInsertDeliveryAddress = "INSERT INTO DeliveryAddress (deliveryStreetAddress, deliveryCity, deliveryState, deliveryZipCode) VALUES (?, ?, ?, ?)";
-    $stmtInsertDeliveryAddress = $pdo->prepare($sqlInsertDeliveryAddress);
-    if (!$stmtInsertDeliveryAddress) {
-        die("SQL error: " . $pdo->errorInfo()[2]);
-    }
-
-    // Execute the query and handle errors
-    try {
-        $successInsertDeliveryAddress = $stmtInsertDeliveryAddress->execute([$_POST["street-address-shipping"], $_POST["city-shipping"], $_POST["state-shipping"], $_POST["zip-code-shipping"]]);
-
-        if (!$successInsertDeliveryAddress) {
-            die("Error: Failed to insert delivery address. " . implode(", ", $stmtInsertDeliveryAddress->errorInfo()));
+    // Insert into DeliveryAddress table if provided
+    $deliveryAddressId = null;
+    if (!empty($_POST["street-address-shipping"]) && !empty($_POST["city-shipping"]) && !empty($_POST["state-shipping"]) && !empty($_POST["zip-code-shipping"])) {
+        $sqlInsertDeliveryAddress = "INSERT INTO DeliveryAddress (deliveryStreetAddress, deliveryCity, deliveryState, deliveryZipCode) VALUES (?, ?, ?, ?)";
+        $stmtInsertDeliveryAddress = $pdo->prepare($sqlInsertDeliveryAddress);
+        if (!$stmtInsertDeliveryAddress) {
+            die("SQL error: " . $pdo->errorInfo()[2]);
         }
 
-        // Retrieve the auto-generated delivery ID
-        $deliveryAddressId = $pdo->lastInsertId();
-    } catch (PDOException $e) {
-        die("Error: " . $e->getMessage());
+        // Execute the query and handle errors
+        try {
+            $successInsertDeliveryAddress = $stmtInsertDeliveryAddress->execute([$_POST["street-address-shipping"], $_POST["city-shipping"], $_POST["state-shipping"], $_POST["zip-code-shipping"]]);
+
+            if (!$successInsertDeliveryAddress) {
+                die("Error: Failed to insert delivery address. " . implode(", ", $stmtInsertDeliveryAddress->errorInfo()));
+            }
+
+            // Retrieve the auto-generated delivery ID
+            $deliveryAddressId = $pdo->lastInsertId();
+        } catch (PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
     }
-}
 
     // Insert into Users table
     $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, numOfCards, userStatus_id, userType_id, billing_id, delivery_id)
@@ -179,13 +187,13 @@ if (!empty($_POST["street-address-shipping"]) && !empty($_POST["city-shipping"])
         
         // Check if payment card information is provided and insert into PaymentCard table
         if (!empty($encryptedCardNumber) && !empty($_POST["expiration-month"]) && !empty($_POST["expiration-year"])) {
-            $sqlPaymentCard = "INSERT INTO PaymentCard (cardNum, cardType_id, expMonth, expYear, name, users_id)
-                            VALUES (?, ?, ?, ?, ?, ?)";
+            $sqlPaymentCard = "INSERT INTO PaymentCard (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
+                            VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmtPaymentCard = $pdo->prepare($sqlPaymentCard);
             if (!$stmtPaymentCard) {
                 die("SQL error: " . $pdo->errorInfo()[2]);
             }
-            if (!$stmtPaymentCard->execute([$encryptedCardNumber, $cardType_id, $_POST["expiration-month"], $_POST["expiration-year"], $_POST["first-name"], $lastUserId])) {
+            if (!$stmtPaymentCard->execute([$encryptedCardNumber, $cardType_id, $_POST["expiration-month"], $_POST["expiration-year"], $_POST["first-name"], $_POST["last-name"], $lastUserId])) {
                 die("Error: Failed to execute the PaymentCard query.");
             }
         }
