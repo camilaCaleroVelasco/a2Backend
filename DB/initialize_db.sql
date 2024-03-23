@@ -94,7 +94,7 @@ CREATE TABLE DeliveryAddress(
 -- PromoSubscription enumeration
 CREATE TABLE PromoSubscription(
     promoSub_id INT PRIMARY KEY AUTO_INCREMENT,
-    type VARCHAR(255),
+    type VARCHAR(255)
 );
 
 -- Key = 1 (SUBSCRIBED)
@@ -123,8 +123,6 @@ CREATE TABLE Users(
     userType_id INT,
     FOREIGN KEY (userStatus_id) REFERENCES UserStatus(userStatus_id),
     FOREIGN KEY (userType_id) REFERENCES UserType(userType_id),
-    promo_id INT,
-    FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id),
     promoSub_id INT,
     FOREIGN KEY (promoSub_id) REFERENCES PromoSubscription(promoSub_id),
     billing_id INT,
