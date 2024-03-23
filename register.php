@@ -195,7 +195,7 @@
 
  
           <div class="subscribe-promos" >
-                <input type= "checkbox" id= "subscribe-promos" name="promo_id" value="1">
+                <input type= "checkbox" id= "subscribe-promos" name="subscribe-promos" value="on">
                 <label for ="subscribe-promos" > Subscribe for Promotions </label>
             </div> 
             

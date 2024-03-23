@@ -156,9 +156,15 @@
         }
     }
 
+    //Promotion
+    // Determine promo subscription based on checkbox status
+    $promoSubscription = isset($_POST['subscribe-promos']) ? 1 : 2;
+
+
+
     // Insert into Users table
-    $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, numOfCards, userStatus_id, userType_id, billing_id, delivery_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, numOfCards, userStatus_id, userType_id, promoSub_id, billing_id, delivery_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmtUsers = $pdo->prepare($sqlUsers);
     if (!$stmtUsers) {
         die("SQL error: " . $pdo->errorInfo()[2]);
@@ -175,7 +181,7 @@
         $cardCountRow = $stmtNumOfCards->fetch(PDO::FETCH_ASSOC);
         $numOfCards = $cardCountRow['cardCount'] < 3 ? $cardCountRow['cardCount'] + 1 : 3;
     }
-    if (!$stmtUsers->execute([$_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $numOfCards, $userStatus_id, $userType_id, $billingAddressId, $deliveryAddressId])) {
+    if (!$stmtUsers->execute([$_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $numOfCards, $userStatus_id, $userType_id, $promoSubscription, $billingAddressId, $deliveryAddressId])) {
         die("Error: Failed to execute the Users query.");
     }
 
