@@ -1,4 +1,5 @@
 <?php
+    session_start();
     include 'includes/databaseConnection.inc.php';
         $mysqli = new mysqli("localhost","root","","movies");
         $sqlNP = "SELECT * FROM movies WHERE movie_status LIKE '%now playing%'";
@@ -24,8 +25,16 @@
         <img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo">  
         <nav>
             <ul class="nav__links">
-                <li><a href="adminLogin.php">ADMIN</a></li>
-                <li><a href="login.php">LOGIN</a></li> <!-- Link to the login page -->
+            <?php
+            if (isset($_SESSION["email"])) {
+                echo "<p> Hello, " . $_SESSION["firstName"] . "</p>";
+                echo "<li><a href='editProfile.php'>VIEW PROFILE</a></li>";
+                echo "<li><a href='logout.php'>LOGOUT</a></li>";
+            }
+            else {
+              echo "<li><a href='login.php'>LOGIN</a></li>";
+            }
+          ?>
                 <li class="search">
                     <form action="search.php" method="POST"> <!-- Specify the action and method for the form -->
                         <input id="search" type="text" name="moviesearch" placeholder="Search Movies">
@@ -50,7 +59,7 @@
                                 echo "
                                 <div class = 'movies-list-item'>
                                     <!-- Button for Movies-->
-                                    <a href='movieDetails.php?movie_id=" . $row["id"] . "'>
+                                    <a href='movieDetails.php?movie_id=" . $row["movie_id"] . "'>
                                     <button>
                                         <img class='movies-poster-img' src=" . htmlspecialchars($row["picture"]) . "alt = 'button image'>
                                     </button></a>
@@ -79,7 +88,7 @@
                                 <div class = 'movies-list-item'>
 
                                 <!-- Button for Movies-->
-                                <a href='movieDetails.php?movie_id=" . $row["id"] . "'>
+                                <a href='movieDetails.php?movie_id=" . $row["movie_id"] . "'>
                                 <button>
                                     <img class='movies-poster-img' src=" . htmlspecialchars($row["picture"]) . "alt = 'button image'>
                                 </button></a>

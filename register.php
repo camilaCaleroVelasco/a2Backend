@@ -29,7 +29,7 @@
          <h2> Personal Info</h2>
 
 
-        <form action="register.php">  <!--link to confirmation page when formed is filled out -->
+        <form action="registrationProcess.php" method="post">  <!--push info to the DB -->
      
 
          <div class="input-box"> <!-- div class input-box starts here -->
@@ -199,18 +199,18 @@
         </div>
 
 
-</div>  <!--Shipping Address Fields ends here-->
+    </div>  <!--Shipping Address Fields ends here-->
 
  
           <div class="subscribe-promos" >
-                <input type= "checkbox" id= "subscribe-promos">
-                <label for ="subscribe-promos"> Subscribe for Promotions </label>
+                <input type= "checkbox" id= "subscribe-promos" name="subscribe-promos" value="on">
+                <label for ="subscribe-promos" > Subscribe for Promotions </label>
             </div> 
             
             <button type = "submit" class ="button" id="submit"> Register </button>    
 
 
-        </form>
+</form>
 
 
 
