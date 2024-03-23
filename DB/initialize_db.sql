@@ -91,6 +91,24 @@ CREATE TABLE DeliveryAddress(
     deliveryZipCode INT
 );
 
+-- PromoSubscription enumeration
+CREATE TABLE PromoSubscription(
+    promoSub_id INT PRIMARY KEY AUTO_INCREMENT,
+    isSubscribed INT
+);
+
+-- Key = 1 (SUBSCRIBED)
+INSERT INTO PromoSubscription(isSubscribed)
+VALUES(
+    '1'
+);
+
+-- Key = 2 (NOT SUBSCRIBED)
+INSERT INTO PromoSubscription(isSubscribed)
+VALUES(
+    '2'
+);
+-- END OF ENUMERATION
 
 -- Create Users table
 CREATE TABLE Users(
@@ -106,6 +124,8 @@ CREATE TABLE Users(
     FOREIGN KEY (userType_id) REFERENCES UserType(userType_id),
     promo_id INT,
     FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id),
+    promoSub_id INT,
+    FOREIGN KEY (promoSub_id) REFERENCES PromoSubscription(promoSub_id),
     billing_id INT,
     FOREIGN KEY (billing_id) REFERENCES BillingAddress(billing_id),
     delivery_id INT,
