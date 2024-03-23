@@ -146,7 +146,8 @@ CREATE TABLE PaymentCard(
     expMonth VARCHAR(255),
     expYear VARCHAR(255),
     securityCode INT,
-    name VARCHAR(255),
+    firstName VARCHAR(255),
+    lastName VARCHAR(255),
     users_id INT,
     FOREIGN KEY (users_id) REFERENCES Users(users_id),
     FOREIGN KEY (cardType_id) REFERENCES PaymentCardType(cardType_id)
@@ -183,6 +184,8 @@ CREATE TABLE Booking(
     numberOfSeats INT,
     promo_id INT,
     FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id)
+    users_id INT,
+    FOREIGN KEY (users_id) REFERENCES Users(users_id)
 );
 
 
