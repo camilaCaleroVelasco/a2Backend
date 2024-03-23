@@ -108,11 +108,53 @@
         $encryptedCardNumber = openssl_encrypt($cardNumber, 'aes-256-cbc', $encryptionKey, 0, $encryptionKey);
     }
 
+    //Billing Address
+    $sqlInsertBillingAddress = "INSERT INTO BillingAddress (billingStreetAddress, billingCity, billingState, billingZipCode) VALUES (?, ?, ?, ?)";
+    $stmtInsertBillingAddress = $pdo->prepare($sqlInsertBillingAddress);
+    if (!$stmtInsertBillingAddress) {
+        die("SQL error: " . $pdo->errorInfo()[2]);
+    }
+
+    // Execute the query and handle errors
+    try {
+        $successInsertBillingAddress = $stmtInsertBillingAddress->execute([$_POST["street-address-billing"], $_POST["city-billing"], $_POST["state-billing"], $_POST["zip-code-billing"]]);
+
+        if (!$successInsertBillingAddress) {
+            die("Error: Failed to insert billing address. " . implode(", ", $stmtInsertBillingAddress->errorInfo()));
+        }
+
+        // Retrieve the auto-generated billing ID
+        $billingAddressId = $pdo->lastInsertId();
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+
+    //Delivery Address
+    $sqlInsertDeliveryAddress = "INSERT INTO DeliveryAddress (deliveryStreetAddress, deliveryCity, deliveryState, deliveryZipCode) VALUES (?, ?, ?, ?)";
+    $stmtInsertDeliveryAddress = $pdo->prepare($sqlInsertDeliveryAddress);
+    if (!$stmtInsertDeliveryAddress) {
+        die("SQL error: " . $pdo->errorInfo()[2]);
+    }
+
+    // Execute the query and handle errors
+    try {
+        $successInsertDeliveryAddress = $stmtInsertDeliveryAddress->execute([$_POST["treet-address-shipping"], $_POST["city-shipping"], $_POST["state-shipping"], $_POST["zip-code-shipping"]]);
+
+        if (!$successInsertDeliveryAddress) {
+            die("Error: Failed to insert delivery address. " . implode(", ", $stmtInsertDeliveryAddress->errorInfo()));
+        }
+
+        // Retrieve the auto-generated delivery ID
+        $deliveryAddressId = $pdo->lastInsertId();
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+
 
 
     // Insert into Users table
-    $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, numOfCards, userStatus_id, userType_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, numOfCards, userStatus_id, userType_id, billing_id, delivery_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmtUsers = $pdo->prepare($sqlUsers);
     if (!$stmtUsers) {
         die("SQL error: " . $pdo->errorInfo()[2]);
@@ -129,7 +171,7 @@
         $cardCountRow = $stmtNumOfCards->fetch(PDO::FETCH_ASSOC);
         $numOfCards = $cardCountRow['cardCount'] < 3 ? $cardCountRow['cardCount'] + 1 : 3;
     }
-    if (!$stmtUsers->execute([$_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $numOfCards, $userStatus_id, $userType_id])) {
+    if (!$stmtUsers->execute([$_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $numOfCards, $userStatus_id, $userType_id, $billingAddressId, $deliveryAddressId])) {
         die("Error: Failed to execute the Users query.");
     }
 
