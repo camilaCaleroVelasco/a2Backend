@@ -183,7 +183,7 @@ CREATE TABLE Booking(
     FOREIGN KEY (bookingStatus_id) REFERENCES BookingStatus(bookingStatus_id),
     numberOfSeats INT,
     promo_id INT,
-    FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id)
+    FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id),
     users_id INT,
     FOREIGN KEY (users_id) REFERENCES Users(users_id)
 );
