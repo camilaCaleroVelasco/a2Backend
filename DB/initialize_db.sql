@@ -94,7 +94,7 @@ CREATE TABLE DeliveryAddress(
 -- PromoSubscription enumeration
 CREATE TABLE PromoSubscription(
     promoSub_id INT PRIMARY KEY AUTO_INCREMENT,
-    type VARCHAR(255),
+    type VARCHAR(255)
 );
 
 -- Key = 1 (SUBSCRIBED)

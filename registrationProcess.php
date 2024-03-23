@@ -30,7 +30,7 @@
     }
 
 
-    # check that password and confirmation password
+    # check that password and confirmation password--------------------------------------------------
     if ($_POST["password"] !== $_POST["confirm-password"]) {
         die("Confirmation password must match password");
     }
@@ -39,7 +39,7 @@
     
     $pdo = require __DIR__ . "/includes/databaseConnection.inc.php";
 
-    //Check if email already exists
+    //Check if email already exists--------------------------------------------------
     $email = $_POST["email-address"];
     $sqlCheck = "SELECT COUNT(*) AS count FROM Users WHERE email = ?";
     $stmtCheck = $pdo->prepare($sqlCheck);
@@ -51,7 +51,7 @@
     }
 
 
-    // Retrieve $userStatus_id (Active, Inactive)
+    // Retrieve $userStatus_id (Active, Inactive)---------------------------------------------------
     $userStatus = 'Active'; //user just created account so active
     $sqlUserStatus = "SELECT userStatus_id FROM UserStatus WHERE status = ?";
     $stmtStatus = $pdo->prepare($sqlUserStatus);
@@ -63,7 +63,7 @@
         die("UserStatus not found for status: $userStatus");
     }
 
-    // Retrieve $userType_id (Customer, Admin)
+    // Retrieve $userType_id (Customer, Admin)--------------------------------------------------
     $userType = 'Customer'; //default user creation has to be customer
     $sqlUserType = "SELECT userType_id FROM UserType WHERE type = ?";
     $stmtUserType = $pdo->prepare($sqlUserType);
@@ -75,7 +75,11 @@
         die("UserType not found for type: $userType");
     }
 
-    // Retrieve $cardType_id based on card type (Visa, MasterCard, AmericanExpress)
+    //Phone Number---------------------------------------------------------------------------
+    $phoneNumber = $_POST["phone-number"]; //retieve from POST
+
+
+    // Retrieve $cardType_id based on card type (Visa, MasterCard, AmericanExpress)-------------------------
     $cardType = $_POST["card-type"];
 
     // Default card type in case the specified card type doesn't exist
@@ -100,7 +104,7 @@
         }
     }
 
-    // Encrypt the credit card number
+    // Encrypt the credit card number--------------------------------------------------
     $encryptedCardNumber = null;
     if (!empty($_POST["card-number"])) {
         $cardNumber = $_POST["card-number"];
@@ -108,7 +112,7 @@
         $encryptedCardNumber = openssl_encrypt($cardNumber, 'aes-256-cbc', $encryptionKey, 0, $encryptionKey);
     }
 
-    // Insert into BillingAddress table if provided
+    // Insert into BillingAddress table if provided--------------------------------------------------
     $billingAddressId = null;
     if (!empty($_POST["street-address-billing"]) && !empty($_POST["city-billing"]) && !empty($_POST["state-billing"]) && !empty($_POST["zip-code-billing"])) {
         $sqlInsertBillingAddress = "INSERT INTO BillingAddress (billingStreetAddress, billingCity, billingState, billingZipCode) VALUES (?, ?, ?, ?)";
@@ -132,7 +136,7 @@
         }
     }
 
-    // Insert into DeliveryAddress table if provided
+    // Insert into DeliveryAddress table if provided--------------------------------------------------
     $deliveryAddressId = null;
     if (!empty($_POST["street-address-shipping"]) && !empty($_POST["city-shipping"]) && !empty($_POST["state-shipping"]) && !empty($_POST["zip-code-shipping"])) {
         $sqlInsertDeliveryAddress = "INSERT INTO DeliveryAddress (deliveryStreetAddress, deliveryCity, deliveryState, deliveryZipCode) VALUES (?, ?, ?, ?)";
@@ -156,21 +160,21 @@
         }
     }
 
-    //Promotion
+    //Promotion---------------------------------------------------------------------------
     // Determine promo subscription based on checkbox status
     $promoSubscription = isset($_POST['subscribe-promos']) ? 1 : 2;
 
 
 
-    // Insert into Users table
-    $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, numOfCards, userStatus_id, userType_id, promoSub_id, billing_id, delivery_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    // Insert into Users table---------------------------------------------------
+    $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, phoneNumber, numOfCards, userStatus_id, userType_id, promoSub_id, billing_id, delivery_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmtUsers = $pdo->prepare($sqlUsers);
     if (!$stmtUsers) {
         die("SQL error: " . $pdo->errorInfo()[2]);
     }
 
-    //Number of cards added
+    //Number of cards added---------------------------------------------------------------------------
     $numOfCards = 0; // Default value
     $lastUserId = null;
     if (!empty($encryptedCardNumber) && !empty($_POST["expiration-month"]) && !empty($_POST["expiration-year"])) {
@@ -181,7 +185,8 @@
         $cardCountRow = $stmtNumOfCards->fetch(PDO::FETCH_ASSOC);
         $numOfCards = $cardCountRow['cardCount'] < 3 ? $cardCountRow['cardCount'] + 1 : 3;
     }
-    if (!$stmtUsers->execute([$_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $numOfCards, $userStatus_id, $userType_id, $promoSubscription, $billingAddressId, $deliveryAddressId])) {
+    // Users execute ---------------------------------------------------------------------------
+    if (!$stmtUsers->execute([$_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $phoneNumber, $numOfCards, $userStatus_id, $userType_id, $promoSubscription, $billingAddressId, $deliveryAddressId])) {
         die("Error: Failed to execute the Users query.");
     }
 
