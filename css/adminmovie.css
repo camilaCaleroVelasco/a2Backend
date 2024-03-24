@@ -17,6 +17,11 @@ header {
     align-items: center;
     padding: 30px 10%;
     font-weight: bold;
+    position: fixed;
+    top: 0;
+    background-color: black;
+    z-index: 1000;
+    margin-bottom: 20px; /* Add margin-bottom to create space below the header */
 }
 
 .logo {
@@ -47,17 +52,21 @@ header {
 .admin-view {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     height: calc(100vh - 80px);
+    margin-top: 80px;
+    overflow-y: auto;
+    padding-top: 20px; /* Add padding-top to create space below the header */
 }
 
 .admin-content {
+    margin-top: -650px;
     padding: 40px;
     text-align: center;
 }
 
 .admin-content h3 {
-    margin-top: 5%;
+    /* margin-top: 5%; */
     margin-bottom: 5%;
     color: #ffffff;
 }

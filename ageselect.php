@@ -107,48 +107,97 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
       </div>
       <!-- Continue button -->
       <div class="options">
+         <!-- Display remaining tickets -->
+        <div class="remaining-tickets">Tickets Remaining: <span id="remaining-count">0</span></div>
         <button id="continue-btn">Continue</button>
       </div>
+
+
     </div>
   </div>
   <!-- JavaScript -->
   <script>
-    // Wait for the DOM content to be fully loaded
-    document.addEventListener("DOMContentLoaded", function () {
-      // Select all quantity buttons
-      const quantityBtns = document.querySelectorAll(".quantity-btn");
+  document.addEventListener("DOMContentLoaded", function () {
+    // Retrieve stored ticket count from sessionStorage
+    let ticketCount = sessionStorage.getItem('ticketCount');
 
-      // Add event listeners to quantity buttons
-      quantityBtns.forEach((btn) => {
-        btn.addEventListener("click", function () {
-          // Find the quantity value element
-          const quantityElement = btn.parentElement.querySelector(
-            ".quantity-value"
-          );
-          // Get the current quantity value
-          let quantity = parseInt(quantityElement.textContent);
+    // Select all quantity buttons
+    const quantityBtns = document.querySelectorAll(".quantity-btn");
 
-          // Increment or decrement the quantity based on the button clicked
-          if (btn.classList.contains("plus")) {
+    // Add event listeners to quantity buttons
+    quantityBtns.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        // Find the quantity value element
+        const quantityElement = btn.parentElement.querySelector(".quantity-value");
+        // Get the current quantity value
+        let quantity = parseInt(quantityElement.textContent);
+
+        // Increment or decrement the quantity based on the button clicked
+        if (btn.classList.contains("plus")) {
+          // Check if the total ticket count exceeds the stored count
+          if (quantity < ticketCount) {
             quantity++;
-          } else if (btn.classList.contains("minus")) {
-            quantity = Math.max(0, quantity - 1);
+          } else {
+            // Display alert if the maximum count is reached
+            alert("You have reached the maximum number of tickets.");
           }
+        } else if (btn.classList.contains("minus")) {
+          quantity = Math.max(0, quantity - 1);
+        }
 
-          // Update the quantity value element
-          quantityElement.textContent = quantity;
-        });
+        // Update the quantity value element
+        quantityElement.textContent = quantity;
+
+        // Recalculate and update the remaining tickets count
+        let remainingTickets = ticketCount - calculateTotalQuantity();
+        document.getElementById("remaining-count").textContent = remainingTickets;
+
+        // Disable plus buttons if the total ticket count reaches the stored count
+        let totalQuantity = calculateTotalQuantity();
+        disablePlusButtons(totalQuantity >= ticketCount);
       });
+    });
 
-      // Add event listener to the Continue button
-      document.getElementById("continue-btn").addEventListener("click", function () {
+    // Function to calculate the total quantity of tickets selected
+    function calculateTotalQuantity() {
+      let totalQuantity = 0;
+      const quantityElements = document.querySelectorAll(".quantity-value");
+      quantityElements.forEach((element) => {
+        totalQuantity += parseInt(element.textContent);
+      });
+      return totalQuantity;
+    }
+
+    // Function to disable plus buttons
+    function disablePlusButtons(disable) {
+      const plusButtons = document.querySelectorAll(".plus");
+      plusButtons.forEach((button) => {
+        button.disabled = disable;
+      });
+    }
+
+    //remaining tickets
+    let remainingTickets = ticketCount - calculateTotalQuantity();
+    document.getElementById("remaining-count").textContent = remainingTickets;
+
+    // Disable plus buttons initially if total ticket count reaches the stored count
+    let totalQuantity = calculateTotalQuantity();
+    disablePlusButtons(totalQuantity >= ticketCount);
+
+    // Add event listener to the Continue button
+    document.getElementById("continue-btn").addEventListener("click", function () {
+      // Check if all tickets have been selected
+      if (calculateTotalQuantity() < ticketCount) {
+        alert("Please select all tickets before continuing.");
+      } else {
         // Redirect to the order summary page
         <?php
         echo "window.location.href = 'ordersummary.php?movie_id=" . $movie["id"] . "'";
-      ?>
-      });
+        ?>
+      }
     });
-  </script>
+  });
+</script>
+
 </body>
 </html>
-

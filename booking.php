@@ -66,7 +66,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
           </div>
           <div class="all-seats">
             <input type="checkbox" name="tickets" id="s1" />
-            <label for="s1" class="seat booked"></label>
           </div>
         </div>
         <div class="timings">
@@ -132,60 +131,63 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
     </div>
   </div>
   <script>
-    let seats = document.querySelector(".all-seats");
-    for (var i = 0; i < 59; i++) {
+  let seats = document.querySelector(".all-seats");
+  let rowLetters = ['A', 'B', 'C', 'D', 'E', 'F']; // Letters for rows
+
+  for (let row = 0; row < rowLetters.length; row++) {
+    for (let col = 1; col <= 10; col++) { // Assuming 10 columns
+      let seatNumber = rowLetters[row] + col; // Generating seat number
       let randint = Math.floor(Math.random() * 2);
       let booked = randint === 1 ? "booked" : "";
       seats.insertAdjacentHTML(
         "beforeend",
-        '<input type="checkbox" name="tickets" id="s' +
-          (i + 2) +
-          '" /><label for="s' +
-          (i + 2) +
-          '" class="seat ' +
-          booked +
-          '"></label>'
+        `<input type="checkbox" name="tickets" id="s${seatNumber}" />
+        <label for="s${seatNumber}" class="seat ${booked}">${seatNumber}</label>`
       );
     }
+  }
 
-    // Add event listener to the "Book" button
-    document.getElementById("bookButton").addEventListener("click", function () {
-      // let bookingDetails = {
-      //   seats: seats.innerHTML, // Store seats HTML
-      //   totalCount: document.querySelector(".total-count").textContent,
-      //   totalPrice: document.querySelector(".amount").textContent
-      // };
-      // sessionStorage.setItem("bookingDetails", JSON.stringify(bookingDetails));
+  // Add event listener to the "Book" button
+  document.getElementById("bookButton").addEventListener("click", function () {
+    // let bookingDetails = {
+    //   seats: seats.innerHTML, // Store seats HTML
+    //   totalCount: document.querySelector(".total-count").textContent,
+    //   totalPrice: document.querySelector(".amount").textContent
+    // };
+    // sessionStorage.setItem("bookingDetails", JSON.stringify(bookingDetails));
 
-      // Redirect to the order summary page
-      <?php
-      echo "window.location.href = 'ageselect.php?movie_id=" . $movie["id"] . "'";
-      ?>
+    // Redirect to the order summary page
+    <?php
+    echo "window.location.href = 'ageselect.php?movie_id=" . $movie["id"] . "'";
+    ?>
+  });
+
+  // Disable booked seats
+  let bookedSeats = document.querySelectorAll('.seat.booked');
+  bookedSeats.forEach(seat => {
+    let checkbox = seat.previousElementSibling;
+    checkbox.disabled = true;
+  });
+
+  // Handle ticket selection
+  let tickets = seats.querySelectorAll("input");
+  tickets.forEach((ticket) => {
+    ticket.addEventListener("change", () => {
+      let count = document.querySelector(".count").innerHTML;
+      count = Number(count);
+
+      if (ticket.checked) {
+        count += 1;
+      } else {
+        count -= 1;
+      }
+      document.querySelector(".count").innerHTML = count;
+      sessionStorage.setItem('ticketCount', count);
     });
+  });
+</script>
 
-    // Disable booked seats
-    let bookedSeats = document.querySelectorAll('.seat.booked');
-    bookedSeats.forEach(seat => {
-      let checkbox = seat.previousElementSibling;
-      checkbox.disabled = true;
-    });
 
-    // Handle ticket selection
-    let tickets = seats.querySelectorAll("input");
-    tickets.forEach((ticket) => {
-      ticket.addEventListener("change", () => {
-        let count = document.querySelector(".count").innerHTML;
-        count = Number(count);
-
-        if (ticket.checked) {
-          count += 1;
-        } else {
-          count -= 1;
-        }
-        document.querySelector(".count").innerHTML = count;
-      });
-    });
-  </script>
 </body>
 </html>
 
