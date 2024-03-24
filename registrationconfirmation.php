@@ -22,8 +22,8 @@
     
     <div class="wrapper">  <!-- div class wrapper starts here -->
         <h1> Verify Account Now!</h1> <!-- form class starts here -->
-        <p>  Registration was successful! Please check your email and enter the 4 digit code that was sent to verify your account.</p>
-        <form action = "" autocomplete = "off">  <!-- specify url post later -->
+        <p>  Registration was successful! Please check your email to verify your account.</p>
+        <!-- <form action = "" autocomplete = "off">   specify url post later 
             
             <div class="code-input">
                 <input type="number" name= "opt1"  class= "field-opt"  placeholder = "0"  min = "0" max ="9" required onpaste = "false">
@@ -37,7 +37,7 @@
             </div>
         
 
-        </form>  <!-- form class ends here -->
+        </form>   form class ends here -->
     
     </div>  <!-- div class wrapper ends here -->
     

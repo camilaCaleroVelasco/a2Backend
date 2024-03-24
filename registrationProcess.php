@@ -39,6 +39,10 @@
     
     $pdo = require __DIR__ . "/includes/databaseConnection.inc.php";
 
+    $activation_token = bin2hex(random_bytes(16));
+    $activation_token_hash = hash("sha256", $activation_token);
+
+
     //Check if email already exists--------------------------------------------------
     $email = $_POST["email-address"];
     $sqlCheck = "SELECT COUNT(*) AS count FROM Users WHERE email = ?";
@@ -52,7 +56,7 @@
 
 
     // Retrieve $userStatus_id (Active, Inactive)---------------------------------------------------
-    $userStatus = 'Active'; //user just created account so active
+    $userStatus = 'Inactive'; //user just created account so active
     $sqlUserStatus = "SELECT userStatus_id FROM UserStatus WHERE status = ?";
     $stmtStatus = $pdo->prepare($sqlUserStatus);
     $stmtStatus->execute([$userStatus]);
@@ -167,8 +171,8 @@
 
 
     // Insert into Users table---------------------------------------------------
-    $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, phoneNumber, numOfCards, userStatus_id, userType_id, promoSub_id, billing_id, delivery_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, phoneNumber, numOfCards, account_activation_hash, userStatus_id, userType_id, promoSub_id, billing_id, delivery_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmtUsers = $pdo->prepare($sqlUsers);
     if (!$stmtUsers) {
         die("SQL error: " . $pdo->errorInfo()[2]);
@@ -186,7 +190,7 @@
         $numOfCards = $cardCountRow['cardCount'] < 3 ? $cardCountRow['cardCount'] + 1 : 3;
     }
     // Users execute ---------------------------------------------------------------------------
-    if (!$stmtUsers->execute([$_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $phoneNumber, $numOfCards, $userStatus_id, $userType_id, $promoSubscription, $billingAddressId, $deliveryAddressId])) {
+    if (!$stmtUsers->execute([$_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $phoneNumber, $numOfCards, $activation_token_hash, $userStatus_id, $userType_id, $promoSubscription, $billingAddressId, $deliveryAddressId])) {
         die("Error: Failed to execute the Users query.");
     }
 
@@ -195,7 +199,7 @@
     if ($stmtUsers->rowCount() > 0) {
         // Retrieve the last inserted user ID
         $lastUserId = $pdo->lastInsertId();
-        
+
         // Check if payment card information is provided and insert into PaymentCard table
         if (!empty($encryptedCardNumber) && !empty($_POST["expiration-month"]) && !empty($_POST["expiration-year"])) {
             $sqlPaymentCard = "INSERT INTO PaymentCard (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
@@ -208,6 +212,31 @@
                 die("Error: Failed to execute the PaymentCard query.");
             }
         }
+
+        // Email Verification Process
+        $mail = require __DIR__ . "/mailer.php";
+
+        $mail->setFrom("noreply@example.com");
+        $mail->addAddress($_POST["email-address"]);
+        $mail->Subject = "Account Activation";
+        $mail->Body = <<<END
+
+        Click <a href="http://localhost/a2Practice/a2Backend/activateAccount.php?token=$activation_token">here</a> 
+        to activate your account.
+        END;
+
+        try {
+
+            $mail->send();
+
+        } catch (Exception $e) {
+
+            echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
+            exit;
+
+        }
+
+
         // Redirect to the confirmation page if successful
         header("Location: registrationconfirmation.php");
         exit;
