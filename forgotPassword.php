@@ -28,7 +28,7 @@
 
     <div class ="wrapper">   <!--Div class for wrapper login starts here -->
         <form action= "resetPasswordVerif.php"> <!-- will later specify url post but for now  it is linked to resetPasswordVerfication-->
-            <h1>Forgot Password</h1>
+            <h1 style = "text-align: center;">Forgot Password</h1>
             <p style = "text-align: center; margin-bottom: 30px; ">  Enter Email Address Associated with account.</p>
             
             <!-- Input Box for filling out Email Address-->

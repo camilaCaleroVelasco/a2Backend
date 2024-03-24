@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
     try {
         require_once "includes/databaseConnection.inc.php";
 
-        $query = "SELECT * FROM movies WHERE id = :movie_id"; // Corrected query
+        $query = "SELECT * FROM movies WHERE movie_id = :movie_id"; // Corrected query
 
         $stmt = $pdo->prepare($query);
         $stmt->bindValue(':movie_id', $movie_id, PDO::PARAM_INT); // Correct binding
@@ -156,11 +156,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
     // };
     // sessionStorage.setItem("bookingDetails", JSON.stringify(bookingDetails));
 
-    // Redirect to the order summary page
-    <?php
-    echo "window.location.href = 'ageselect.php?movie_id=" . $movie["id"] . "'";
-    ?>
-  });
+      // Redirect to the order summary page
+      <?php
+      echo "window.location.href = 'ageselect.php?movie_id=" . $movie["movie_id"] . "'";
+      ?>
+    });
 
   // Disable booked seats
   let bookedSeats = document.querySelectorAll('.seat.booked');

@@ -24,6 +24,37 @@ VALUES(
 );
 -- End of setting up Status enumeration
     
+-- PROMO STATUS ENUMERATION
+CREATE TABLE PromoStatus(
+    promoStatus_id INT PRIMARY KEY AUTO_INCREMENT,
+    promoStatus VARCHAR(255)  
+);
+
+-- Key = 1
+INSERT INTO PromoStatus(promoStatus)
+VALUES(
+    'ACTIVE'
+);
+
+-- Key = 2
+INSERT INTO PromoStatus(promoStatus)
+VALUES(
+    'INACTIVE'
+);
+-- END OF ENUMERATION
+
+
+CREATE TABLE Promotion(
+    promo_id INT PRIMARY KEY AUTO_INCREMENT,
+    promoCode VARCHAR(255),
+    startDay INT,
+    startMonth INT,
+    endDay INT,
+    endMonth INT,
+    promoStatus_id INT,
+    FOREIGN KEY (promoStatus_id) REFERENCES PromoStatus(promoStatus_id),
+    percentDiscount INT
+);
 
 -- Create User Type Enumeration
 CREATE TABLE UserType(
@@ -44,6 +75,40 @@ VALUES(
 );
 -- END OF ENUMERATION
 
+CREATE TABLE BillingAddress(
+    billing_id INT PRIMARY KEY AUTO_INCREMENT,
+    billingStreetAddress VARCHAR(255),
+    billingCity VARCHAR(255),
+    billingState VARCHAR(255),
+    billingZipCode INT
+);
+
+CREATE TABLE DeliveryAddress(
+    delivery_id INT PRIMARY KEY AUTO_INCREMENT,
+    deliveryStreetAddress VARCHAR(255),
+    deliveryCity VARCHAR(255),
+    deliveryState VARCHAR(255),
+    deliveryZipCode INT
+);
+
+-- PromoSubscription enumeration
+CREATE TABLE PromoSubscription(
+    promoSub_id INT PRIMARY KEY AUTO_INCREMENT,
+    type VARCHAR(255)
+);
+
+-- Key = 1 (SUBSCRIBED)
+INSERT INTO PromoSubscription(type)
+VALUES(
+    'SUBSCRIBED'
+);
+
+-- Key = 2 (NOT SUBSCRIBED)
+INSERT INTO PromoSubscription(type)
+VALUES(
+    'NOT-SUBSCRIBED'
+);
+-- END OF ENUMERATION
 
 -- Create Users table
 CREATE TABLE Users(
@@ -52,11 +117,18 @@ CREATE TABLE Users(
     password VARCHAR(255),
     firstName VARCHAR(255),
     lastName VARCHAR(255),
+    phoneNumber INT,
     numOfCards INT,
     userStatus_id INT,
     userType_id INT,
     FOREIGN KEY (userStatus_id) REFERENCES UserStatus(userStatus_id),
-    FOREIGN KEY (userType_id) REFERENCES UserType(userType_id)
+    FOREIGN KEY (userType_id) REFERENCES UserType(userType_id),
+    promoSub_id INT,
+    FOREIGN KEY (promoSub_id) REFERENCES PromoSubscription(promoSub_id),
+    billing_id INT,
+    FOREIGN KEY (billing_id) REFERENCES BillingAddress(billing_id),
+    delivery_id INT,
+    FOREIGN KEY (delivery_id) REFERENCES DeliveryAddress(delivery_id)
 );
 
 
@@ -88,53 +160,17 @@ VALUES(
 
 CREATE TABLE PaymentCard(
     card_id INT PRIMARY KEY AUTO_INCREMENT,
-    cardNum INT,
+    cardNum VARCHAR(255),
     cardType_id INT, 
     expMonth VARCHAR(255),
     expYear VARCHAR(255),
     securityCode INT,
-    name VARCHAR(255),
+    firstName VARCHAR(255),
+    lastName VARCHAR(255),
     users_id INT,
     FOREIGN KEY (users_id) REFERENCES Users(users_id),
     FOREIGN KEY (cardType_id) REFERENCES PaymentCardType(cardType_id)
 );
-
--- PROMO STATUS ENUMERATION
-CREATE TABLE PromoStatus(
-    promoStatus_id INT PRIMARY KEY AUTO_INCREMENT,
-    promoStatus VARCHAR(255)  
-);
-
--- Key = 1
-INSERT INTO PromoStatus(promoStatus)
-VALUES(
-    'ACTIVE'
-);
-
--- Key = 2
-INSERT INTO PromoStatus(promoStatus)
-VALUES(
-    'INACTIVE'
-);
--- END OF ENUMERATION
-
-
-CREATE TABLE Promotion(
-    promo_id INT PRIMARY KEY AUTO_INCREMENT,
-    startDay INT,
-    startMonth INT,
-    endDay INT,
-    endMonth INT,
-    promoStatus_id INT,
-    FOREIGN KEY (promoStatus_id) REFERENCES PromoStatus(promoStatus_id),
-    percentDiscount INT
-);
-
-
-
-
-
-
 
 -- BOOKING STATUS ENUMERATION
 CREATE TABLE BookingStatus(
@@ -166,7 +202,9 @@ CREATE TABLE Booking(
     FOREIGN KEY (bookingStatus_id) REFERENCES BookingStatus(bookingStatus_id),
     numberOfSeats INT,
     promo_id INT,
-    FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id)
+    FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id),
+    users_id INT,
+    FOREIGN KEY (users_id) REFERENCES Users(users_id)
 );
 
 
@@ -202,7 +240,7 @@ CREATE TABLE Theater(
     numOfShowrooms INT
 );
 
-CREATE TABLE Showroom(
+CREATE TABLE Room(
     room_id INT PRIMARY KEY AUTO_INCREMENT,
     totalNumOfSeats INT,
     roomTitle VARCHAR(255),
@@ -211,13 +249,45 @@ CREATE TABLE Showroom(
     FOREIGN KEY (theater_id) REFERENCES Theater(theater_id)
 );
 
+-- SHOW PERIOD ENUMERATION
+CREATE TABLE ShowPeriod(
+    showPeriod_id INT PRIMARY KEY AUTO_INCREMENT,
+    startTime VARCHAR(255)
+);
+
+-- Key = 1
+INSERT INTO ShowPeriod(startTime)
+VALUES(
+    '11:00'
+);
+
+-- Key = 2
+INSERT INTO ShowPeriod(startTime)
+VALUES(
+    '4:30'
+);
+
+-- Key = 3
+INSERT INTO ShowPeriod(startTime)
+VALUES(
+    '8:00'
+);
+
+-- Key = 2
+INSERT INTO ShowPeriod(startTime)
+VALUES(
+    '10:30'
+);
+-- END OF ENUMERATION
+
 CREATE TABLE Showing(
     show_id INT PRIMARY KEY AUTO_INCREMENT,
     movie_id INT,
     FOREIGN KEY (movie_id) REFERENCES Movies(movie_id),
     room_id INT,
-    FOREIGN KEY (room_id) REFERENCES Showroom(room_id),
-    showTime VARCHAR(255),
+    FOREIGN KEY (room_id) REFERENCES Room(room_id),
+    showPeriod_id INT,
+    FOREIGN KEY (showPeriod_id) REFERENCES ShowPeriod(showPeriod_id),
     showDay INT,
     showMonth INT,
     showYear INT,

@@ -3,15 +3,72 @@
 .input-box input[name = "email-address"] {
     background-color: #aaaaaa;
     pointer-events: none;
+
+}
+
+
+#add-payment  {
+    position: absolute;
+    bottom: 75px;
+    margin-right: 20px 30px 40px;
+    background-color: aqua;
+    background: #ebf2ff;
+    margin-top: 20px; /* Prevent overlap by adding margin between payment sections */
+    padding: 10px; 
+
+
+}
+
+.card-information .field {
+    margin-bottom: 20px; /* Adjust margin bottom */
+}
+
+.field select {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.1s ease;
+    color: #b3b3b3;
+    font-size: 0.65rem;
+    border-radius: 4px;
+
+    height: 40px;
+    width: 300px;
+    background : #444;
+    padding: 10px 15px;
+    font-size: 0.75rem;
+    transform: translateY(-50%);
+
+   
 }
 
 
-.card-information .delete-payment  {
-    width: 60px;
-    height: 35px;
-    margin-top: 5px;
 
+
+.card-information {
+    /* Add your styles here */
+    /* For example: */
+    margin-top: 20px; /* Prevent overlap by adding margin between payment sections */
+    padding: 10px; /* Add padding for better spacing */
+    background-color: aliceblue;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

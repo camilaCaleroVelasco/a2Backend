@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
     try {
         require_once "includes/databaseConnection.inc.php";
 
-        $query = "SELECT * FROM movies WHERE id = :movie_id"; // Corrected query
+        $query = "SELECT * FROM movies WHERE movie_id = :movie_id"; // Corrected query
 
         $stmt = $pdo->prepare($query);
         $stmt->bindValue(':movie_id', $movie_id, PDO::PARAM_INT); // Correct binding
@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
 
     function goToBooking() {
     <?php
-      echo "window.location.href = 'booking.php?movie_id=" . $movie["id"] . "'";
+      echo "window.location.href = 'booking.php?movie_id=" . $movie["movie_id"] . "'";
     ?>
     }
 

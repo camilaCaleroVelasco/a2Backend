@@ -125,6 +125,18 @@
   background: transparent;
  }
 
+ .arrowiconback {
+  position: absolute;
+  top: 290px;
+  left: 0;
+  cursor: pointer;
+  background: transparent;
+  cursor: pointer;
+  margin-left: -35px;
+
+ }
+ 
+
  .movies-list-wrapper {
   position: relative;
   overflow: hidden;

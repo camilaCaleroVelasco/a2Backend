@@ -202,7 +202,7 @@ form .remember-me  {
     text-align: center;
 }
 
-@media (max-width: 740px) {
+@media (max-width: 940px) {
     body::after before {
         display: none;
     }
@@ -228,6 +228,7 @@ form .remember-me  {
 
 } 
 
+/* Hover Effects for icons */
 .input-box .mailicon, .input-box .lockicon {
     position: absolute;
     right: 8px;
