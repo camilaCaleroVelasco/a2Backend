@@ -119,6 +119,7 @@ CREATE TABLE Users(
     lastName VARCHAR(255),
     phoneNumber INT,
     numOfCards INT,
+    account_activation_hash VARCHAR(255),
     userStatus_id INT,
     userType_id INT,
     FOREIGN KEY (userStatus_id) REFERENCES UserStatus(userStatus_id),
@@ -308,4 +309,11 @@ CREATE TABLE Ticket(
     seat VARCHAR(255)
 );
 
-
+CREATE TABLE Seats(
+    seat_id INT PRIMARY KEY AUTO_INCREMENT,
+    show_id INT,
+    FOREIGN KEY (show_id) REFERENCES Showing(show_id),
+    seatRow VARCHAR(255),
+    seatColumn int,
+    isAvailable VARCHAR(255)
+);
