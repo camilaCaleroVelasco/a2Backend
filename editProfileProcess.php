@@ -11,15 +11,17 @@ require_once 'includes/functions.inc.php';
 
 $userSuccess = false;
 $billingSuccess = false;
+$deliverySuccess = false;
 
 // Check if user is logged in
 if (isset($_SESSION["users_id"])) {
     $users_id = $_SESSION["users_id"];
 
     // Get the current Users information including billing address
-    $sql = "SELECT Users.*, BillingAddress.*
+    $sql = "SELECT Users.*, BillingAddress.*, DeliveryAddress.*
             FROM Users 
             LEFT JOIN BillingAddress ON Users.billing_id = BillingAddress.billing_id 
+            LEFT JOIN DeliveryAddress ON Users.delivery_id = DeliveryAddress.delivery_id 
             WHERE users_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $users_id);
@@ -28,15 +30,24 @@ if (isset($_SESSION["users_id"])) {
 
     // Fetch the result and store it in variables
     if ($row = mysqli_fetch_assoc($result)) {
+        // Current User info
         $currentEmail = $row['email'];
         $currentFirstName = $row['firstName'];
         $currentLastName = $row['lastName'];
         $currentPhoneNumber = $row['phoneNumber'];
+        // Current Billing Info
         $currentBillingStreetAddress = $row['billingStreetAddress'];
         $currentBillingCity = $row['billingCity'];
         $currentBillingState = $row['billingState'];
         $currentBillingZipCode = $row['billingZipCode'];
         $currentBillingId = $row['billing_id'];
+        // Current Delivery Info
+        $currentDeliveryStreetAddress = $row['deliveryStreetAddress'];
+        $currentDeliveryCity = $row['deliveryCity'];
+        $currentDeliveryState = $row['deliveryState'];
+        $currentDeliveryZipCode = $row['deliveryZipCode'];
+        $currentDeliveryId = $row['delivery_id'];
+
     } else {
         echo "User not found";
         exit;
@@ -82,8 +93,30 @@ if (isset($_SESSION["users_id"])) {
             }
         }
 
+        // Check if delivery address has changed
+        if (!empty($_POST['street-address-shipping']) || !empty($_POST['city-shipping']) || !empty($_POST['state-shipping']) || !empty($_POST['zip-code-shipping'])) {
+            // Update delivery address
+            $updateDeliveryStreetAddress = mysqli_real_escape_string($conn, $_POST['street-address-shipping']);
+            $updateDeliveryCity = mysqli_real_escape_string($conn, $_POST['city-shipping']);
+            $updateDeliveryState = mysqli_real_escape_string($conn, $_POST['state-shipping']);
+            $updateDeliveryZipCode = mysqli_real_escape_string($conn, $_POST['zip-code-shipping']);
 
-        if ($userSuccess == true || $billingSuccess == true) {
+            $sqlUpdateDelivery = "UPDATE DeliveryAddress SET deliveryStreetAddress=?, deliveryCity=?, deliveryState=?, deliveryZipCode=? WHERE delivery_id=?";
+            $stmtUpdateDelivery = mysqli_prepare($conn, $sqlUpdateDelivery);
+            mysqli_stmt_bind_param($stmtUpdateDelivery, "ssssi", $updateDeliveryStreetAddress, $updateDeliveryCity, $updateDeliveryState, $updateDeliveryZipCode, $currentDeliveryId);
+            mysqli_stmt_execute($stmtUpdateDelivery);
+
+            if (mysqli_stmt_affected_rows($stmtUpdateDelivery) > 0) {
+                $deliverySuccess = true;
+                echo "Delivery address updated successfully<br>";
+            } else {
+                // If the query fails, print the error
+                echo "Error updating delivery address: " . mysqli_error($conn);
+            }
+        }
+
+
+        if ($userSuccess == true || $billingSuccess == true || $deliverySuccess) {
 
             // Email Information Changed
             $mail = require __DIR__ . "/mailer.php";
