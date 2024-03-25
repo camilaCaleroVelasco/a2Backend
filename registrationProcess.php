@@ -213,27 +213,20 @@
             }
         }
 
-        // Email Verification Process
+        // Email Verification Process---------------------------------------------------
         $mail = require __DIR__ . "/mailer.php";
-
         $mail->setFrom("noreply@example.com");
         $mail->addAddress($_POST["email-address"]);
         $mail->Subject = "Account Activation";
         $mail->Body = <<<END
-
         Click <a href="http://localhost/a2Practice/a2Backend/activateAccount.php?token=$activation_token">here</a> 
         to activate your account.
         END;
-
         try {
-
             $mail->send();
-
         } catch (Exception $e) {
-
             echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
             exit;
-
         }
 
 

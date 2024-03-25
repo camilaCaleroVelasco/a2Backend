@@ -57,6 +57,14 @@
             $_SESSION["userType_id"] =  $emailExists["userType_id"];
             $_SESSION["userStatus_id"] =  $emailExists["userStatus_id"];
             $_SESSION["firstName"] =  $emailExists["firstName"];
+            $_SESSION["users_id"] = $emailExists["users_id"];
+            $_SESSION["lastName"] = $emailExists["lastName"];
+            $_SESSION["phoneNumber"] = $emailExists["phoneNumber"];
+            $_SESSION["numOfCards"] = $emailExists["numOfCards"];
+            $_SESSION["promoSub_id"] = $emailExists["promoSub_id"];
+            $_SESSION["billing_id"] = $emailExists["billing_id"];
+            $_SESSION["delivery_id"] = $emailExists["delivery_id"];
+
 
                 // if user attempting to login is a CUSTOMER and ACTIVE
                 if($emailExists["userType_id"] == 1 && $emailExists["userStatus_id"] == 1) {
