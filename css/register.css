@@ -156,7 +156,7 @@ body::before {
 }
 
 .field {
-    width: 45%;
+    width: 50%;  /* adjusts the size of the input box */
     margin-bottom: 15px;
     position: relative;
 
@@ -200,6 +200,8 @@ body::before {
  
  
  }
+
+
 
  .card-information , .address-information {
     margin-top: -50px;
@@ -297,7 +299,7 @@ form .subscribe-promos input {
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
-    right: 70px;
+    right: 110px;
     bottom: 15px;
     transition: .5s;
     
@@ -367,6 +369,13 @@ form .subscribe-promos input {
     padding: 15px;
 }
 .field input[type ="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+.field input[type = "number"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+.field input[type = "number"]::-webkit-outer-spin-button {
     display: none;
 }
 

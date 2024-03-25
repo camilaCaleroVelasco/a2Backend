@@ -7,17 +7,6 @@
 }
 
 
-#add-payment  {
-    position: absolute;
-    bottom: 75px;
-    margin-right: 20px 30px 40px;
-    background-color: aqua;
-    background: #ebf2ff;
-    margin-top: 20px; /* Prevent overlap by adding margin between payment sections */
-    padding: 10px; 
-
-
-}
 
 .card-information .field {
     margin-bottom: 20px; /* Adjust margin bottom */
@@ -44,13 +33,31 @@
 
 
 
+#deleteButton {
+    margin-top: 45px;
+    margin-left: -280px; /* move delete button */
+    background: #317DFF;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    padding: 0px 10px 1px;
+ 
+   
+    
 
-.card-information {
-    /* Add your styles here */
-    /* For example: */
-    margin-top: 20px; /* Prevent overlap by adding margin between payment sections */
-    padding: 10px; /* Add padding for better spacing */
-    background-color: aliceblue;
+ }
+
+ #submit  {
+    margin-top: 50px; 
+}
+
+
+
+#billing-address-header {
+    margin-top: 30px; /* moves the header for the billing address field */
+
 }
 
 
