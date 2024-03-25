@@ -157,6 +157,7 @@
     text-decoration: none; /* Remove underline from button */
     margin-left: 10%;
     font-weight: bolder;
+    margin-bottom: 2%;
 }
 
 #detailsbutton:hover {

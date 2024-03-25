@@ -154,6 +154,18 @@
 
  }
 
+ #detailsbutton{
+  padding: 12px 24px;
+  margin: 0 10px;
+  background-color: rgb(80, 128, 242);
+  color: rgb(80, 128, 242);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+ }
+
  button{
   padding: 0;
   border: none;
@@ -177,10 +189,25 @@
   background-color: #317DFF; /* Change button background color on hover */
 }
  
+.now-playing-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px; /* Add margin to create space between header and movies */
+}
 
- 
+#add-movie-button {
+  padding: 10px 20px;
+  background-color: rgb(80, 128, 242);
+  margin-right: 5%;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
 
- 
- 
- 
-
+#add-movie-button:hover {
+  background-color: #317DFF;
+}

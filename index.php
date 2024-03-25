@@ -1,6 +1,7 @@
 <?php
-    session_start();
+    //session_start(); not needed beacuse editProfileProcess added
     include 'includes/databaseConnection.inc.php';
+    include_once 'editProfileProcess.php';
         $mysqli = new mysqli("localhost","root","","movies");
         $sqlNP = "SELECT * FROM movies WHERE movie_status LIKE '%now playing%'";
         $sqlCS = "SELECT * FROM movies WHERE movie_status LIKE '%coming soon%'";
@@ -27,7 +28,7 @@
             <ul class="nav__links">
             <?php
             if (isset($_SESSION["email"])) {
-                echo "<p> Hello, " . $_SESSION["firstName"] . "</p>";
+                echo "<p> Hello, " . $currentFirstName . "</p>";
                 echo "<li><a href='editProfile.php'>VIEW PROFILE</a></li>";
                 echo "<li><a href='logout.php'>LOGOUT</a></li>";
             }
