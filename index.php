@@ -33,6 +33,8 @@
                 echo "<li><a href='logout.php'>LOGOUT</a></li>";
             }
             else {
+                session_unset();
+                session_destroy();
               echo "<li><a href='login.php'>LOGIN</a></li>";
             }
           ?>

@@ -1,4 +1,7 @@
-
+<?php 
+session_start();
+$email = $_SESSION["resetEmail"];
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,8 +24,14 @@
     
     <div class="wrapper">  <!-- div class wrapper starts here -->
         <h1> Reset Password</h1> <!-- form class starts here -->
+        <?php if (isset($_GET["error"])) {
+                        if ($_GET["error"] == "invalidpin") {
+                            echo "<p>Incorrect PIN. Try again!</p>";
+                        }
+                    }
+        ?>
         <p> Please check your email and enter the 4 digit code that was sent to reset your password.</p>
-        <form action = "resetPassword.php" autocomplete = "off">
+        <form action = "resetPasswordVerifProcess.php?email=<?php.$email?>" method = "POST" autocomplete = "off">
             
             <div class="code-input">
                 <input type="number" name= "opt1"  class= "field-opt"  placeholder = "0"  min = "0" max ="9" required onpaste = "false">
@@ -32,7 +41,7 @@
             </div>
 
             <div class = "button-box">
-                <button type = "submit" class ="button" id="submit"> Verify </button>
+                <button type = "submit" class ="button" name="submit"> Verify </button>
             </div>
         
 
