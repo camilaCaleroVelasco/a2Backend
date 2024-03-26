@@ -11,6 +11,7 @@ require_once 'includes/functions.inc.php';
 $userSuccess = false;
 $billingSuccess = false;
 $deliverySuccess = false;
+$subscriptionSucess = false;
 
 // Check if user is logged in
 if (isset($_SESSION["users_id"])) {
@@ -46,6 +47,11 @@ if (isset($_SESSION["users_id"])) {
         $currentDeliveryState = $row['deliveryState'];
         $currentDeliveryZipCode = $row['deliveryZipCode'];
         $currentDeliveryId = $row['delivery_id'];
+        // Current Promo Subscription
+        $currentPromoSubId = $row['promoSub_id'];
+        
+        
+        
 
     } else {
         echo "User not found";
@@ -125,8 +131,30 @@ if (isset($_SESSION["users_id"])) {
             }
         }
 
+        
+        // Check if the checkbox is checked
+        $promoSubs = isset($_POST['subscribe-promos']) ? 1 : 2;
+        
+        // Update the promotional subscription status in the database
+        $sqlUpdatePromoSub = "UPDATE Users SET promoSub_id = ? WHERE users_id = ?";
+        $stmtUpdatePromoSub = mysqli_prepare($conn, $sqlUpdatePromoSub);
+        mysqli_stmt_bind_param($stmtUpdatePromoSub, "ii", $promoSubs, $users_id);
+        mysqli_stmt_execute($stmtUpdatePromoSub);
 
-        if ($userSuccess == true || $billingSuccess == true || $deliverySuccess) {
+        if (mysqli_stmt_affected_rows($stmtUpdatePromoSub) > 0) {
+            // Subscription status updated successfully
+            $subscriptionSucess = true;
+            echo "Promotional subscription status updated successfully<br>";
+        } else {
+            // Error updating subscription status
+            echo "Error updating promotional subscription status: " . mysqli_error($conn);
+        }
+
+        
+
+        
+
+        if ($userSuccess == true || $billingSuccess == true || $deliverySuccess == true || $subscriptionSucess == true) {
 
             // Email Information Changed
             $mail = require __DIR__ . "/mailer.php";

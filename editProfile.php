@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    //session_start();
     include_once 'editProfileProcess.php';
 ?>
 <!DOCTYPE html>
@@ -172,6 +172,11 @@
 
 
 </div>  <!--Shipping Address Fields ends here-->
+
+<div class="subscribe-promos" >
+            <input type= "checkbox" id= "subscribe-promos" name="subscribe-promos" <?php echo $currentPromoSubId == 1 ? 'checked' : ''; ?>>
+            <label for ="subscribe-promos"> Subscribe Promotions </label>
+ </div> 
 
 
 
@@ -411,10 +416,7 @@
         
         
         
-        <div class="subscribe-promos" >
-            <input type= "checkbox" id= "subscribe-promos">
-            <label for ="subscribe-promos"> Subscribe Promotions </label>
-        </div> 
+        
         
         <button type = "submit" class ="button" id="submit" name="submit"> Submit </button>    
      </form>

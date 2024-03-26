@@ -159,10 +159,10 @@
         }
 
         // Default billing address values
-        $defaultBillingStreet = "Enter Street";
-        $defaultBillingCity = "Enter City";
-        $defaultBillingState = "Enter State";
-        $defaultBillingZipCode = "30601";
+        $defaultBillingStreet = "";
+        $defaultBillingCity = "";
+        $defaultBillingState = "";
+        $defaultBillingZipCode = "0"; //change to varchar in DB
 
         try {
             $successDefaultBilling= $stmtDefaultBilling->execute([$defaultBillingStreet, $defaultBillingCity, $defaultBillingState, $defaultBillingZipCode]);
@@ -209,10 +209,10 @@
         }
 
         // Default delivery address values
-        $defaultStreet = "Enter Street";
-        $defaultCity = "Enter City";
-        $defaultState = "Enter State";
-        $defaultZipCode = "30601";
+        $defaultStreet = "";
+        $defaultCity = "";
+        $defaultState = "";
+        $defaultZipCode = "0"; //change to varchar in DB
 
         try {
             $successDefaultDelivery = $stmtDefaultDelivery->execute([$defaultStreet, $defaultCity, $defaultState, $defaultZipCode]);
@@ -278,12 +278,15 @@
         }
 
         // Email Verification Process---------------------------------------------------
+        $path = (@$_SERVER["HTTPS"] == "on") ? "https://" : "http://";
+        $path .=$_SERVER["SERVER_NAME"]. dirname($_SERVER["PHP_SELF"]);        
+        //echo $path;
         $mail = require __DIR__ . "/mailer.php";
         $mail->setFrom("noreply@example.com");
         $mail->addAddress($_POST["email-address"]);
         $mail->Subject = "Account Activation";
         $mail->Body = <<<END
-        Click <a href="http://localhost/a2Backend/activateAccount.php?token=$activation_token">here</a> 
+        Click <a href="$path/activateAccount.php?token=$activation_token">here</a> 
         to activate your account. 
         END; // Change URL according to your localhost directory
         try {
