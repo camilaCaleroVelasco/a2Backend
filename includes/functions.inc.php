@@ -272,7 +272,7 @@
         $checkpwd = password_verify($oldPWD, $pwdHashed);
 
         if ($checkpwd == false) {
-            header("Location: resetPassword.php?error=incorrectPWD");
+            header("Location: "); // NEEDS TO BE FILLED OUT
             exit();
         }
         else if ($checkpwd == true) {

@@ -20,7 +20,7 @@
     </a>
     </header>
     <div class ="wrapper">   <!--Div class for wrapper login starts here -->
-        <form action= "updatePasswordProcess.php" method="POST">
+        <form action= "resetPasswordProcess.php" method="POST">
             <h1>Reset Password</h1>
             <?php
                     // Error messages
@@ -50,7 +50,7 @@
                 
             <!-- Input Box for filling out Password-->
             <div class=" input-box" >
-                <input type= "password" placeholder=" Old Password" name= "old-password"  required>
+                <input type= "password" placeholder=" Old Password" name= "old-password"> <!-- needs to be removed -->
 
                 <!-- lock icon from fontawesome -->
                 <svg id = "lock-icon" class = "lockicon" xmlns="http://www.w3.org/2000/svg"width ="30" height ="20" fill="#FFFFFF" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->

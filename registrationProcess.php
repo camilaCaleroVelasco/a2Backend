@@ -271,7 +271,7 @@
         $mail->addAddress($_POST["email-address"]);
         $mail->Subject = "Account Activation";
         $mail->Body = <<<END
-        Click <a href="http://localhost/a2Practice/a2Backend/activateAccount.php?token=$activation_token">here</a> 
+        Click <a href="http://localhost/a2Backend/activateAccount.php?token=$activation_token">here</a> 
         to activate your account. 
         END; // Change URL according to your localhost directory
         try {
