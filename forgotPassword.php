@@ -20,15 +20,24 @@
         <img class="logo" src="images/A2 movies Icon.jpeg" alt="logo">
     </a>
     </header>
-
-
-
-
-
-
     <div class ="wrapper">   <!--Div class for wrapper login starts here -->
-        <form action= "resetPasswordVerif.php"> <!-- will later specify url post but for now  it is linked to resetPasswordVerfication-->
-            <h1 style = "text-align: center;">Forgot Password</h1>
+        <form action= "forgotPasswordProcess.php" method = "POST"> <!-- will later specify url post but for now  it is linked to resetPasswordVerfication-->
+            <?php
+                    // Error messages
+                if (isset($_GET["error"])) {
+                        if ($_GET["error"] == "invalid") {
+                            echo "<p>Fill in a valid email address!</p>";
+                        }
+                        else if ($_GET["error"] == "missingaccount") {
+                            echo "<p>No account found!</p>";
+                        }
+                        else if ($_GET["error"] == "stmtfailed") {
+                            echo "<p>FATIAL CONNECTION ERROR.</p>";
+                        }
+                    }
+            ?>
+        
+        <h1>Forgot Password</h1>
             <p style = "text-align: center; margin-bottom: 30px; ">  Enter Email Address Associated with account.</p>
             
             <!-- Input Box for filling out Email Address-->
@@ -42,7 +51,7 @@
             </div>
 
             <div class = "button-box">
-                <button type = "submit" class ="button" id="submit"> Submit </button>
+                <button type = "submit" class ="button" name="submit"> Submit </button>
             </div>
           
             

@@ -37,7 +37,16 @@
                             echo "<p>Your account is suspended.</p>";
                         }
                         else if ($_GET["error"] == "inactiveAdmin") {
-                            echo "<p> Please contact an active Admin for assistance.</p>";
+                            echo "<p>Please contact an active Admin for assistance.</p>";
+                        }
+                        else if ($_GET["error"] == "stmtfailed") {
+                            echo "<p>FATIAL CONNECTION ERROR.</p>";
+                        }
+                    }
+                    if (isset($_GET["success"])) {
+                        if ($_GET["success"] == "pwdupdate") {
+                            session_unset();
+                            echo "<p>Your password has been updated successfully. Please login.</p>";
                         }
                     }
                 ?>
@@ -90,4 +99,5 @@
 
 </body>
 </html>
+
 
