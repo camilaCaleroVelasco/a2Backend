@@ -1,7 +1,6 @@
 <?php
-ini_set('display_errors', 1); // Debugging
-ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 session_start();
 
@@ -28,7 +27,7 @@ if (isset($_SESSION["users_id"])) {
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
-    // Fetch the result and store it in variables
+    // Get current values and store it
     if ($row = mysqli_fetch_assoc($result)) {
         // Current User info
         $currentEmail = $row['email'];
@@ -53,6 +52,7 @@ if (isset($_SESSION["users_id"])) {
         exit;
     }
 
+   
     // If the form was submitted
     if (isset($_POST['submit'])) {
         // Check if user information was submitted
@@ -71,8 +71,12 @@ if (isset($_SESSION["users_id"])) {
             if (mysqli_stmt_affected_rows($stmtUpdateUser) > 0) {
                 $userSuccess = true;
                 echo "User information updated successfully<br>";
+                echo "Form submitted successfully<br>";
+                var_dump($_POST); // Check form data
+
             }
         }
+        
 
         // Check if billing address has changed
         if (!empty($_POST['street-address-billing']) || !empty($_POST['city-billing']) || !empty($_POST['state-billing']) || !empty($_POST['zip-code-billing'])) {
@@ -90,6 +94,9 @@ if (isset($_SESSION["users_id"])) {
             if (mysqli_stmt_affected_rows($stmtUpdateBilling) > 0) {
                 $billingSuccess = true;
                 echo "Billing address updated successfully<br>";
+                echo "Form submitted successfully<br>";
+                var_dump($_POST); // Check form data
+
             }
         }
 
@@ -112,6 +119,9 @@ if (isset($_SESSION["users_id"])) {
             } else {
                 // If the query fails, print the error
                 echo "Error updating delivery address: " . mysqli_error($conn);
+                echo "Form submitted successfully<br>";
+                var_dump($_POST); // Check form data
+
             }
         }
 
@@ -138,7 +148,5 @@ if (isset($_SESSION["users_id"])) {
         header("Location: index.php");
         exit;
     }
-} else {
-    echo "Please log in to access this page";
-}
+} 
 ?>

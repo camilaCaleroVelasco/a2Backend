@@ -416,7 +416,7 @@
             <label for ="subscribe-promos"> Subscribe Promotions </label>
         </div> 
         
-        <button type = "submit" class ="button" id="submit"> Submit </button>    
+        <button type = "submit" class ="button" id="submit" name="submit"> Submit </button>    
      </form>
 
     </div> <!-- div class wrapper ends here -->
