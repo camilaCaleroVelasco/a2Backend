@@ -2,37 +2,45 @@
     include_once 'includes/databaseConnection.inc.php'; 
 
     if (empty($_POST["first-name"])) {
-        die("First Name is required");
+        header("Location: register.php?error=firstname");
+        exit();
     }
 
     if (empty($_POST["last-name"])) {
-        die("Last Name is required");
+        header("Location: register.php?error=lastname");
+        exit();
     }
     
     if ( ! filter_var($_POST["email-address"], FILTER_VALIDATE_EMAIL)) {
-        die("Valid email is required");
+        header("Location: register.php?error=invalidemail");
+        exit();
     }
     
     if (empty($_POST["phone-number"])) {
-        die("Phone Number is required");
+        header("Location: register.php?error=phonenumber");
+        exit();
     }
 
     if (strlen($_POST["password"]) <= 7) {
-        die("Password must be at least 8 characters");
+        header("Location: register.php?error=pwdlength");
+        exit();
     }
     
     if ( ! preg_match("/[a-z]/i", $_POST["password"])) {
-        die("Password must contain at least one letter");
+        header("Location: register.php?error=pwdchar");
+        exit();
     }
     
     if ( ! preg_match("/[0-9]/", $_POST["password"])) {
-        die("Password must contain at least one number");
+        header("Location: register.php?error=pwdnum");
+        exit();
     }
 
 
     # check that password and confirmation password--------------------------------------------------
     if ($_POST["password"] !== $_POST["confirm-password"]) {
-        die("Confirmation password must match password");
+        header("Location: register.php?error=pwdmismatch");
+        exit();
     }
     
     $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
@@ -51,7 +59,8 @@
     $resultCheck = $stmtCheck->fetch(PDO::FETCH_ASSOC);
 
     if ($resultCheck['count'] > 0) {
-        die("Error: Email already exists.");
+        header("Location: register.php?error=emailexists");
+        exit();
     }
 
 
@@ -64,6 +73,7 @@
     if ($userStatusRow) {
         $userStatus_id = $userStatusRow['userStatus_id'];
     } else {
+
         die("UserStatus not found for status: $userStatus");
     }
 
@@ -103,9 +113,11 @@
 
         if ($defaultCardTypeRow) {
             $cardType_id = $defaultCardTypeRow['cardType_id'];
-        } else {
-            die("Default CardType not found: $defaultCardType");
-        }
+        } 
+        // Removed to allow users to input blank card
+        //else {
+        //    die("Default CardType not found: $defaultCardType");
+        //} 
     }
 
     // Encrypt the credit card number--------------------------------------------------
