@@ -133,6 +133,32 @@
                 die("Error: Failed to insert billing address. " . implode(", ", $stmtInsertBillingAddress->errorInfo()));
             }
 
+            // Retrieve the auto-generated billing_id
+            $billingAddressId = $pdo->lastInsertId();
+        } catch (PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
+    } else {
+        // If delivery address is not provided, assign a default billing_id
+        $sqlDefaultBilling = "INSERT INTO BillingAddress (billingStreetAddress, billingCity, billingState, billingZipCode) VALUES (?, ?, ?, ?)";
+        $stmtDefaultBilling = $pdo->prepare($sqlDefaultBilling);
+        if (!$stmtDefaultBilling) {
+            die("SQL error: " . $pdo->errorInfo()[2]);
+        }
+
+        // Default billing address values
+        $defaultBillingStreet = "Enter Street";
+        $defaultBillingCity = "Enter City";
+        $defaultBillingState = "Enter State";
+        $defaultBillingZipCode = "30601";
+
+        try {
+            $successDefaultBilling= $stmtDefaultBilling->execute([$defaultBillingStreet, $defaultBillingCity, $defaultBillingState, $defaultBillingZipCode]);
+
+            if (!$successDefaultBilling) {
+                die("Error: Failed to assign default delivery address. " . implode(", ", $stmtDefaultBilling->errorInfo()));
+            }
+
             // Retrieve the auto-generated billing ID
             $billingAddressId = $pdo->lastInsertId();
         } catch (PDOException $e) {
@@ -155,6 +181,32 @@
 
             if (!$successInsertDeliveryAddress) {
                 die("Error: Failed to insert delivery address. " . implode(", ", $stmtInsertDeliveryAddress->errorInfo()));
+            }
+
+            // Retrieve the auto-generated delivery ID
+            $deliveryAddressId = $pdo->lastInsertId();
+        } catch (PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
+    } else {
+        // If delivery address is not provided, assign a default delivery_id
+        $sqlDefaultDelivery = "INSERT INTO DeliveryAddress (deliveryStreetAddress, deliveryCity, deliveryState, deliveryZipCode) VALUES (?, ?, ?, ?)";
+        $stmtDefaultDelivery = $pdo->prepare($sqlDefaultDelivery);
+        if (!$stmtDefaultDelivery) {
+            die("SQL error: " . $pdo->errorInfo()[2]);
+        }
+
+        // Default delivery address values
+        $defaultStreet = "Enter Street";
+        $defaultCity = "Enter City";
+        $defaultState = "Enter State";
+        $defaultZipCode = "30601";
+
+        try {
+            $successDefaultDelivery = $stmtDefaultDelivery->execute([$defaultStreet, $defaultCity, $defaultState, $defaultZipCode]);
+
+            if (!$successDefaultDelivery) {
+                die("Error: Failed to assign default delivery address. " . implode(", ", $stmtDefaultDelivery->errorInfo()));
             }
 
             // Retrieve the auto-generated delivery ID
@@ -220,8 +272,8 @@
         $mail->Subject = "Account Activation";
         $mail->Body = <<<END
         Click <a href="http://localhost/a2Practice/a2Backend/activateAccount.php?token=$activation_token">here</a> 
-        to activate your account.
-        END;
+        to activate your account. 
+        END; // Change URL according to your localhost directory
         try {
             $mail->send();
         } catch (Exception $e) {
