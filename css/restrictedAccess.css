@@ -1,0 +1,62 @@
+.button {
+    width : 100%;
+    padding :16px 0;
+    font-size: 1rem;
+    background:#317DFF;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 25px 0 10px;
+    
+}
+
+.button-link {
+    text-decoration: none;
+    color: #fff;
+
+}
+
+.wrapper p, .wrapper h1 {
+    text-align: center;
+}
+
+.wrapper h1 {
+    font-size: xx-large;
+    width: 100%;
+}
+
+.wrapper {
+    width: 630px; /* adjust width of border */ 
+
+}
+
+.lock-icon {
+    margin-left: 150px; /* moves lock icon */
+}
+
+
+ button:hover {
+    border: 5px solid  #317DFF;
+    box-shadow: 0 0 30px   #317DFF, inset 0 0 30px  #317DFF;
+
+
+}
+
+body::before {
+    background-image: url("../images/background1.jpg");
+    
+}
+
+
+
+
+
+  
+   
+  
+   
+    
+    

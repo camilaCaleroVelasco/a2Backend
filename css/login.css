@@ -221,14 +221,14 @@ form .remember-me  {
    }
 
 }
-
+/* Hover Effect for form border */
 .wrapper:hover {
     border: 5px solid  #317DFF;
     box-shadow: 0 0 30px  #317DFF, inset 0 0 30px  #317DFF;
 
 } 
 
-/* Hover Effects for icons */
+
 .input-box .mailicon, .input-box .lockicon {
     position: absolute;
     right: 8px;
@@ -237,12 +237,14 @@ form .remember-me  {
 
     
 }
-
+/* Hover Effects for icons */
 .input-box:hover .lockicon , .input-box:hover .mailicon{
     border: 5px solid  #317DFF;
     box-shadow: 0 0 30px  #317DFF, inset 0 0 30px  #317DFF;
 
 } 
+
+
 
 
 

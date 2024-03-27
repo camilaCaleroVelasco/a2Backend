@@ -1,8 +1,23 @@
 
 /* Making the input box for email-address non- editable **/
-.input-box input[name = "email-address"] {
+.input-box input[name = "email-address"], 
+.input-box input[name = "card-first-name[0]"],
+.input-box input[name = "email-address"] ,
+.input-box input[name = "email-address"] ,
+.input-box input[name = "email-address"]   {
     background-color: #aaaaaa;
     pointer-events: none;
+
+}
+
+
+
+
+
+#card-info-button {
+    margin-top: 100px;
+    margin-left: 670px;
+
 
 }
 
@@ -57,6 +72,18 @@
 
 #billing-address-header {
     margin-top: 30px; /* moves the header for the billing address field */
+
+}
+
+
+#card-info-button {
+    background: #317DFF;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    padding: 0px 10px 1px;
 
 }
 
