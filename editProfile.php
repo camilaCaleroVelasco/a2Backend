@@ -246,10 +246,6 @@
             </div>
             <!--Shipping Address Fields ends here-->
 
-<div class="subscribe-promos" >
-            <input type= "checkbox" id= "subscribe-promos" name="subscribe-promos" <?php echo $currentPromoSubId == 1 ? 'checked' : ''; ?>>
-            <label for ="subscribe-promos"> Subscribe Promotions </label>
- </div> 
 
 
 
@@ -551,19 +547,15 @@
 
 
 
-
-
-
+    <div class="subscribe-promos" >
+            <input type= "checkbox" id= "subscribe-promos" name="subscribe-promos" <?php echo $currentPromoSubId == 1 ? 'checked' : ''; ?>>
+            <label for ="subscribe-promos" style = "margin-top : 85px; margin-left: -940px;"> Subscribe Promotions </label>
+ </div> 
 
         
-        
-        
-        <div class="subscribe-promos" >
-            <input type= "checkbox" id= "subscribe-promos">
-            <label for ="subscribe-promos"> Subscribe Promotions </label>
-        </div> 
-        
-        <button type = "submit" class ="button" id="submit" name="submit"> Submit </button>    
+         <button  class="button" id = "card-info-button"  onclick = "switchPage()"> Add Payment </button>  
+        <button type = "submit" class ="button" id="submit" name="submit"> Submit </button>   
+       
      </form>
 
     </div> <!-- div class wrapper ends here -->
@@ -571,6 +563,12 @@
 
 
 
+     <script>
+        function switchPage() {
+            window.location.href = "cardInfo.php";
+
+        }
+      </script>
 
     <script>
     function deleteCardInformation(button, headerId) {
