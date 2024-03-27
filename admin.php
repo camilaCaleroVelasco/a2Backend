@@ -14,6 +14,7 @@
                 <li><a href="adminmovie.php" >MOVIES</a></li>
                 <li><a href="admin.php">USERS</a></li>
                 <li><a href="promotions.php">PROMOTIONS</a></li>
+                <li><a href="logout.php" >LOGOUT</a></li>
                 </li>
             </ul>
         </nav>

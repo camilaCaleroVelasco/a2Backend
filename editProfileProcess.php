@@ -11,6 +11,8 @@ require_once 'includes/functions.inc.php';
 $userSuccess = false;
 $billingSuccess = false;
 $deliverySuccess = false;
+$subscriptionSucess = false;
+$changePWDSuccess = false;
 
 // Check if user is logged in
 if (isset($_SESSION["users_id"])) {
@@ -46,7 +48,10 @@ if (isset($_SESSION["users_id"])) {
         $currentDeliveryState = $row['deliveryState'];
         $currentDeliveryZipCode = $row['deliveryZipCode'];
         $currentDeliveryId = $row['delivery_id'];
-
+        // Current Promo Subscription
+        $currentPromoSubId = $row['promoSub_id'];
+        
+        
     } else {
         echo "User not found";
         exit;
@@ -55,6 +60,7 @@ if (isset($_SESSION["users_id"])) {
    
     // If the form was submitted
     if (isset($_POST['submit'])) {
+        
         // Check if user information was submitted
         if (!empty($_POST['first-name']) || !empty($_POST['last-name']) || !empty($_POST['email-address']) || !empty($_POST['phone-number'])) {
             // Update user information
@@ -125,27 +131,62 @@ if (isset($_SESSION["users_id"])) {
             }
         }
 
+        
+        // Check if the checkbox is checked
+        $promoSubs = isset($_POST['subscribe-promos']) ? 1 : 2;
+        
+        // Update the promotional subscription status in the database
+        $sqlUpdatePromoSub = "UPDATE Users SET promoSub_id = ? WHERE users_id = ?";
+        $stmtUpdatePromoSub = mysqli_prepare($conn, $sqlUpdatePromoSub);
+        mysqli_stmt_bind_param($stmtUpdatePromoSub, "ii", $promoSubs, $users_id);
+        mysqli_stmt_execute($stmtUpdatePromoSub);
 
-        if ($userSuccess == true || $billingSuccess == true || $deliverySuccess) {
+        if (mysqli_stmt_affected_rows($stmtUpdatePromoSub) > 0) {
+            // Subscription status updated successfully
+            $subscriptionSucess = true;
+            echo "Promotional subscription status updated successfully<br>";
+        } else {
+            // Error updating subscription status
+            echo "Error updating promotional subscription status: " . mysqli_error($conn);
+        }
 
-            // Email Information Changed
-            $mail = require __DIR__ . "/mailer.php";
-            $mail->setFrom("noreply@example.com");
-            $mail->addAddress($_POST["email-address"]);
-            $mail->Subject = "Information Changed";
-            $mail->Body = <<<END
-                Your personal information was changed successfully!
-            END;
-            try {
-                $mail->send();
-            } catch (Exception $e) {
-                echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
-                exit;
+        // Check if password is changed
+        $email = $_SESSION["email"];
+        if (!empty($_POST["old-password"]) || !empty($_POST["new-password"]) || !empty($_POST["new-confirm-password"])) {
+
+            $oldPWD = $_POST["old-password"];
+            $newPWD = $_POST["new-password"];
+            $confirmPWD = $_POST["new-confirm-password"];
+  
+            if (strlen($newPWD) <= 7) {
+                header("Location: editProfile.php?error=pwdlength");
+            }
+            else if ( ! preg_match("/[a-z]/i", $newPWD)) {
+                header("Location: editProfile.php?error=pwdChar");
+            }
+            else if ( ! preg_match("/[0-9]/", $newPWD)) {
+                header("Location: editProfile.php?error=pwdNum");
+            }
+            else if ($newPWD !== $confirmPWD) {
+                header("Location: editProfile.php?error=pwdMismatch");
+            }
+            else {
+                changePassword($conn, $email, $oldPWD, $newPWD);
+                $changePWDSuccess = true;
             }
         }
 
+        
+
+        if ($userSuccess == true || $billingSuccess == true || $deliverySuccess == true ||
+         $subscriptionSucess == true || $changePWDSuccess == true) {
+
+            // Created a function inside of functions that has the emailing 
+            sendEmailEditProfileSuccess($email);
+        }
+
         // Redirect to the index
-        header("Location: index.php");
+        header("Location: index.php?success=editProfileUpdate");
         exit;
     }
 } 

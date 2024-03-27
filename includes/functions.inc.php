@@ -312,5 +312,22 @@
             echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
             exit;
         }
+
+    }
+
+    function sendEmailEditProfileSuccess($email) {
+        $mail = require "mailer.php";
+        $mail->setFrom("noreply@example.com");
+        $mail->addAddress($_POST["email-address"]);
+        $mail->Subject = "Information Changed";
+        $mail->Body = <<<END
+            Your personal information was changed successfully!
+        END;
+        try {
+            $mail->send();
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
+            exit;
+        }
     }
 
