@@ -10,6 +10,7 @@
     <!-- Enable to put style on page -->
      <link rel="stylesheet" href="css/login.css">
      <link href='https://unpkg.com/boxicons@2.1.4/dist/boxicons.js' rel='stylesheet'>
+     <link rel="stylesheet" href="css/resetPassword.css">
      
 </head>
 <body>

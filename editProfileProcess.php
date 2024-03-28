@@ -12,6 +12,7 @@ $userSuccess = false;
 $billingSuccess = false;
 $deliverySuccess = false;
 $subscriptionSucess = false;
+$changePWDSuccess = false;
 
 // Check if user is logged in
 if (isset($_SESSION["users_id"])) {
@@ -51,8 +52,6 @@ if (isset($_SESSION["users_id"])) {
         $currentPromoSubId = $row['promoSub_id'];
         
         
-        
-
     } else {
         echo "User not found";
         exit;
@@ -61,6 +60,7 @@ if (isset($_SESSION["users_id"])) {
    
     // If the form was submitted
     if (isset($_POST['submit'])) {
+        
         // Check if user information was submitted
         if (!empty($_POST['first-name']) || !empty($_POST['last-name']) || !empty($_POST['email-address']) || !empty($_POST['phone-number'])) {
             // Update user information
@@ -150,30 +150,43 @@ if (isset($_SESSION["users_id"])) {
             echo "Error updating promotional subscription status: " . mysqli_error($conn);
         }
 
-        
+        // Check if password is changed
+        $email = $_SESSION["email"];
+        if (!empty($_POST["old-password"]) || !empty($_POST["new-password"]) || !empty($_POST["new-confirm-password"])) {
 
-        
-
-        if ($userSuccess == true || $billingSuccess == true || $deliverySuccess == true || $subscriptionSucess == true) {
-
-            // Email Information Changed
-            $mail = require __DIR__ . "/mailer.php";
-            $mail->setFrom("noreply@example.com");
-            $mail->addAddress($_POST["email-address"]);
-            $mail->Subject = "Information Changed";
-            $mail->Body = <<<END
-                Your personal information was changed successfully!
-            END;
-            try {
-                $mail->send();
-            } catch (Exception $e) {
-                echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
-                exit;
+            $oldPWD = $_POST["old-password"];
+            $newPWD = $_POST["new-password"];
+            $confirmPWD = $_POST["new-confirm-password"];
+  
+            if (strlen($newPWD) <= 7) {
+                header("Location: editProfile.php?error=pwdlength");
+            }
+            else if ( ! preg_match("/[a-z]/i", $newPWD)) {
+                header("Location: editProfile.php?error=pwdChar");
+            }
+            else if ( ! preg_match("/[0-9]/", $newPWD)) {
+                header("Location: editProfile.php?error=pwdNum");
+            }
+            else if ($newPWD !== $confirmPWD) {
+                header("Location: editProfile.php?error=pwdMismatch");
+            }
+            else {
+                changePassword($conn, $email, $oldPWD, $newPWD);
+                $changePWDSuccess = true;
             }
         }
 
+        
+
+        if ($userSuccess == true || $billingSuccess == true || $deliverySuccess == true ||
+         $subscriptionSucess == true || $changePWDSuccess == true) {
+
+            // Created a function inside of functions that has the emailing 
+            sendEmailEditProfileSuccess($email);
+        }
+
         // Redirect to the index
-        header("Location: index.php");
+        header("Location: index.php?success=editProfileUpdate");
         exit;
     }
 } 

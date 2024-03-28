@@ -163,8 +163,36 @@ VALUES(
 -- END OF ENUMERATION
 
 
-CREATE TABLE PaymentCard(
-    card_id INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE PaymentCard1(
+    card1_id INT PRIMARY KEY AUTO_INCREMENT,
+    cardNum VARCHAR(255),
+    cardType_id INT, 
+    expMonth VARCHAR(255),
+    expYear VARCHAR(255),
+    securityCode INT,
+    firstName VARCHAR(255),
+    lastName VARCHAR(255),
+    users_id INT,
+    FOREIGN KEY (users_id) REFERENCES Users(users_id),
+    FOREIGN KEY (cardType_id) REFERENCES PaymentCardType(cardType_id)
+);
+
+CREATE TABLE PaymentCard2(
+    card2_id INT PRIMARY KEY AUTO_INCREMENT,
+    cardNum VARCHAR(255),
+    cardType_id INT, 
+    expMonth VARCHAR(255),
+    expYear VARCHAR(255),
+    securityCode INT,
+    firstName VARCHAR(255),
+    lastName VARCHAR(255),
+    users_id INT,
+    FOREIGN KEY (users_id) REFERENCES Users(users_id),
+    FOREIGN KEY (cardType_id) REFERENCES PaymentCardType(cardType_id)
+);
+
+CREATE TABLE PaymentCard3(
+    card3_id INT PRIMARY KEY AUTO_INCREMENT,
     cardNum VARCHAR(255),
     cardType_id INT, 
     expMonth VARCHAR(255),
