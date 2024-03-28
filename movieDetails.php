@@ -45,7 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
     <a href="index.php"><img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo">  
         <nav>
             <ul class="nav__links">
-                <li><a href="admin.php">ADMIN</a></li>
                 <li><a href="login.php">LOGIN</a></li> <!-- Link to the login page -->
                 <li class="search">
                     <form action="search.php" method="POST"> <!-- Specify the action and method for the form -->
