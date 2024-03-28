@@ -4,10 +4,19 @@
 .input-box input[name = "card-first-name[0]"],
 .input-box input[name = "email-address"] ,
 .input-box input[name = "email-address"] ,
-.input-box input[name = "email-address"]   {
+.input-box input[name = "email-address"] ,
+.input-box input[name = "card-first-name[1]"],
+.input-box input[name = "card-first-name[2]"],
+.input-box input[name = "card-first-name[3]"]   {
     background-color: #aaaaaa;
     pointer-events: none;
 
+}
+
+.input-box.card-information input[type="text"],
+.input-box.card-information input[type="number"]{
+    background-color: #aaaaaa;
+    background-color: #aaaaaa;
 }
 
 
@@ -65,7 +74,9 @@
  }
 
  #submit  {
-    margin-top: 120px; 
+    margin-top: 120px;
+    margin-left: 100px; 
+
 }
 
 
@@ -97,11 +108,9 @@
     color: #fff;
     margin-left :400px;
     margin-bottom: 60px;
-   
  
-   
-  
 }
+
 
 
 
