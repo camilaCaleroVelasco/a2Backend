@@ -120,8 +120,31 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
               <input type="radio" id="t6" name="time" />
               <label for="t6" class="time"> 10:30 </label>
           </div>
-        </div>
+          <br>
+          <br>
+          <div class="ticket-types">
+  <div class="type">
+    <span>Adult ($15)</span>
+    <button class="minus" data-type="adult">-</button>
+    <span  data-type="adult">0</span>
+    <button class="plus" data-type="adult">+</button>
+  </div>
+  <div class="type">
+    <span>Child ($10)</span>
+    <button class="minus" data-type="child">-</button>
+    <span  data-type="child">0</span>
+    <button class="plus" data-type="child">+</button>
+  </div>
+  <div class="type">
+    <span>Senior ($12) </span>
+    <button class="minus" data-type="senior">-</button>
+    <span data-type="senior">0</span>
+    <button class="plus" data-type="senior">+</button>
+  </div>
+</div>
+
       </div>
+
       <div class="price">
         <div class="total">
           <span><span class="count">0</span> Tickets</span>
@@ -129,71 +152,119 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
         <button id="bookButton" type="button">Continue</button>
       </div>
     </div>
+
+    
   </div>
-  <script>
-  let seats = document.querySelector(".all-seats");
-  let rowLetters = ['A', 'B', 'C', 'D', 'E', 'F']; // Letters for rows
-
-  for (let row = 0; row < rowLetters.length; row++) {
-    for (let col = 1; col <= 10; col++) { // Assuming 10 columns
-      let seatNumber = rowLetters[row] + col; // Generating seat number
-      let randint = Math.floor(Math.random() * 2);
-      let booked = randint === 1 ? "booked" : "";
-      seats.insertAdjacentHTML(
-        "beforeend",
-        `<input type="checkbox" name="tickets" id="s${seatNumber}" />
-        <label for="s${seatNumber}" class="seat ${booked}">${seatNumber}</label>`
-      );
+ <script>
+ document.addEventListener("DOMContentLoaded", function () {
+    // Function to update individual ticket count
+    function updateTicketCount(type, count) {
+        let countElement = document.querySelector(`span[data-type='${type}']`);
+        countElement.textContent = count;
     }
-  }
 
-  // Add event listener to the "Book" button
-  document.getElementById("bookButton").addEventListener("click", function () {
-    // let bookingDetails = {
-    //   seats: seats.innerHTML, // Store seats HTML
-    //   totalCount: document.querySelector(".total-count").textContent,
-    //   totalPrice: document.querySelector(".amount").textContent
-    // };
-    // sessionStorage.setItem("bookingDetails", JSON.stringify(bookingDetails));
+    // Function to update total ticket count
+    function updateTotalTicketCount() {
+        let totalTickets = 0;
+        document.querySelectorAll("input[name='tickets']:checked").forEach((checkbox) => {
+            totalTickets++;
+        });
+        document.querySelector(".count").textContent = totalTickets;
+        return totalTickets;
+    }
 
-      // Redirect to the order summary page
-      <?php
-      echo "window.location.href = 'ageselect.php?movie_id=" . $movie["movie_id"] . "'";
-      ?>
+    // Function to enable/disable plus buttons based on total ticket count
+    function updatePlusButtonsState(totalTickets) {
+        let plusButtons = document.querySelectorAll(".plus");
+        plusButtons.forEach((button) => {
+            let type = button.dataset.type;
+            let count = parseInt(document.querySelector(`span[data-type='${type}']`).textContent);
+            if (count >= totalTickets) {
+                button.disabled = true;
+            } else {
+                button.disabled = false;
+            }
+        });
+    }
+
+    // Event listener for plus and minus buttons
+    document.querySelectorAll(".plus").forEach(button => {
+        button.addEventListener("click", function () {
+            let type = this.dataset.type;
+            let increment = 1;
+            let countElement = document.querySelector(`span[data-type='${type}']`);
+            let currentCount = parseInt(countElement.textContent);
+            let newCount = currentCount + increment;
+            if (newCount >= 0) {
+                countElement.textContent = newCount;
+                let totalTickets = updateTotalTicketCount();
+                updatePlusButtonsState(totalTickets);
+            }
+        });
     });
 
-  // Disable booked seats
-  let bookedSeats = document.querySelectorAll('.seat.booked');
-  bookedSeats.forEach(seat => {
-    let checkbox = seat.previousElementSibling;
-    checkbox.disabled = true;
-  });
-
-  // Handle ticket selection
-  let tickets = seats.querySelectorAll("input");
-  tickets.forEach((ticket) => {
-    ticket.addEventListener("change", () => {
-      let count = document.querySelector(".count").innerHTML;
-      count = Number(count);
-
-      if (ticket.checked) {
-        count += 1;
-      } else {
-        count -= 1;
-      }
-      document.querySelector(".count").innerHTML = count;
-      sessionStorage.setItem('ticketCount', count);
+    // Event listener for minus buttons
+document.querySelectorAll(".minus").forEach(button => {
+    button.addEventListener("click", function () {
+        let type = this.dataset.type;
+        let decrement = 1; // You can adjust this if you want to decrement by a different value
+        let countElement = document.querySelector(`span[data-type='${type}']`);
+        let currentCount = parseInt(countElement.textContent);
+        let newCount = currentCount - decrement; // Subtract the decrement value
+        if (newCount >= 0) { // Make sure count doesn't go negative
+            countElement.textContent = newCount;
+            let totalTickets = updateTotalTicketCount();
+            updatePlusButtonsState(totalTickets); // Update the plus buttons state
+        }
     });
-  });
+});
+
+    // Generate seat checkboxes
+    let seats = document.querySelector(".all-seats");
+    let rowLetters = ['A', 'B', 'C', 'D', 'E', 'F']; // Letters for rows
+    for (let row = 0; row < rowLetters.length; row++) {
+        for (let col = 1; col <= 10; col++) { // Assuming 10 columns
+            let seatNumber = rowLetters[row] + col; // Generating seat number
+            let randint = Math.floor(Math.random() * 2);
+            let booked = randint === 1 ? "booked" : "";
+            seats.insertAdjacentHTML(
+                "beforeend",
+                `<input type="checkbox" name="tickets" id="s${seatNumber}" />
+                <label for="s${seatNumber}" class="seat ${booked}">${seatNumber}</label>`
+            );
+        }
+    }
+
+    // Add event listener to the "Book" button
+    document.getElementById("bookButton").addEventListener("click", function () {
+        <?php
+        echo "window.location.href = 'ordersummary.php?movie_id=" . $movie["movie_id"] . "'";
+        ?>
+    });
+
+    // Disable booked seats
+    let bookedSeats = document.querySelectorAll('.seat.booked');
+    bookedSeats.forEach(seat => {
+        let checkbox = seat.previousElementSibling;
+        checkbox.disabled = true;
+    });
+
+    // Handle ticket selection
+    let tickets = seats.querySelectorAll("input");
+    tickets.forEach((ticket) => {
+        ticket.addEventListener("change", () => {
+            let totalTickets = updateTotalTicketCount();
+            updatePlusButtonsState(totalTickets);
+        });
+    });
+
+    // Initialize plus buttons state
+    let totalTickets = updateTotalTicketCount();
+    updatePlusButtonsState(totalTickets);
+
+});
+
 </script>
-
 
 </body>
 </html>
-
-
-
-
-
-
-
