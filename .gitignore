@@ -11,4 +11,5 @@ vendor/composer/InstalledVersions.php
 vendor/composer/LICENSE
 vendor/composer/platform_check.php
 composer.lock
-
+test.php
+cardInfoProcess.php

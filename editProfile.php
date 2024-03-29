@@ -249,10 +249,26 @@
 
 
 
-
-            <div>
-                <h3 id="cardheader1"> Card Information 1</h3>
+            <div class="subscribe-promos">
+                <input type="checkbox" id="subscribe-promos" name="subscribe-promos"
+                    <?php echo $currentPromoSubId == 1 ? 'checked' : ''; ?>>
+                <label for="subscribe-promos" style="margin-top : 85px; margin-left: -940px;"> Subscribe Promotions
+                </label>
             </div>
+
+            <button type="submit" class="button" id="submit" name="submit"> Submit </button>
+
+        </form>
+
+
+
+
+
+
+
+        <div>
+            <h3 id="cardheader1"> Card Information 1</h3>
+        </div>
 
 
 
