@@ -315,7 +315,7 @@ if (isset($_SESSION["users_id"])) {
         }
 
         // Redirect to the index
-        header("Location: index.php?success=editProfileUpdate");
+        header("Location: editProfile.php?success=editProfileUpdate");
         exit;
     }
 } 

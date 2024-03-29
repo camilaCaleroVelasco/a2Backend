@@ -33,6 +33,13 @@
         <!-- div class wrapper starts here -->
         <h1> Edit Profile </h1>
         <h2> Personal Info</h2>
+        <?php if (isset($_GET["success"])) {
+                        if ($_GET["success"] == "editProfileUpdate") {
+                            echo "
+                            <h2>Profile successfully updated!</h2>
+                            <br>";
+                        }
+                    } ?>
 
 
         <form action="editProfileProcess.php" method="post">
