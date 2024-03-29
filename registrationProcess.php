@@ -163,7 +163,7 @@ ini_set('display_errors', 1);
         $defaultBillingStreet = "";
         $defaultBillingCity = "";
         $defaultBillingState = "";
-        $defaultBillingZipCode = "0"; //change to varchar in DB
+        $defaultBillingZipCode = ""; //change to varchar in DB
 
         // Handle errors
         try {
@@ -220,7 +220,7 @@ ini_set('display_errors', 1);
         $defaultStreet = "";
         $defaultCity = "";
         $defaultState = "";
-        $defaultZipCode = "0"; //change to varchar in DB
+        $defaultZipCode = ""; //change to varchar in DB
 
         // Handle errors
         try {
