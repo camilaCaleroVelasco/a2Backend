@@ -263,7 +263,8 @@
                 <!-- Card Info Fields start here-->
 
                 <div class="field">
-                    <input type="text" placeholder="First Name On Card" name="card-first-name[0]">
+                    <input type="text" placeholder="First Name On Card" name="card-first-name1"
+                    value="<?php echo htmlspecialchars($currentCard1FirstName); ?>">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -274,7 +275,8 @@
                 </div>
 
                 <div class="field">
-                    <input type="text" placeholder="Last Name On Card" name="card-last-name[0]">
+                    <input type="text" placeholder="Last Name On Card" name="card-last-name1"
+                    value="<?php echo htmlspecialchars($currentCard1LastName); ?>">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -286,11 +288,11 @@
 
 
                 <div class="field">
-                    <select name="card-type[0]" id="card-type">
+                    <select name="card-type1" id="card-type" value="<?php echo htmlspecialchars($currentCard1CardType); ?>">
                         <option value="" selected disabled> Card Type </option>
-                        <option value="visa"> Visa </option>
-                        <option value="mastercard"> Master Card</option>
-                        <option value="americanexpress"> American Express </option>
+                        <option value="1"> Visa </option>
+                        <option value="2"> Master Card</option>
+                        <option value="3"> American Express </option>
 
                     </select>
                     <!-- mail icon from fontawesome -->
@@ -305,7 +307,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="Card Number" name="card-number[0]">
+                    <input type="number" placeholder="Card Number" name="card-number1">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -316,7 +318,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="EXP Month " name="expiration-month[0]">
+                    <input type="number" placeholder="EXP Month " name="expiration-month1" value="<?php echo htmlspecialchars($currentCard1ExpMonth); ?>">
                     <!-- user icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 448 512">
@@ -327,7 +329,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="EXP Year" name="expiration-year[0]">
+                    <input type="number" placeholder="EXP Year" name="expiration-year1" value="<?php echo htmlspecialchars($currentCard1ExpYear); ?>">
                     <!-- user icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 448 512">
@@ -363,7 +365,7 @@
                 <!-- Card Info Fields start here-->
 
                 <div class="field">
-                    <input type="text" placeholder="First Name On Card" name="card-first-name[1]">
+                    <input type="text" placeholder="First Name On Card" name="card-first-name2" value="<?php echo htmlspecialchars($currentCard2FirstName); ?>">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -374,7 +376,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="text" placeholder="Last Name On Card" name="card-last-name[1]">
+                    <input type="text" placeholder="Last Name On Card" name="card-last-name2" value="<?php echo htmlspecialchars($currentCard2LastName); ?>">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -386,11 +388,11 @@
 
 
                 <div class="field">
-                    <select name="card-type[1]" id="card-type">
+                    <select name="card-type2" id="card-type" value="<?php echo htmlspecialchars($currentCard2CardType); ?>">
                         <option value="" selected disabled> Card Type </option>
-                        <option value="visa"> Visa </option>
-                        <option value="mastercard"> Master Card</option>
-                        <option value="americanexpress"> American Express </option>
+                        <option value="1"> Visa </option>
+                        <option value="2"> Master Card</option>
+                        <option value="3"> American Express </option>
 
                     </select>
                     <!-- mail icon from fontawesome -->
@@ -405,7 +407,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="Card Number" name="card-number[1]">
+                    <input type="number" placeholder="Card Number" name="card-number2">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -416,7 +418,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="EXP Month " name="expiration-month[1]">
+                    <input type="number" placeholder="EXP Month " name="expiration-month2" value="<?php echo htmlspecialchars($currentCard2ExpMonth); ?>">
                     <!-- user icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 448 512">
@@ -427,7 +429,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="EXP Year" name="expiration-year[1]">
+                    <input type="number" placeholder="EXP Year" name="expiration-year2" value="<?php echo htmlspecialchars($currentCard2ExpYear); ?>">
                     <!-- user icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 448 512">
@@ -459,7 +461,7 @@
                 <!-- Card Info Fields start here-->
 
                 <div class="field">
-                    <input type="text" placeholder="First Name On Card" name="card-first-name[2]">
+                    <input type="text" placeholder="First Name On Card" name="card-first-name3" value="<?php echo htmlspecialchars($currentCard3FirstName); ?>">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -470,7 +472,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="text" placeholder="Last Name On Card" name="card-last-name[2]">
+                    <input type="text" placeholder="Last Name On Card" name="card-last-name3" value="<?php echo htmlspecialchars($currentCard3LastName); ?>"> 
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -482,11 +484,11 @@
 
 
                 <div class="field">
-                    <select name="card-type[2]" id="card-type">
+                    <select name="card-type3" id="card-type" value="<?php echo htmlspecialchars($currentCard3CardType); ?>">
                         <option value="" selected disabled> Card Type </option>
-                        <option value="visa"> Visa </option>
-                        <option value="mastercard"> Master Card</option>
-                        <option value="americanexpress"> American Express </option>
+                        <option value="1"> Visa </option>
+                        <option value="2"> Master Card</option>
+                        <option value="3"> American Express </option>
 
                     </select>
                     <!-- mail icon from fontawesome -->
@@ -501,7 +503,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="Card Number" name="card-number[2]">
+                    <input type="number" placeholder="Card Number" name="card-number3">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -512,7 +514,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="EXP Month " name="expiration-month[2]">
+                    <input type="number" placeholder="EXP Month " name="expiration-month3" value="<?php echo htmlspecialchars($currentCard3ExpMonth); ?>">
                     <!-- user icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 448 512">
@@ -523,7 +525,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="EXP Year" name="expiration-year[2]">
+                    <input type="number" placeholder="EXP Year" name="expiration-year3" value="<?php echo htmlspecialchars($currentCard3ExpYear); ?>">
                     <!-- user icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 448 512">

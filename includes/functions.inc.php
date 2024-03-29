@@ -578,5 +578,47 @@
         mysqli_stmt_close($stmt);
     }
 
+    function updateUserPaymentCard1($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
+        $sql = "UPDATE paymentcard1 SET cardNum = ?, cardType_id = ?, expMonth = ?, expYear = ?,
+        firstName = ?, lastName = ? WHERE users_id = ?;";
+        $stmt = mysqli_stmt_init($conn);
+        if(!mysqli_stmt_prepare($stmt, $sql)) {
+            header("Location: editProfile.php?error=stmtfailed"); 
+            exit();
+        }
+
+        mysqli_stmt_bind_param($stmt, "sissssi", $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName, $usersid);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
+
+    function updateUserPaymentCard2($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
+        $sql = "UPDATE paymentcard2 SET cardNum = ?, cardType_id = ?, expMonth = ?, expYear = ?,
+        firstName = ?, lastName = ? WHERE users_id = ?;";
+        $stmt = mysqli_stmt_init($conn);
+        if(!mysqli_stmt_prepare($stmt, $sql)) {
+            header("Location: editProfile.php?error=stmtfailed"); 
+            exit();
+        }
+
+        mysqli_stmt_bind_param($stmt, "sissssi", $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName, $usersid);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
+
+    function updateUserPaymentCard3($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
+        $sql = "UPDATE paymentcard3 SET cardNum = ?, cardType_id = ?, expMonth = ?, expYear = ?,
+        firstName = ?, lastName = ? WHERE users_id = ?;";
+        $stmt = mysqli_stmt_init($conn);
+        if(!mysqli_stmt_prepare($stmt, $sql)) {
+            header("Location: editProfile.php?error=stmtfailed"); 
+            exit();
+        }
+
+        mysqli_stmt_bind_param($stmt, "sissssi", $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName,$usersid );
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
+
 
 
