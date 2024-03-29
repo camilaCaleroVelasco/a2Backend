@@ -60,10 +60,19 @@
  }
 
  #submit  {
-    margin-top: 120px;
+    margin-top: 90px;
 
 
 }
+
+
+/* adjust height of promo label */
+form .subscribe-promos label {
+    
+    margin-top: 58px;
+   
+ }
+
 
 
 

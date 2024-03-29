@@ -548,8 +548,8 @@
             <div class="subscribe-promos">
                 <input type="checkbox" id="subscribe-promos" name="subscribe-promos"
                     <?php echo $currentPromoSubId == 1 ? 'checked' : ''; ?>>
-                <label for="subscribe-promos" style="margin-top : 85px; margin-left: -940px;"> Subscribe Promotions
-                </label>
+                    <label for ="subscribe-promos" > Subscribe for Promotions </label>
+                
             </div>
 
             <button type="submit" class="button" id="submit" name="submit"> Submit </button>
