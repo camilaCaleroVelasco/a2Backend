@@ -106,11 +106,7 @@ if (isset($_SESSION["users_id"])) {
             }
         }
         
-    } else {
-        echo "User not found";
-        exit;
-    }
-
+    } 
     // If the form was submitted
     if (isset($_POST['submit'])) {
         
@@ -254,6 +250,7 @@ if (isset($_SESSION["users_id"])) {
                 }
         }
         
+        
         //Check if paymentcard2 was updated
         if(!empty($_POST["card-first-name2"]) ||  !empty($_POST["card-last-name2"]) || !empty($_POST["card-type2"]) || !empty($_POST["card-number2"]) 
                 || !empty($_POST["expiration-month2"]) || !empty($_POST["expiration-year2"])) {
@@ -319,4 +316,35 @@ if (isset($_SESSION["users_id"])) {
         exit;
     }
 } 
+// Delete Card
+if (isset($_POST['delete1'])) {
+    deleteUserPaymentCard1($conn, $_SESSION['users_id']);
+
+    sendEmailEditProfileSuccess($email);
+
+    // Redirect to the index
+    header("Location: editProfile.php?success=editProfileUpdate");
+    exit;
+
+}
+if (isset($_POST['delete2'])) {
+    deleteUserPaymentCard2($conn, $_SESSION['users_id']);
+
+    sendEmailEditProfileSuccess($email);
+
+    // Redirect to the index
+    header("Location: editProfile.php?success=editProfileUpdate");
+    exit;
+
+}
+if (isset($_POST['delete3'])) {
+    deleteUserPaymentCard3($conn, $_SESSION['users_id']);
+
+    sendEmailEditProfileSuccess($email);
+
+    // Redirect to the index
+    header("Location: editProfile.php?success=editProfileUpdate");
+    exit;
+
+}
 ?>

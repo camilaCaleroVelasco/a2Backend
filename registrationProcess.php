@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
     include_once 'includes/databaseConnection.inc.php'; 
     include_once 'includes/functions.inc.php';
 
@@ -168,7 +171,7 @@
             $successDefaultBilling= $stmtDefaultBilling->execute([$defaultBillingStreet, $defaultBillingCity, $defaultBillingState, $defaultBillingZipCode]);
 
             if (!$successDefaultBilling) {
-                die("Error: Failed to assign default delivery address. " . implode(", ", $stmtDefaultBilling->errorInfo()));
+                die("Error: Failed to delivery address. " . implode(", ", $stmtDefaultBilling->errorInfo()));
             }
 
             // Retrieve billing_id
@@ -225,7 +228,7 @@
             $successDefaultDelivery = $stmtDefaultDelivery->execute([$defaultStreet, $defaultCity, $defaultState, $defaultZipCode]);
 
             if (!$successDefaultDelivery) {
-                die("Error: Failed to assign default delivery address. " . implode(", ", $stmtDefaultDelivery->errorInfo()));
+                die("Error: Failed to assign default. " . implode(", ", $stmtDefaultDelivery->errorInfo()));
             }
 
             // Retrieve delivery_id
@@ -248,21 +251,21 @@
         die("SQL error: " . $pdo->errorInfo()[2]);
     }
 
-    //Number of cards added
-    $numOfCards = 0; // Default value
-    $lastUserId = null;
-    if (!empty($encryptedCardNumber) && !empty($_POST["expiration-month"]) && !empty($_POST["expiration-year"])) {
-        // Check if the user has less than 3 cards
-        $sqlNumOfCards = "SELECT COUNT(*) AS cardCount FROM PaymentCard WHERE users_id = ?";
-        $stmtNumOfCards = $pdo->prepare($sqlNumOfCards);
-        $stmtNumOfCards->execute([$lastUserId]);
-        $cardCountRow = $stmtNumOfCards->fetch(PDO::FETCH_ASSOC);
-        $numOfCards = $cardCountRow['cardCount'] < 3 ? $cardCountRow['cardCount'] + 1 : 3;
-    }
+    // //Number of cards added
+    // $numOfCards = 0; // Default value
+    // $lastUserId = null;
+    // if (!empty($encryptedCardNumber) && !empty($_POST["expiration-month"]) && !empty($_POST["expiration-year"])) {
+    //     // Check if the user has less than 3 cards
+    //     $sqlNumOfCards = "SELECT COUNT(*) AS cardCount FROM PaymentCard1 WHERE users_id = ?";
+    //     $stmtNumOfCards = $pdo->prepare($sqlNumOfCards);
+    //     $stmtNumOfCards->execute([$lastUserId]);
+    //     $cardCountRow = $stmtNumOfCards->fetch(PDO::FETCH_ASSOC);
+    //     $numOfCards = $cardCountRow['cardCount'] < 3 ? $cardCountRow['cardCount'] + 1 : 3;
+    // }
 
     // Users execute 
     if (!$stmtUsers->execute([$_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $phoneNumber, $numOfCards, $activation_token_hash, $userStatus_id, $userType_id, $promoSubscription, $billingAddressId, $deliveryAddressId])) {
-        die("Error: Failed to execute the Users query.");
+        die("Error: Failed to pull Users.");
     }
 
 
@@ -274,16 +277,96 @@
 
         // Check if payment card was added
         if (!empty($encryptedCardNumber) && !empty($_POST["expiration-month"]) && !empty($_POST["expiration-year"])) {
-            $sqlPaymentCard = "INSERT INTO PaymentCard (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
+            // Card 1
+            $sqlPaymentCard = "INSERT INTO PaymentCard1 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
                             VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmtPaymentCard = $pdo->prepare($sqlPaymentCard);
+
+            // Card 2
+            $sqlPaymentCard2 = "INSERT INTO PaymentCard2 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
+                                VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmtPaymentCard2 = $pdo->prepare($sqlPaymentCard2);
+            if (!$stmtPaymentCard2) {
+                die("SQL error: " . $pdo->errorInfo()[2]);
+            }
+
+            // Card 3
+            $sqlPaymentCard3 = "INSERT INTO PaymentCard3 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
+                                VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmtPaymentCard3 = $pdo->prepare($sqlPaymentCard3);
+            if (!$stmtPaymentCard3) {
+                die("SQL error: " . $pdo->errorInfo()[2]);
+            }
+
+            // Default Card
+            $defaultCardNum = ""; // Set a default or dummy card number
+            $defaultCardType_id = 1; // Set a default card type ID
+            $defaultExpMonth = ""; // Set a default expiration month
+            $defaultExpYear = ""; // Set a default expiration year
+            $defaultFirstName = ""; // Set a default or dummy first name
+            $defaultLastName = ""; // Set a default or dummy last name
+
             if (!$stmtPaymentCard) {
                 die("SQL error: " . $pdo->errorInfo()[2]);
             }
             if (!$stmtPaymentCard->execute([$encryptedCardNumber, $cardType_id, $_POST["expiration-month"], $_POST["expiration-year"], $_POST["first-name"], $_POST["last-name"], $lastUserId])) {
+                die("Error:  Failed to pull PaymentCard.");
+            }
+
+            if (!$stmtPaymentCard2->execute([$defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId])) {
                 die("Error: Failed to execute the PaymentCard query.");
             }
-        }
+            if (!$stmtPaymentCard3->execute([$defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId])) {
+                die("Error: Failed to execute the PaymentCard query.");
+            }
+        } 
+        // Track the 3 cards
+       
+            // Card 1
+            $sqlPaymentCard1 = "INSERT INTO PaymentCard1 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmtPaymentCard1 = $pdo->prepare($sqlPaymentCard1);
+            if (!$stmtPaymentCard1) {
+            die("SQL error: " . $pdo->errorInfo()[2]);
+            }
+
+            // Card 2
+            $sqlPaymentCard2 = "INSERT INTO PaymentCard2 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
+                                VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmtPaymentCard2 = $pdo->prepare($sqlPaymentCard2);
+            if (!$stmtPaymentCard2) {
+                die("SQL error: " . $pdo->errorInfo()[2]);
+            }
+
+            // Card 3
+            $sqlPaymentCard3 = "INSERT INTO PaymentCard3 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
+                                VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmtPaymentCard3 = $pdo->prepare($sqlPaymentCard3);
+            if (!$stmtPaymentCard3) {
+                die("SQL error: " . $pdo->errorInfo()[2]);
+            }
+
+            
+            // Default Card
+            $defaultCardNum = ""; // Set a default or dummy card number
+            $defaultCardType_id = 1; // Set a default card type ID
+            $defaultExpMonth = ""; // Set a default expiration month
+            $defaultExpYear = ""; // Set a default expiration year
+            $defaultFirstName = ""; // Set a default or dummy first name
+            $defaultLastName = ""; // Set a default or dummy last name
+            
+            // Execute the query to insert placeholder card
+            if (!$stmtPaymentCard1->execute([$defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId])) {
+                die("Error: Failed to execute the PaymentCard query.");
+            }
+            if (!$stmtPaymentCard2->execute([$defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId])) {
+                die("Error: Failed to execute the PaymentCard query.");
+            }
+            if (!$stmtPaymentCard3->execute([$defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId])) {
+                die("Error: Failed to execute the PaymentCard query.");
+            }
+            
+        
 
         // Email Verification Process
         $name = $_POST["first-name"];
@@ -312,7 +395,7 @@
         exit;
     } 
     else {
-        die("Error: Failed to execute the Users query.");
+        die("Error: Failed pull Users.");
     } 
         
 ?>

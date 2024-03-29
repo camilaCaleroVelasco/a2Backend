@@ -401,19 +401,19 @@
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
     }
-    function deleteUserPaymentCard1($conn, $usersid) {
-        $sql = "DELETE FROM paymentcard1 WHERE users_id = ?;";
-        $stmt = mysqli_stmt_init($conn);
-        if(!mysqli_stmt_prepare($stmt, $sql)) {
-            header("Location: editProfile.php?error=stmtfailed"); 
-            exit();
-        }
+    // function deleteUserPaymentCard1($conn, $usersid) {
+    //     $sql = "DELETE FROM paymentcard1 WHERE users_id = ?;";
+    //     $stmt = mysqli_stmt_init($conn);
+    //     if(!mysqli_stmt_prepare($stmt, $sql)) {
+    //         header("Location: editProfile.php?error=stmtfailed"); 
+    //         exit();
+    //     }
 
-        mysqli_stmt_bind_param($stmt, "i", $usersid);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
+    //     mysqli_stmt_bind_param($stmt, "i", $usersid);
+    //     mysqli_stmt_execute($stmt);
+    //     mysqli_stmt_close($stmt);
         
-    }
+    // }
 
     function userPaymentCard2Exists($conn, $email) {
         $usersid = getUsersID($conn, $email);
@@ -462,18 +462,18 @@
         mysqli_stmt_close($stmt);
     }
 
-    function deleteUserPaymentCard2($conn, $usersid){
-        $sql = "DELETE FROM paymentcard2 WHERE users_id = ?;";
-        $stmt = mysqli_stmt_init($conn);
-        if(!mysqli_stmt_prepare($stmt, $sql)) {
-            header("Location: editProfile.php?error=stmtfailed"); 
-            exit();
-        }
+    // function deleteUserPaymentCard2($conn, $usersid){
+    //     $sql = "DELETE FROM paymentcard2 WHERE users_id = ?;";
+    //     $stmt = mysqli_stmt_init($conn);
+    //     if(!mysqli_stmt_prepare($stmt, $sql)) {
+    //         header("Location: editProfile.php?error=stmtfailed"); 
+    //         exit();
+    //     }
 
-        mysqli_stmt_bind_param($stmt, "i", $usersid);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);  
-    }
+    //     mysqli_stmt_bind_param($stmt, "i", $usersid);
+    //     mysqli_stmt_execute($stmt);
+    //     mysqli_stmt_close($stmt);  
+    // }
 
     function userPaymentCard3Exists($conn, $email) {
         $usersid = getUsersID($conn, $email);
@@ -522,19 +522,19 @@
         mysqli_stmt_close($stmt);
     }
 
-    function deleteUserPaymentCard3($conn, $usersid) {
-        $sql = "DELETE FROM paymentcard3 WHERE users_id = ?;";
-        $stmt = mysqli_stmt_init($conn);
-        if(!mysqli_stmt_prepare($stmt, $sql)) {
-            header("Location: editProfile.php?error=stmtfailed"); 
-            exit();
-        }
+    // function deleteUserPaymentCard3($conn, $usersid) {
+    //     $sql = "DELETE FROM paymentcard3 WHERE users_id = ?;";
+    //     $stmt = mysqli_stmt_init($conn);
+    //     if(!mysqli_stmt_prepare($stmt, $sql)) {
+    //         header("Location: editProfile.php?error=stmtfailed"); 
+    //         exit();
+    //     }
 
-        mysqli_stmt_bind_param($stmt, "i", $usersid);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
+    //     mysqli_stmt_bind_param($stmt, "i", $usersid);
+    //     mysqli_stmt_execute($stmt);
+    //     mysqli_stmt_close($stmt);
 
-    }
+    // }
 
     function getNumOfCardsData($conn, $email) {
         $sql = "SELECT * FROM users WHERE email = ?;";
@@ -616,6 +616,48 @@
         }
 
         mysqli_stmt_bind_param($stmt, "sissssi", $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName,$usersid );
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
+    // Delete
+    function deleteUserPaymentCard1($conn, $usersid) {
+        $sql = "UPDATE paymentcard1 SET cardNum = '', cardType_id = 1, expMonth = '', expYear = '',
+        firstName = '', lastName = '' WHERE users_id = ?;";
+        $stmt = mysqli_stmt_init($conn);
+        if(!mysqli_stmt_prepare($stmt, $sql)) {
+            header("Location: editProfile.php?error=stmtfailed"); 
+            exit();
+        }
+
+        mysqli_stmt_bind_param($stmt, "i", $usersid);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
+
+    function deleteUserPaymentCard2($conn, $usersid) {
+        $sql = "UPDATE paymentcard2 SET cardNum = '', cardType_id = 1, expMonth = '', expYear = '',
+        firstName = '', lastName = '' WHERE users_id = ?;";
+        $stmt = mysqli_stmt_init($conn);
+        if(!mysqli_stmt_prepare($stmt, $sql)) {
+            header("Location: editProfile.php?error=stmtfailed"); 
+            exit();
+        }
+
+        mysqli_stmt_bind_param($stmt, "i", $usersid);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
+
+    function deleteUserPaymentCard3($conn, $usersid) {
+        $sql = "UPDATE paymentcard3 SET cardNum = '', cardType_id = 1, expMonth = '', expYear = '',
+        firstName = '', lastName = '' WHERE users_id = ?;";
+        $stmt = mysqli_stmt_init($conn);
+        if(!mysqli_stmt_prepare($stmt, $sql)) {
+            header("Location: editProfile.php?error=stmtfailed"); 
+            exit();
+        }
+
+        mysqli_stmt_bind_param($stmt, "i", $usersid);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
     }

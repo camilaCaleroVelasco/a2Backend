@@ -347,7 +347,7 @@
                 </div>
 
                 <div class="delete button">
-                    <button id="deleteButton" onclick="deleteCardInformation(this)">Delete Card
+                    <button type="submit" id="deleteButton" name="delete1" >Delete Card
                         Information</button>
                 </div>
 
@@ -447,7 +447,7 @@
                 </div>
 
                 <div class="delete button">
-                    <button id="deleteButton" onclick="deleteCardInformation(this )">Delete Card
+                    <button type="submit" id="deleteButton" name="delete2" >Delete Card
                         Information</button>
                 </div>
 
@@ -544,7 +544,7 @@
 
 
                 <div class="delete button">
-                    <button id="deleteButton" onclick="deleteCardInformation(this)">Delete Card
+                    <button type="submit" id="deleteButton" name="delete3" >Delete Card
                         Information</button>
                 </div>
 
