@@ -311,38 +311,29 @@ if (isset($_SESSION["users_id"])) {
             sendEmailEditProfileSuccess($email);
         }
 
-        // Redirect to the index
+        // Redirect
         header("Location: editProfile.php?success=editProfileUpdate");
         exit;
     }
 } 
-// Delete Card
+// Delete Card option
 if (isset($_POST['delete1'])) {
     deleteUserPaymentCard1($conn, $_SESSION['users_id']);
-
     sendEmailEditProfileSuccess($email);
-
-    // Redirect to the index
     header("Location: editProfile.php?success=editProfileUpdate");
     exit;
 
 }
 if (isset($_POST['delete2'])) {
     deleteUserPaymentCard2($conn, $_SESSION['users_id']);
-
     sendEmailEditProfileSuccess($email);
-
-    // Redirect to the index
     header("Location: editProfile.php?success=editProfileUpdate");
     exit;
 
 }
 if (isset($_POST['delete3'])) {
     deleteUserPaymentCard3($conn, $_SESSION['users_id']);
-
     sendEmailEditProfileSuccess($email);
-
-    // Redirect to the index
     header("Location: editProfile.php?success=editProfileUpdate");
     exit;
 
