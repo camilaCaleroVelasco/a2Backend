@@ -50,14 +50,63 @@ if (isset($_SESSION["users_id"])) {
         $currentDeliveryId = $row['delivery_id'];
         // Current Promo Subscription
         $currentPromoSubId = $row['promoSub_id'];
-        
-        
-    } else {
-        echo "User not found";
-        exit;
-    }
 
-   
+        mysqli_stmt_close($stmt);
+
+
+        // Get the current paymentcard1 information including billing address
+        $sql1 = "SELECT * FROM paymentcard1 WHERE users_id = ?";
+        $stmt1 = mysqli_prepare($conn, $sql1);
+        mysqli_stmt_bind_param($stmt1, "i", $users_id);
+        mysqli_stmt_execute($stmt1);
+        $result1 = mysqli_stmt_get_result($stmt1);
+        
+        if ($row = mysqli_fetch_assoc($result1)) {
+            // Current PaymentCard 1
+            $currentCard1FirstName = $row['firstName'];
+            $currentCard1LastName = $row['lastName'];
+            $currentCard1CardType = $row['cardType_id'];
+            $currentCard1ExpMonth = $row['expMonth'];
+            $currentCard1ExpYear = $row['expYear'];
+
+            mysqli_stmt_close($stmt1);
+
+            // Get the current paymentcard2 information including billing address
+            $sql = "SELECT * FROM paymentcard2 WHERE users_id = ?";
+            $stmt2 = mysqli_prepare($conn, $sql);
+            mysqli_stmt_bind_param($stmt2, "i", $users_id);
+            mysqli_stmt_execute($stmt2);
+            $result2 = mysqli_stmt_get_result($stmt2);
+
+            if ($row = mysqli_fetch_assoc($result2)) {
+                 // Current PaymentCard 2
+                $currentCard2FirstName = $row['firstName'];
+                $currentCard2LastName = $row['lastName'];
+                $currentCard2CardType = $row['cardType_id'];
+                $currentCard2ExpMonth = $row['expMonth'];
+                $currentCard2ExpYear = $row['expYear'];
+                mysqli_stmt_close($stmt2);
+
+                // Get the current paymentcard2 information including billing address
+                $sql = "SELECT * FROM paymentcard3 WHERE users_id = ?;";
+                $stmt3 = mysqli_prepare($conn, $sql);
+                mysqli_stmt_bind_param($stmt3, "i", $users_id);
+                mysqli_stmt_execute($stmt3);
+                $result3 = mysqli_stmt_get_result($stmt3);
+
+                if ($row = mysqli_fetch_assoc($result3)) {
+                     // Current PaymentCard 3
+                    $currentCard3FirstName = $row['firstName'];
+                    $currentCard3LastName = $row['lastName'];
+                    $currentCard3CardType = $row['cardType_id'];
+                    $currentCard3ExpMonth = $row['expMonth'];
+                    $currentCard3ExpYear = $row['expYear'];
+                    mysqli_stmt_close($stmt3);
+                }
+            }
+        }
+        
+    } 
     // If the form was submitted
     if (isset($_POST['submit'])) {
         
@@ -176,6 +225,83 @@ if (isset($_SESSION["users_id"])) {
             }
         }
 
+        //Check if paymentcard1 was updated
+        if(!empty($_POST["card-first-name1"]) ||  !empty($_POST["card-last-name1"]) || !empty($_POST["card-type1"]) || !empty($_POST["card-number1"]) 
+        || !empty($_POST["expiration-month1"]) || !empty($_POST["expiration-year1"])) {
+
+            $firstName = $_POST["card-first-name1"];
+            $lastName = $_POST["card-last-name1"];
+            $cardType = $_POST["card-type1"];
+            $cardNumber = $_POST["card-number1"];
+            $encryptionKey = 'encription-012df';
+            $encryptedCardNumber = openssl_encrypt($cardNumber, 'aes-256-cbc', $encryptionKey, 0, $encryptionKey);
+            $expMonth = $_POST["expiration-month1"];
+            $expYear = $_POST["expiration-year1"];
+            $email = $_SESSION["email"];
+
+                if (!userPaymentCard1Exists($conn, $email)) {
+                    $usersid = getUsersID($conn, $email);
+                    addUserPaymentCard1($conn, $usersid, $encryptedCardNumber, $cardType, $expMonth, $expYear, $firstName, $lastName);
+                    updateNumCard($conn, $email, 1);
+                }
+                else if (userPaymentCard1Exists($conn, $email) ) {
+                    $usersid = getUsersID($conn, $email);
+                    updateUserPaymentCard1($conn, $usersid, $encryptedCardNumber, $cardType, $expMonth, $expYear, $firstName, $lastName);
+                }
+        }
+        
+        
+        //Check if paymentcard2 was updated
+        if(!empty($_POST["card-first-name2"]) ||  !empty($_POST["card-last-name2"]) || !empty($_POST["card-type2"]) || !empty($_POST["card-number2"]) 
+                || !empty($_POST["expiration-month2"]) || !empty($_POST["expiration-year2"])) {
+        
+            $firstName = $_POST["card-first-name2"];
+            $lastName = $_POST["card-last-name2"];
+            $cardType = $_POST["card-type2"];
+            $cardNumber = $_POST["card-number2"];
+            $encryptionKey = 'encription-012df';
+            $encryptedCardNumber = openssl_encrypt($cardNumber, 'aes-256-cbc', $encryptionKey, 0, $encryptionKey);
+            $expMonth = $_POST["expiration-month2"];
+            $expYear = $_POST["expiration-year2"];
+            $email = $_SESSION["email"];
+                if (!userPaymentCard2Exists($conn, $email)) {
+                    $usersid = getUsersID($conn, $email);
+                    addUserPaymentCard2($conn, $usersid, $encryptedCardNumber, $cardType, $expMonth, $expYear, $firstName, $lastName);
+                    updateNumCard($conn, $email, 2);
+                    header("Location: editProfile.php?success=paymentAdded");
+                }
+                else if (userPaymentCard2Exists($conn, $email) ) {
+                $usersid = getUsersID($conn, $email);
+                updateUserPaymentCard2($conn, $usersid, $encryptedCardNumber, $cardType, $expMonth, $expYear, $firstName, $lastName);
+                header("Location: editProfile.php?success=paymentAdded");
+                }
+        }
+
+        //Check if paymentcard3 was updated
+        if(!empty($_POST["card-first-name3"]) ||  !empty($_POST["card-last-name3"]) || !empty($_POST["card-type3"]) || !empty($_POST["card-number3"]) 
+                || !empty($_POST["expiration-month3"]) || !empty($_POST["expiration-year3"])) {
+        
+            $firstName = $_POST["card-first-name3"];
+            $lastName = $_POST["card-last-name3"];
+            $cardType = $_POST["card-type3"];
+            $cardNumber = $_POST["card-number3"];
+            $encryptionKey = 'encription-012df';
+            $encryptedCardNumber = openssl_encrypt($cardNumber, 'aes-256-cbc', $encryptionKey, 0, $encryptionKey);
+            $expMonth = $_POST["expiration-month3"];
+            $expYear = $_POST["expiration-year3"];
+            $email = $_SESSION["email"];
+            
+                if (!userPaymentCard3Exists($conn, $email)) {
+                    $usersid = getUsersID($conn, $email);
+                    addUserPaymentCard3($conn, $usersid, $encryptedCardNumber, $cardType, $expMonth, $expYear, $firstName, $lastName);
+                    updateNumCard($conn, $email, 3);
+                }
+                else if (userPaymentCard3Exists($conn, $email) ) {
+                $usersid = getUsersID($conn, $email);
+                updateUserPaymentCard3($conn, $usersid, $encryptedCardNumber, $cardType, $expMonth, $expYear, $firstName, $lastName);
+                }
+        }
+
         
 
         if ($userSuccess == true || $billingSuccess == true || $deliverySuccess == true ||
@@ -185,9 +311,31 @@ if (isset($_SESSION["users_id"])) {
             sendEmailEditProfileSuccess($email);
         }
 
-        // Redirect to the index
-        header("Location: index.php?success=editProfileUpdate");
+        // Redirect
+        header("Location: editProfile.php?success=editProfileUpdate");
         exit;
     }
 } 
+// Delete Card option
+if (isset($_POST['delete1'])) {
+    deleteUserPaymentCard1($conn, $_SESSION['users_id']);
+    sendEmailEditProfileSuccess($email);
+    header("Location: editProfile.php?success=editProfileUpdate");
+    exit;
+
+}
+if (isset($_POST['delete2'])) {
+    deleteUserPaymentCard2($conn, $_SESSION['users_id']);
+    sendEmailEditProfileSuccess($email);
+    header("Location: editProfile.php?success=editProfileUpdate");
+    exit;
+
+}
+if (isset($_POST['delete3'])) {
+    deleteUserPaymentCard3($conn, $_SESSION['users_id']);
+    sendEmailEditProfileSuccess($email);
+    header("Location: editProfile.php?success=editProfileUpdate");
+    exit;
+
+}
 ?>

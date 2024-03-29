@@ -28,11 +28,18 @@
     </header>
 
 
-    <!-- Beginning Field for Register Info -->
+    <!-- Beginning Field for Register Info --> 
     <div class="wrapper">
         <!-- div class wrapper starts here -->
         <h1> Edit Profile </h1>
         <h2> Personal Info</h2>
+        <?php if (isset($_GET["success"])) {
+                        if ($_GET["success"] == "editProfileUpdate") {
+                            echo "
+                            <h2>Profile successfully updated!</h2>
+                            <br>";
+                        }
+                    } ?>
 
 
         <form action="editProfileProcess.php" method="post">
@@ -249,11 +256,9 @@
 
 
 
-
-
-            <div>
-                <h3 id="cardheader1"> Card Information 1</h3>
-            </div>
+        <div>
+            <h3 id="cardheader1"> Card Information 1</h3>
+        </div>
 
 
 
@@ -265,7 +270,8 @@
                 <!-- Card Info Fields start here-->
 
                 <div class="field">
-                    <input type="text" placeholder="First Name On Card" name="card-first-name[0]">
+                    <input type="text" placeholder="First Name On Card" name="card-first-name1"
+                    value="<?php echo htmlspecialchars($currentCard1FirstName); ?>">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -276,7 +282,8 @@
                 </div>
 
                 <div class="field">
-                    <input type="text" placeholder="Last Name On Card" name="card-last-name[0]">
+                    <input type="text" placeholder="Last Name On Card" name="card-last-name1"
+                    value="<?php echo htmlspecialchars($currentCard1LastName); ?>">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -288,11 +295,11 @@
 
 
                 <div class="field">
-                    <select name="card-type[0]" id="card-type">
+                    <select name="card-type1" id="card-type" value="<?php echo htmlspecialchars($currentCard1CardType); ?>">
                         <option value="" selected disabled> Card Type </option>
-                        <option value="visa"> Visa </option>
-                        <option value="mastercard"> Master Card</option>
-                        <option value="americanexpress"> American Express </option>
+                        <option value="1"> Visa </option>
+                        <option value="2"> Master Card</option>
+                        <option value="3"> American Express </option>
 
                     </select>
                     <!-- mail icon from fontawesome -->
@@ -307,7 +314,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="Card Number" name="card-number[0]">
+                    <input type="number" placeholder="Card Number" name="card-number1">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -318,7 +325,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="EXP Month " name="expiration-month[0]">
+                    <input type="number" placeholder="EXP Month " name="expiration-month1" value="<?php echo htmlspecialchars($currentCard1ExpMonth); ?>">
                     <!-- user icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 448 512">
@@ -329,7 +336,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="EXP Year" name="expiration-year[0]">
+                    <input type="number" placeholder="EXP Year" name="expiration-year1" value="<?php echo htmlspecialchars($currentCard1ExpYear); ?>">
                     <!-- user icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 448 512">
@@ -340,7 +347,7 @@
                 </div>
 
                 <div class="delete button">
-                    <button id="deleteButton" onclick="deleteCardInformation(this, 'cardheader1')">Delete Card
+                    <button type="submit" id="deleteButton" name="delete1" >Delete Card
                         Information</button>
                 </div>
 
@@ -365,7 +372,7 @@
                 <!-- Card Info Fields start here-->
 
                 <div class="field">
-                    <input type="text" placeholder="First Name On Card" name="card-first-name[1]">
+                    <input type="text" placeholder="First Name On Card" name="card-first-name2" value="<?php echo htmlspecialchars($currentCard2FirstName); ?>">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -376,7 +383,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="text" placeholder="Last Name On Card" name="card-last-name[1]">
+                    <input type="text" placeholder="Last Name On Card" name="card-last-name2" value="<?php echo htmlspecialchars($currentCard2LastName); ?>">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -388,11 +395,11 @@
 
 
                 <div class="field">
-                    <select name="card-type[1]" id="card-type">
+                    <select name="card-type2" id="card-type" value="<?php echo htmlspecialchars($currentCard2CardType); ?>">
                         <option value="" selected disabled> Card Type </option>
-                        <option value="visa"> Visa </option>
-                        <option value="mastercard"> Master Card</option>
-                        <option value="americanexpress"> American Express </option>
+                        <option value="1"> Visa </option>
+                        <option value="2"> Master Card</option>
+                        <option value="3"> American Express </option>
 
                     </select>
                     <!-- mail icon from fontawesome -->
@@ -407,7 +414,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="Card Number" name="card-number[1]">
+                    <input type="number" placeholder="Card Number" name="card-number2">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -418,7 +425,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="EXP Month " name="expiration-month[1]">
+                    <input type="number" placeholder="EXP Month " name="expiration-month2" value="<?php echo htmlspecialchars($currentCard2ExpMonth); ?>">
                     <!-- user icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 448 512">
@@ -429,7 +436,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="EXP Year" name="expiration-year[1]">
+                    <input type="number" placeholder="EXP Year" name="expiration-year2" value="<?php echo htmlspecialchars($currentCard2ExpYear); ?>">
                     <!-- user icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 448 512">
@@ -440,7 +447,7 @@
                 </div>
 
                 <div class="delete button">
-                    <button id="deleteButton" onclick="deleteCardInformation(this , 'cardheader2')">Delete Card
+                    <button type="submit" id="deleteButton" name="delete2" >Delete Card
                         Information</button>
                 </div>
 
@@ -461,7 +468,7 @@
                 <!-- Card Info Fields start here-->
 
                 <div class="field">
-                    <input type="text" placeholder="First Name On Card" name="card-first-name[2]">
+                    <input type="text" placeholder="First Name On Card" name="card-first-name3" value="<?php echo htmlspecialchars($currentCard3FirstName); ?>">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -472,7 +479,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="text" placeholder="Last Name On Card" name="card-last-name[2]">
+                    <input type="text" placeholder="Last Name On Card" name="card-last-name3" value="<?php echo htmlspecialchars($currentCard3LastName); ?>"> 
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -484,11 +491,11 @@
 
 
                 <div class="field">
-                    <select name="card-type[2]" id="card-type">
+                    <select name="card-type3" id="card-type" value="<?php echo htmlspecialchars($currentCard3CardType); ?>">
                         <option value="" selected disabled> Card Type </option>
-                        <option value="visa"> Visa </option>
-                        <option value="mastercard"> Master Card</option>
-                        <option value="americanexpress"> American Express </option>
+                        <option value="1"> Visa </option>
+                        <option value="2"> Master Card</option>
+                        <option value="3"> American Express </option>
 
                     </select>
                     <!-- mail icon from fontawesome -->
@@ -503,7 +510,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="Card Number" name="card-number[2]">
+                    <input type="number" placeholder="Card Number" name="card-number3">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -514,7 +521,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="EXP Month " name="expiration-month[2]">
+                    <input type="number" placeholder="EXP Month " name="expiration-month3" value="<?php echo htmlspecialchars($currentCard3ExpMonth); ?>">
                     <!-- user icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 448 512">
@@ -525,7 +532,7 @@
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="EXP Year" name="expiration-year[2]">
+                    <input type="number" placeholder="EXP Year" name="expiration-year3" value="<?php echo htmlspecialchars($currentCard3ExpYear); ?>">
                     <!-- user icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 448 512">
@@ -537,55 +544,48 @@
 
 
                 <div class="delete button">
-                    <button id="deleteButton" onclick="deleteCardInformation(this, 'cardheader3')">Delete Card
+                    <button type="submit" id="deleteButton" name="delete3" >Delete Card
                         Information</button>
                 </div>
 
 
 
-    </div>  <!-- Card Info Fields end here-->
+            </div> <!-- Card Info Fields end here-->
 
 
 
-    <div class="subscribe-promos" >
-            <input type= "checkbox" id= "subscribe-promos" name="subscribe-promos" <?php echo $currentPromoSubId == 1 ? 'checked' : ''; ?>>
-            <label for ="subscribe-promos" style = "margin-top : 85px; margin-left: -940px;"> Subscribe Promotions </label>
- </div> 
+            <div class="subscribe-promos">
+                <input type="checkbox" id="subscribe-promos" name="subscribe-promos"
+                    <?php echo $currentPromoSubId == 1 ? 'checked' : ''; ?>>
+                    <label for ="subscribe-promos" > Subscribe for Promotions </label>
+                
+            </div>
 
-        
-         <button  class="button" id = "card-info-button"  onclick = "switchPage()"> Add Payment </button>  
-        <button type = "submit" class ="button" id="submit" name="submit"> Submit </button>   
-       
-     </form>
+            <button type="submit" class="button" id="submit" name="submit"> Submit </button>
+
+        </form>
+
 
     </div> <!-- div class wrapper ends here -->
 
-
-
-
-     <script>
-        function switchPage() {
-            window.location.href = "cardInfo.php";
-
-        }
-      </script>
-
     <script>
-    function deleteCardInformation(button, headerId) {
+    function deleteCardInformation(button) {
         // Get the parent element of the button, which is the input-box card-information
         var cardInfoBox = button.parentElement.parentElement;
 
-        // Get the header element with the corresponding ID
-        var header = cardInfoBox.previousElementSibling.querySelector("#" + headerId);
+        // Find all input and select elements inside the card information box
+        var inputFields = cardInfoBox.querySelectorAll('input[type="text"], input[type="number"], select');
 
-        // Remove both the card information box and the header
-        cardInfoBox.remove();
-        if (header) {
-            header.parentElement.remove();
-        }
-
+        // Loop through each input field and select element
+        inputFields.forEach(function(field) {
+            // Clear the value of each field
+            field.value = '';
+        });
     }
     </script>
+
+  
+
 
 
 
