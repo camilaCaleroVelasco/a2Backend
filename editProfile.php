@@ -249,23 +249,6 @@
 
 
 
-            <div class="subscribe-promos">
-                <input type="checkbox" id="subscribe-promos" name="subscribe-promos"
-                    <?php echo $currentPromoSubId == 1 ? 'checked' : ''; ?>>
-                <label for="subscribe-promos" style="margin-top : 85px; margin-left: -940px;"> Subscribe Promotions
-                </label>
-            </div>
-
-            <button type="submit" class="button" id="submit" name="submit"> Submit </button>
-
-        </form>
-
-
-
-
-
-
-
         <div>
             <h3 id="cardheader1"> Card Information 1</h3>
         </div>
@@ -355,7 +338,7 @@
                 </div>
 
                 <div class="delete button">
-                    <button id="deleteButton" onclick="deleteCardInformation(this, 'cardheader1')">Delete Card
+                    <button id="deleteButton" onclick="deleteCardInformation(this)">Delete Card
                         Information</button>
                 </div>
 
@@ -455,7 +438,7 @@
                 </div>
 
                 <div class="delete button">
-                    <button id="deleteButton" onclick="deleteCardInformation(this , 'cardheader2')">Delete Card
+                    <button id="deleteButton" onclick="deleteCardInformation(this )">Delete Card
                         Information</button>
                 </div>
 
@@ -552,7 +535,7 @@
 
 
                 <div class="delete button">
-                    <button id="deleteButton" onclick="deleteCardInformation(this, 'cardheader3')">Delete Card
+                    <button id="deleteButton" onclick="deleteCardInformation(this)">Delete Card
                         Information</button>
                 </div>
 
@@ -592,11 +575,7 @@
     }
     </script>
 
-    <script>
-    document.getElementById("card-info-button").addEventListener("click", () => {
-        window.location.href = "cardInfo.php"; // Directs to cardInfo.php
-    });
-    </script>
+  
 
 
 
