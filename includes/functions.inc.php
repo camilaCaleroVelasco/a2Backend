@@ -378,7 +378,7 @@
         $resultData = mysqli_stmt_get_result($stmt);
 
         if ($row = mysqli_fetch_assoc($resultData)) {
-            $result = $resultData["users_id"];
+            $result = $row["users_id"];
         }
         else {
             $result = false;
@@ -387,32 +387,17 @@
         return $result;
     }
 
-    function updateUserPaymentCard1($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $securityCode, $firstName, $lastName) {
+    function addUserPaymentCard1($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
         //encrypt payment card code here 
-        $sql = "UPDATE paymentcard1 SET cardNum = ?, cardType_id = ?, expMonth = ?, expYear = ?, securityCode = ?,
-        firstName = ?, lastName = ? WHERE users_id = ?;";
+        $sql = "INSERT INTO paymentcard1 (cardNum, cardType_id, expMonth, expYear,
+        firstName, lastName, users_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
             header("Location: editProfile.php?error=stmtfailed"); 
             exit();
         }
 
-        mysqli_stmt_bind_param($stmt, "sisssissi", $cardNumEncrypt, $cardType_id, $expMonth, $expYear, $securityCode, $firstName, $lastName, $usersid);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-    }
-
-    function addUserPaymentCard1($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $securityCode, $firstName, $lastName) {
-        //encrypt payment card code here 
-        $sql = "INSERT INTO paymentcard1 (cardNum, cardType_id, expMonth, expYear, securityCode,
-        firstName, lastName, users_id) VALUES ?, ?, ?, ?, ?, ?, ?, ?;";
-        $stmt = mysqli_stmt_init($conn);
-        if(!mysqli_stmt_prepare($stmt, $sql)) {
-            header("Location: editProfile.php?error=stmtfailed"); 
-            exit();
-        }
-
-        mysqli_stmt_bind_param($stmt, "sisssissi", $cardNumEncrypt, $cardType_id, $expMonth, $expYear, $securityCode, $firstName, $lastName, $usersid);
+        mysqli_stmt_bind_param($stmt, "sissssi", $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName, $usersid);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
     }
@@ -462,32 +447,17 @@
          return $result;
     }
 
-    function updateUserPaymentCard2($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $securityCode, $firstName, $lastName) {
+    function addUserPaymentCard2($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
         //encrypt payment card code here 
-        $sql = "UPDATE paymentcard2 SET cardNum = ?, cardType_id = ?, expMonth = ?, expYear = ?, securityCode = ?,
-        firstName = ?, lastName = ? WHERE users_id = ?;";
+        $sql = "INSERT INTO paymentcard2 (cardNum, cardType_id, expMonth, expYear,
+        firstName, lastName, users_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
             header("Location: editProfile.php?error=stmtfailed"); 
             exit();
         }
 
-        mysqli_stmt_bind_param($stmt, "sisssissi", $cardNumEncrypt, $cardType_id, $expMonth, $expYear, $securityCode, $firstName, $lastName, $usersid);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-    }
-
-    function addUserPaymentCard2($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $securityCode, $firstName, $lastName) {
-        //encrypt payment card code here 
-        $sql = "INSERT INTO paymentcard2 (cardNum, cardType_id, expMonth, expYear, securityCode,
-        firstName, lastName, users_id) VALUES ?, ?, ?, ?, ?, ?, ?, ?;";
-        $stmt = mysqli_stmt_init($conn);
-        if(!mysqli_stmt_prepare($stmt, $sql)) {
-            header("Location: editProfile.php?error=stmtfailed"); 
-            exit();
-        }
-
-        mysqli_stmt_bind_param($stmt, "sisssissi", $cardNumEncrypt, $cardType_id, $expMonth, $expYear, $securityCode, $firstName, $lastName, $usersid);
+        mysqli_stmt_bind_param($stmt, "sissssi", $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName, $usersid);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
     }
@@ -536,33 +506,18 @@
         }
          return $result;
     }
-
-    function updateUserPaymentCard3($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $securityCode, $firstName, $lastName) {
+    
+    function addUserPaymentCard3($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
         //encrypt payment card code here 
-        $sql = "UPDATE paymentcard3 SET cardNum = ?, cardType_id = ?, expMonth = ?, expYear = ?, securityCode = ?,
-        firstName = ?, lastName = ? WHERE users_id = ?;";
+        $sql = "INSERT INTO paymentcard3 (cardNum, cardType_id, expMonth, expYear,
+        firstName, lastName, users_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
             header("Location: editProfile.php?error=stmtfailed"); 
             exit();
         }
 
-        mysqli_stmt_bind_param($stmt, "sisssissi", $cardNumEncrypt, $cardType_id, $expMonth, $expYear, $securityCode, $firstName, $lastName, $usersid);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-    }
-
-    function addUserPaymentCard3($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $securityCode, $firstName, $lastName) {
-        //encrypt payment card code here 
-        $sql = "INSERT INTO paymentcard3 (cardNum, cardType_id, expMonth, expYear, securityCode,
-        firstName, lastName, users_id) VALUES ?, ?, ?, ?, ?, ?, ?, ?;";
-        $stmt = mysqli_stmt_init($conn);
-        if(!mysqli_stmt_prepare($stmt, $sql)) {
-            header("Location: editProfile.php?error=stmtfailed"); 
-            exit();
-        }
-
-        mysqli_stmt_bind_param($stmt, "sisssissi", $cardNumEncrypt, $cardType_id, $expMonth, $expYear, $securityCode, $firstName, $lastName, $usersid);
+        mysqli_stmt_bind_param($stmt, "sissssi", $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName, $usersid);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
     }

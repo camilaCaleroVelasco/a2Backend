@@ -261,11 +261,17 @@
         </form>
 
 
+    <?php if(isset($_GET["success"])) {
+        if ($_GET["success"] == "paymentAdded") {
+            echo "<h2>New payment card successfully added!</h2>";
+        }
+    } ?>
 
-
-
-
-
+    <?php if(isset($_GET["error"])) {
+        if ($_GET["error"] == "maxPayment") {
+            echo "<h2>Maximum amount of cards reached. Please delete a card to add.</h2>";
+        }
+    } ?>
         <div>
             <h3 id="cardheader1"> Card Information 1</h3>
         </div>
