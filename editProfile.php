@@ -28,7 +28,7 @@
     </header>
 
 
-    <!-- Beginning Field for Register Info -->
+    <!-- Beginning Field for Register Info --> 
     <div class="wrapper">
         <!-- div class wrapper starts here -->
         <h1> Edit Profile </h1>
