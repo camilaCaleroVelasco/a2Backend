@@ -53,14 +53,14 @@ CREATE TABLE BillingAddress(
     billingStreetAddress VARCHAR(255),
     billingCity VARCHAR(255),
     billingState VARCHAR(255),
-    billingZipCode INT
+    billingZipCode VARCHAR(255)
 );
 CREATE TABLE DeliveryAddress(
     delivery_id INT PRIMARY KEY AUTO_INCREMENT,
     deliveryStreetAddress VARCHAR(255),
     deliveryCity VARCHAR(255),
     deliveryState VARCHAR(255),
-    deliveryZipCode INT
+    deliveryZipCode VARCHAR(255)
 );
 -- PromoSubscription enumeration
 CREATE TABLE PromoSubscription(
