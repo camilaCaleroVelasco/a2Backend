@@ -1,8 +1,8 @@
 <?php
 
-$dsn = "mysql:host=localhost;dbname=movies";
-$dbusername = "root";
-$dbpassword = "";
+$dsn = "mysql:host=movies.c1escyq2w908.us-east-1.rds.amazonaws.com;dbname=movies";
+$dbusername = "admin";
+$dbpassword = "passworda2movies";
 
 try {
     $pdo = new PDO($dsn, $dbusername, $dbpassword);//grabbing the info from database

@@ -2,9 +2,9 @@
     //session_start(); not needed beacuse editProfileProcess added
     include 'includes/databaseConnection.inc.php';
     include_once 'editProfileProcess.php';
-        $mysqli = new mysqli("localhost","root","","movies");
-        $sqlNP = "SELECT * FROM movies WHERE movie_status LIKE '%now playing%'";
-        $sqlCS = "SELECT * FROM movies WHERE movie_status LIKE '%coming soon%'";
+        $mysqli = new mysqli("movies.c1escyq2w908.us-east-1.rds.amazonaws.com","admin","passworda2movies","movies");
+        $sqlNP = "SELECT * FROM Movies WHERE movie_status LIKE '%now playing%'";
+        $sqlCS = "SELECT * FROM Movies WHERE movie_status LIKE '%coming soon%'";
         $resultNP = mysqli_query( $mysqli, $sqlNP ) or die("bad query: $sql");
         $resultCS = mysqli_query( $mysqli, $sqlCS ) or die("bad query: $sql");
 ?>
