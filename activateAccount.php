@@ -1,18 +1,21 @@
 <?php
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
     $token = $_GET["token"];
 
     $token_hash = hash("sha256", $token);
 
     // DB connection
-    $pdo = require __DIR__ . "/includes/databaseConnection.inc.php";
+    require_once 'includes/dbh.inc.php';
 
     // Retrieve account_activation_hash
     $sql = "SELECT * FROM Users
             WHERE account_activation_hash = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$token_hash]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $token_hash);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $user = mysqli_fetch_assoc($result);
     if ($user === false) {
         die("Token not found");
     }
@@ -21,25 +24,26 @@
     // Retrieve userStatus_id for 'Active' status
     $userStatus = 'Active';
     $sqlUserStatus = "SELECT userStatus_id FROM UserStatus WHERE status = ?";
-    $stmtStatus = $pdo->prepare($sqlUserStatus);
-    $stmtStatus->execute([$userStatus]);
-    $userStatusRow = $stmtStatus->fetch(PDO::FETCH_ASSOC);
-    if (!$userStatusRow) {
+    $stmtStatus = mysqli_prepare($conn, $sqlUserStatus);
+    mysqli_stmt_bind_param($stmtStatus, "s", $userStatus);
+    mysqli_stmt_execute($stmtStatus);
+    $resultStatus = mysqli_stmt_get_result($stmtStatus);
+    $userStatusRow = mysqli_fetch_assoc($resultStatus);
+    if (!$userStatusRow) { // maybe change?
         die("UserStatus not found for status: $userStatus");
     }
     $userStatus_id = $userStatusRow['userStatus_id'];
 
-
-
     // Update Users table to set account_activation_hash to NULL and userStatus_id to 'Active'
     $sqlUpdate = "UPDATE Users SET account_activation_hash = NULL, userStatus_id = ? WHERE users_id = ?";
-    $stmtUpdate = $pdo->prepare($sqlUpdate);
-
+    $stmtUpdate = mysqli_prepare($conn, $sqlUpdate);
+    mysqli_stmt_bind_param($stmtUpdate, "ii", $userStatus_id, $user["users_id"]);
 
     // Execute the update query
-    if (!$stmtUpdate->execute([$userStatus_id, $user["users_id"]])) {
-        die("Failed to activate account: " . implode(", ", $stmtUpdate->errorInfo()));
-    } 
+    if (!mysqli_stmt_execute($stmtUpdate)) {
+        die("Failed to activate account: " . mysqli_error($conn));
+    }
+
 
 ?>
 
