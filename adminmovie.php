@@ -1,10 +1,9 @@
 <?php
-    include 'includes/databaseConnection.inc.php';
-        $mysqli = new mysqli("localhost","root","","movies");
+    include "includes/dbh.inc.php";
         $sqlNP = "SELECT * FROM movies WHERE movie_status LIKE '%now playing%'";
         $sqlCS = "SELECT * FROM movies WHERE movie_status LIKE '%coming soon%'";
-        $resultNP = mysqli_query( $mysqli, $sqlNP ) or die("bad query: $sql");
-        $resultCS = mysqli_query( $mysqli, $sqlCS ) or die("bad query: $sql");
+        $resultNP = mysqli_query( $conn, $sqlNP ) or die("bad query: $sql");
+        $resultCS = mysqli_query( $conn, $sqlCS ) or die("bad query: $sql");
 ?>
 
 <!DOCTYPE html>
