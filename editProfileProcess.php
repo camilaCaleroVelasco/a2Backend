@@ -4,7 +4,6 @@ ini_set('display_errors', 1);
 
 session_start();
 
-include_once 'includes/databaseConnection.inc.php'; 
 require_once 'includes/dbh.inc.php';
 require_once 'includes/functions.inc.php';
 
