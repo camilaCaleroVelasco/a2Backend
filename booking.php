@@ -3,31 +3,30 @@
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
 
     $movie_id = $_GET["movie_id"];
+        require_once "includes/dbh.inc.php";
 
-    try {
-        require_once "includes/databaseConnection.inc.php";
+        $sql = "SELECT * FROM movies WHERE movie_id = ?";
 
-        $query = "SELECT * FROM movies WHERE movie_id = :movie_id"; // Corrected query
+        
+        $stmt = mysqli_stmt_init($conn);
 
-        $stmt = $pdo->prepare($query);
-        $stmt->bindValue(':movie_id', $movie_id, PDO::PARAM_INT); // Correct binding
-        $stmt->execute();
+        if(!mysqli_stmt_prepare($stmt, $sql)) {
+            header("Location: booking.php?error=stmtfailed"); 
+            exit();
+        }
 
-        $movie = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch single movie
+        mysqli_stmt_bind_param($stmt, "i", $movie_id);
+        mysqli_stmt_execute($stmt);
 
-        if ($movie) { // Check if movie found
-            // Display movie details
-        } else {
-            // Handle movie not found
+        $resultData = mysqli_stmt_get_result($stmt); // Fetch single movie
+
+        
+        $movie = mysqli_fetch_assoc($resultData);
+
+        if (!$movie) { // Check if movie found
             echo "<p>Movie not found.</p>";
         }
 
-        $pdo = null;
-        $stmt = null;
-
-    } catch (PDOException $e) {
-        die("Query failed: " . $e->getMessage());
-    }
 } else {
     header("Location: ../index.php"); // Redirect if no movie ID
 }
