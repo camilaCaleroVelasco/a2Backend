@@ -1,30 +1,18 @@
 <?php
+    require_once "includes/dbh.inc.php";
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST"){
-        $movieTitle = $_POST["moviesearch"];
-        
-
-        try {
-            require_once "includes/databaseConnection.inc.php";
+        $search = $_POST["moviesearch"];
             
-            $query = "SELECT * FROM movies WHERE movie_title LIKE :moviesearch;"; //sql
+        $sql = "SELECT * FROM movies WHERE (movie_title LIKE '%$search%' OR category LIKE '%$search%')"; //sql
+        
+        $results = mysqli_query( $conn, $sql ) or die("bad query: $sql");
 
-                $stmt = $pdo->prepare($query);
-                $stmt->bindValue(':moviesearch', '%' . $movieTitle . '%', PDO::PARAM_STR);               
-                 $stmt-> execute();
-
-                $results = $stmt->fetchAll(PDO::FETCH_ASSOC); //data from db is in results
-                #var_dump($results);
-
-                $pdo = null;
-                $stmt = null;
-
-        } catch (PDOException $e) {
-            die("Query failed: " . $e->getMessage());
-        }
+        //echo var_dump($results) . "<br>";
+        
     }
     else{
-        header("Location: ../index.php");//sends back to the index page so ppl can't get data
+        header("Location: index.php");//sends back to the index page so ppl can't get data
     }
 ?>
 
@@ -59,28 +47,26 @@
         <h3>Search results:</h3>
 
         <?php
-
-        if(empty($results)) {
-            echo "<div>";
-            echo "<p> There were no results! </p>";
-            echo "</div>";
-        }
-        else {
-            foreach ($results as $row) {
+            if(empty($results)) {
                 echo "<div>";
-                //direct to movieDetails when button is clicked
-                echo "<a href='movieDetails.php?movie_id=" . $row["movie_id"] . "'>";
-                //<!---Create the image as a button--->
-                echo "<h4>";
-                echo "<button class = 'image-button'> <img id='movie' src=" . htmlspecialchars($row["picture"]) . "width='300'
-                height='400'</h4>" ;
-                echo "</a>
-                <br>";
-              
+                echo "<p> There were no results! </p>";
                 echo "</div>";
             }
-        }
-    ?>
+            else {
+                while( $row = mysqli_fetch_array( $results) ) {
+                    echo "<div>";
+                    //direct to movieDetails when button is clicked
+                    echo "<a href='movieDetails.php?movie_id=" . $row["movie_id"] . "'>";
+                    //<!---Create the image as a button--->
+                    echo "<h4>";
+                    echo "<button class = 'image-button'> <img id='movie' src=" . htmlspecialchars($row["picture"]) . "width='300'
+                    height='400'</h4>" ;
+                    echo "</a>
+                    <br>";
+                    echo "</div>";
+                }
+            }
+        ?>
 
     </section>
 

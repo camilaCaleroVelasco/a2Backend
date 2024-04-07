@@ -26,7 +26,7 @@
         }
     }
     else {
-        header("Location: forgotPassword.php?error=");
+        header("Location: index.php");
         exit();
     }
 

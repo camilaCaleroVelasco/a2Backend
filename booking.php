@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
         }
 
 } else {
-    header("Location: ../index.php"); // Redirect if no movie ID
+    header("Location: index.php"); // Redirect if no movie ID
 }
 ?>
 
