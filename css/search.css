@@ -1,0 +1,78 @@
+.filter-buttons{
+    display: flex; /* Use flexbox */
+}
+#nowPlaying, #comingSoon  {  /* buttons for coming soon and now playing soon */
+    width : 300px; /* size of button */
+    padding :16px 0;
+    font-size: 1rem;
+    background: #317DFF;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+
+}
+
+#nowPlaying:hover, #comingSoon:hover {
+    border: 5px solid  #317DFF;
+    box-shadow: 0 0 30px   #317DFF, inset 0 0 30px  #317DFF;
+}
+
+
+#comingSoon {
+     margin-left: 100px; 
+  
+
+
+}
+
+#nowPlaying {
+    margin-left: 550px; 
+  
+
+}
+
+
+.image-button img {
+    padding: 20px;
+    height :600px;
+    width: 400px;
+    object-fit: cover;
+    transition: all 1s ease-in-out;
+    position: relative;
+ }
+
+ /* Apply styles to the image buttons */
+.image-button {
+    margin-right: 20px; /* Add some right margin for spacing between images */
+    margin-bottom: 20px; /* Add some bottom margin for spacing between rows */
+    margin-left: 20px; /* Adjust left margin to shift images  */
+    
+  
+ 
+   
+}
+
+ /* Apply flexbox layout to the search results section */
+section {
+    display: flex;
+    flex-wrap: wrap; /* Allow images to wrap to the next line if necessary */
+    justify-content: flex-start; /* Align items at the start of the flex container */
+    margin-top: 50px; /* shift images down a bit */
+   
+}
+
+#searchHeader {
+    margin-top: 50px; /* Add margin to create space between the header and image buttons */
+}
+
+
+
+
+
+
+
+
+

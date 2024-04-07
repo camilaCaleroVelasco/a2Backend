@@ -1,8 +1,61 @@
+CREATE TABLE MovieCategory(
+    category_id INT PRIMARY KEY AUTO_INCREMENT,
+    category VARCHAR(255)
+);
+
+-- Key = 1
+INSERT INTO MovieCategory(category)
+VALUES('ACTION');
+
+-- Key = 2
+INSERT INTO MovieCategory(category)
+VALUES('ADVENTURE');
+
+-- Key = 3
+INSERT INTO MovieCategory(category)
+VALUES('ANIMATED');
+
+-- Key = 4
+INSERT INTO MovieCategory(category)
+VALUES('COMEDY');
+
+-- Key = 5
+INSERT INTO MovieCategory(category)
+VALUES('DRAMA');
+
+-- Key = 6
+INSERT INTO MovieCategory(category)
+VALUES('MUSIC');
+
+-- Key = 7
+INSERT INTO MovieCategory(category)
+VALUES('FANTASY');
+
+-- Key = 8
+INSERT INTO MovieCategory(category)
+VALUES('HORROR');
+
+-- Key = 9
+INSERT INTO MovieCategory(category)
+VALUES('ROMANCE');
+
+-- Key = 10
+INSERT INTO MovieCategory(category)
+VALUES('SCI-FI');
+
+-- Key = 11
+INSERT INTO MovieCategory(category)
+VALUES('SUSPENSE');
+
+-- Key = 12
+INSERT INTO MovieCategory(category)
+VALUES('THRILLER');
+
 
 CREATE TABLE Movies(
     movie_id INT PRIMARY KEY AUTO_INCREMENT,
     movie_title VARCHAR(255) NOT NULL UNIQUE,
-    category VARCHAR(255),
+    category_id INT,
     cast TEXT,
     director VARCHAR(255),
     producer VARCHAR(255),
@@ -11,12 +64,13 @@ CREATE TABLE Movies(
     picture VARCHAR(255),
     video VARCHAR(255),
     rating_code VARCHAR(255),
-    movie_status VARCHAR(255)
+    movie_status VARCHAR(255),
+    FOREIGN KEY (category_id) REFERENCES MovieCategory(category_id)
 );
 
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -29,7 +83,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'ANYONE BUT YOU',
-        'Romance, Comedy',
+        '9',
         'Sydney Sweeney, Glen Powell, Alexandra Shipp, GaTa, Hadley Robinson',
         'Will Gluck',
         'Alyssa Altman',
@@ -42,7 +96,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -55,7 +109,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'THE AMERICAN SOCIETY OF MAGICAL NEGROES',
-        'Comedy, Sci-Fi, Fantasy',
+        '7',
         'Justice Jesse Smith, David Alan Grier, An-Li Bogan, Drew Tarver, Michaela Watkins',
         'Kobi Libi',
         'Angel Lopez',
@@ -68,7 +122,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -81,7 +135,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'ARGYLLE',
-        'Action, Adventure, Suspense, Thriller',
+        '11',
         "Henry Cavill, Bryce Dallas Howard, Sam Rockwell, Bryan Cranston, Catherine O'Hara",
         'Matthew Vaughn',
         'Adam Fishbach',
@@ -94,7 +148,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -107,7 +161,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'ARTHUR THE KING',
-        'Drama',
+        '5',
         'Mark Wahlberg, Nathalie Emmanuel, Juliet Rylance, Simu Liu, Paul Guilfoyle',
         'Simon Cellan Jones',
         'Courtney Solomon',
@@ -120,7 +174,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -133,7 +187,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'AMERICAN FICTION',
-        'Comedy, Drama',
+        '4',
         'Jeffrey Wright, Tracee Ellis Ross, Erika Alexander, Issa Rae, Sterling K. Brown',
         'Cord Jefferson',
         'Ben LeClair',
@@ -146,7 +200,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -159,7 +213,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'THE BEEKEEPER',
-        'Action, Adventure, Suspense, Thriller',
+        '1',
         'Jason Statham, Jeremy Irons, Emmy Raver-Lapman, Bobby Naderi, Josh Hutcherson',
         'David Ayer',
         'Bill Block',
@@ -172,7 +226,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -185,7 +239,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'CABRINI',
-        'Drama',
+        '5',
         "Cristiana Dell'Anna, David Morse, John Lithgow, Giancarlo Giannini, Federico Castelluccio",
         'Alejandro Monteverde',
         'Eduardo Verastegui',
@@ -198,7 +252,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -211,7 +265,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'CHALLENGERS',
-        'Drama',
+        '5',
         "Zendaya, Josh O'Connor, Mike Faist, A.J. Lister, Amy Pascal",
         'Luca Guadagnino',
         'Kevin Ulrich',
@@ -224,7 +278,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -237,7 +291,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'DUNE: PART TWO',
-        'Drama, Sci-Fi, Fantasy',
+        '10',
         'Timothee Chalamet, Zendaya, Rebecca Ferguson, Josh Brolin, Austin Butler',
         'Denis Villeneuve',
         'Denis Villeneuve',
@@ -250,7 +304,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -263,7 +317,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'LISA FRANKENSTEIN',
-        'Comedy, Horror',
+        '4',
         'Kathryn Newton, Cole Spouse, Carla Gugino, Liza Soberano, Joe Chrest',
         'Zelda Williams',
         'Diablo Cody',
@@ -276,7 +330,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -289,7 +343,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'FURIOSA: A MAD MAX STORY',
-        'Action, Adventure, Sci-Fi, Fantasy',
+        '1',
         'Anya Taylor-Joy, Chris Hemsworth, Alyla Browne, Tom Burke, Nathan Jones',
         'George Miller',
         'Doug Mitchell',
@@ -302,7 +356,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -315,7 +369,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'THE GARFIELD MOVIE',
-        'Animated, Comedy',
+        '3',
         'Chris Pratt, Samuel L. Jackson, Nicholas Hoult, Hannah Waddingham, Cecily Strong',
         'Mark Dindal',
         'Bridget McMeel',
@@ -328,7 +382,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -341,7 +395,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'GHOSTBUSTERS: FROZEN EMPIRE',
-        'Action, Adventure, Comedy',
+        '2',
         'Paul Rudd, Carrie Coon, Finn Wolfhard, Mckenna Grace, Kumail Nanjiani',
         'Gil Kenan',
         'Gil Kenan',
@@ -354,7 +408,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -367,7 +421,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'GODZILLA X KONG: THE NEW EMPIRE',
-        'Action, Adventure, Sci-Fi, Fantasy',
+        '1',
         'Rebecca Hall, Brian Tyree Henry, Dan Stevens, Kaylee Hottle, Alex Ferns',
         'Adam Wingard',
         'Alex Garcia',
@@ -380,7 +434,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -393,7 +447,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'IF',
-        'Comedy, Drama',
+        '4',
         'Emily Blunt, Ryan Reynolds, Matt Damon, Pheobe Waller-Bridge, Steve Carell',
         'John Krasinski',
         'John Krasinksi',
@@ -406,7 +460,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -419,7 +473,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'IMAGINARY',
-        'Horror',
+        '8',
         'Betty Buckley, Veronica Falcon, Matthew Sato, Diane DiLiegro, Suzette Lange',
         'Jeff Wadlow',
         'Jason Blum',
@@ -432,7 +486,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -445,7 +499,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'INSIDE OUT 2',
-        'Animated, Comedy',
+        '3',
         'Maya Hawke, Amy Poehler, Phyllis Smith, Lewis Black, Tony Hale',
         'Kelsey Mann',
         'Mark Nielsen',
@@ -458,7 +512,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -471,7 +525,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'KUNG FU PANDA 4',
-        'Action, Adventure, Animated',
+        '3',
         'Jack Black, Awkwafina, Viola Davis, Dustin Hoffman, James Hong',
         'Mike Mitchell',
         'Rebecca Huntley',
@@ -484,7 +538,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -497,7 +551,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'LAND OF BAD',
-        'Drama',
+        '5',
         'Liam Hemsworth, Russel Crowe, Luke Hemsworth, Ricky Whittle, Milo Ventimiglia',
         'William Eubank',
         'Adam Beasley',
@@ -510,7 +564,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -523,7 +577,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'MADAME WEB',
-        'Suspense, Thriller',
+        '12',
         "Dakota Johnson, Sydney Sweeney, Celeste O'Connor, Isabela Merced, Tahar Rahim",
         'S.J. Clarkson',
         'Adam Merims',
@@ -536,7 +590,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -549,7 +603,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'BOB MARLEY: ONE LOVE',
-        'Drama',
+        '5',
         'Kingsley Ben-Adir, Lashana Lynch, James Norton, Tosin Cole, Umi Myers',
         'Reinaldo Marcus Green',
         'Reinaldo Marcus Green',
@@ -562,7 +616,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -575,7 +629,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'MEAN GIRLS',
-        'Comedy, Music, Performing Arts',
+        '6',
         "Angourie Rice, Renee Rapp, Auli'i Cravalho, Jaquel Spivey, Avantika",
         'Samantha Jayne',
         'Samantha Jayne',
@@ -588,7 +642,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -601,7 +655,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'MICKEY 17',
-        'Adventure, Drama, Sci-Fi',
+        '10',
         'Robert Pattinson, Mark Ruffalo, Toni Collette, Naomi Ackie, Steven Yeun',
         'Bong Joon Ho',
         'Bong Joon Ho',
@@ -614,7 +668,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -627,7 +681,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'NIGHT SHIFT',
-        'Horror, Suspense, Thriller',
+        '8',
         'Pheobe Tonkin, Madison Hu, Lamorne Morris, Patrick Fischler, Christopher Denham',
         'Benjamin China, Paul China',
         'Bradley Pilz',
@@ -640,7 +694,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -653,7 +707,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'OPPENHEIMER',
-        'Suspense, Thriller',
+        '5',
         'Cillian Murphy, Emily Blunt, Robert Downey Jr., Matt Damon, FLorence Pugh',
         'Christopher Nolan',
         'Christopher Nolan',
@@ -666,7 +720,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -679,7 +733,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'ORDINARY ANGLES',
-        'Drama',
+        '5',
         'Hilary Swank, Alan Ritchson, Nancy Travis, Amy Acker, Tamala Jones',
         'Jon Gunn',
         'Andrew Erwin',
@@ -692,7 +746,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -705,7 +759,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'OUT OF DARKNESS',
-        'Drama',
+        '5',
         'Safia Oakley-Green, Kit Young, Chuku Modu, Iola Evans, Arno Luening',
         'Andrew Cumming',
         'David Kaplan',
@@ -718,7 +772,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -731,7 +785,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'KINGDOM OF THE PLANET OF THE APES',
-        'Action, Adventure, Sci-Fi, Fantasy',
+        '10',
         'Owen Teague, Freya Allan, Kevin Durand, William H. Macy, Peter Macon',
         'Wes Ball',
         'Amanda Silver',
@@ -744,7 +798,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -757,7 +811,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'POOR THINGS',
-        'Romance, Sci-Fi, Fantasy',
+        '5',
         'Emma Stone, Willem Dafoe, Mark Ruffalo, Christopher Abott, Jerrod Carmichael',
         'Yorgos Lanthimos',
         'Emma Stone',
@@ -770,7 +824,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -783,7 +837,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'A QUIET PLACE: DAY ONE',
-        'Drama, Horror',
+        '8',
         "Lupita Nyong'o, Albert McCausland, Allyson Seeger, Andrew Form, Andrew Mondshein",
         'Michael Sarnoski',
         'John Krasinski',
@@ -796,7 +850,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -809,7 +863,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'WICKED',
-        'Drama, Music, Performing Arts',
+        '6',
         'Ariana Grande, Cynthia Erivo, Jeff Goldblum, Michelle Yeoh, Jonathan Bailey',
         'John M. Chu',
         'David Stone',
@@ -822,7 +876,7 @@ VALUES (
     );
 INSERT INTO Movies(
         movie_title,
-        category,
+        category_id,
         cast,
         director,
         producer,
@@ -835,7 +889,7 @@ INSERT INTO Movies(
     )
 VALUES (
         'WONKA',
-        'Comedy, Sci-Fi, Fantasy',
+        '7',
         'Timothee Chalamet, Hugh Grant, Calah Lane, Keegan-Michael Key, Patterson Joseph',
         'Paul King',
         'Paul King',
