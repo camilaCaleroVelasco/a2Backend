@@ -42,6 +42,9 @@
                         else if ($_GET["error"] == "stmtfailed") {
                             echo "<p>FATIAL CONNECTION ERROR.</p>";
                         }
+                        else if($_GET["error"] == "notLoggedIn") {
+                            echo "<p> To continue checking out, please login.";
+                        }
                     }
                     if (isset($_GET["success"])) {
                         if ($_GET["success"] == "pwdupdate") {
