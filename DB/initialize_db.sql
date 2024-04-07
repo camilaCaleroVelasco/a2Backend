@@ -82,8 +82,6 @@ CREATE TABLE Users(
     firstName VARCHAR(255),
     lastName VARCHAR(255),
     phoneNumber INT,
-    numOfCards INT,
-    account_activation_hash VARCHAR(255),
     userStatus_id INT,
     userType_id INT,
     pwdResetPin1 INT,
@@ -117,6 +115,7 @@ VALUES('AMERICAN EXPRESS');
 CREATE TABLE PaymentCard1(
     card1_id INT PRIMARY KEY AUTO_INCREMENT,
     cardNum VARCHAR(255),
+    lastFour INT,
     cardType_id INT,
     expMonth VARCHAR(255),
     expYear VARCHAR(255),
@@ -129,6 +128,7 @@ CREATE TABLE PaymentCard1(
 CREATE TABLE PaymentCard2(
     card2_id INT PRIMARY KEY AUTO_INCREMENT,
     cardNum VARCHAR(255),
+    lastFour INT,
     cardType_id INT,
     expMonth VARCHAR(255),
     expYear VARCHAR(255),
@@ -141,6 +141,7 @@ CREATE TABLE PaymentCard2(
 CREATE TABLE PaymentCard3(
     card3_id INT PRIMARY KEY AUTO_INCREMENT,
     cardNum VARCHAR(255),
+    lastFour INT,
     cardType_id INT,
     expMonth VARCHAR(255),
     expYear VARCHAR(255),
