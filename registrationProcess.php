@@ -2,8 +2,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-    include_once 'includes/databaseConnection.inc.php'; 
     include_once 'includes/functions.inc.php';
+    include_once 'includes/dbh.inc.php';
+
 
     if (empty($_POST["first-name"])) {
         header("Location: register.php?error=firstname");
@@ -48,33 +49,33 @@ ini_set('display_errors', 1);
     
     // Hash password
     $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
-    
-    $pdo = require __DIR__ . "/includes/databaseConnection.inc.php";
 
     // Create Activation token
     $activation_token = bin2hex(random_bytes(16));
     $activation_token_hash = hash("sha256", $activation_token);
 
-
     //Check if email already exists
     $email = $_POST["email-address"];
     $sqlEmailCheck = "SELECT COUNT(*) AS count FROM Users WHERE email = ?";
-    $stmtEmailCheck = $pdo->prepare($sqlEmailCheck);
-    $stmtEmailCheck->execute([$email]);
-    $resultEmailCheck = $stmtEmailCheck->fetch(PDO::FETCH_ASSOC);
+    $stmtEmailCheck = mysqli_prepare($conn, $sqlEmailCheck);
+    mysqli_stmt_bind_param($stmtEmailCheck, "s", $email);
+    mysqli_stmt_execute($stmtEmailCheck);
+    $resultEmailCheck = mysqli_stmt_get_result($stmtEmailCheck);
+    $emailCheckRow = mysqli_fetch_assoc($resultEmailCheck);
 
-    if ($resultEmailCheck['count'] > 0) {
+    if ($emailCheckRow['count'] > 0) {
         header("Location: register.php?error=emailexists");
         exit();
     }
 
-
     // Get $userStatus_id
     $userStatus = 'Inactive'; //user just created account so Inactive
     $sqlUserStatus = "SELECT userStatus_id FROM UserStatus WHERE status = ?";
-    $stmtUserStatus = $pdo->prepare($sqlUserStatus);
-    $stmtUserStatus->execute([$userStatus]);
-    $userStatusRow = $stmtUserStatus->fetch(PDO::FETCH_ASSOC);
+    $stmtUserStatus = mysqli_prepare($conn, $sqlUserStatus);
+    mysqli_stmt_bind_param($stmtUserStatus, "s", $userStatus);
+    mysqli_stmt_execute($stmtUserStatus);
+    $resultUserStatus = mysqli_stmt_get_result($stmtUserStatus);
+    $userStatusRow = mysqli_fetch_assoc($resultUserStatus);
     if ($userStatusRow) {
         $userStatus_id = $userStatusRow['userStatus_id'];
     } else {
@@ -85,9 +86,11 @@ ini_set('display_errors', 1);
     // Get $userType_id
     $userType = 'Customer'; // Default user creation has to be customer
     $sqlUserType = "SELECT userType_id FROM UserType WHERE type = ?";
-    $stmtUserType = $pdo->prepare($sqlUserType);
-    $stmtUserType->execute([$userType]);
-    $userTypeRow = $stmtUserType->fetch(PDO::FETCH_ASSOC);
+    $stmtUserType = mysqli_prepare($conn, $sqlUserType);
+    mysqli_stmt_bind_param($stmtUserType, "s", $userType);
+    mysqli_stmt_execute($stmtUserType);
+    $resultUserType = mysqli_stmt_get_result($stmtUserType);
+    $userTypeRow = mysqli_fetch_assoc($resultUserType);
     if ($userTypeRow) {
         $userType_id = $userTypeRow['userType_id'];
     } else {
@@ -97,21 +100,24 @@ ini_set('display_errors', 1);
     // Get Phone Number
     $phoneNumber = $_POST["phone-number"];
 
-
     // Get $cardType_id 
     $cardType = $_POST["card-type"];
     $defaultCardType = 'Visa'; // Default cardType
     $sqlCardType = "SELECT cardType_id FROM PaymentCardType WHERE type = ?";
-    $stmtCardType = $pdo->prepare($sqlCardType);
-    $stmtCardType->execute([$cardType]);
-    $cardTypeRow = $stmtCardType->fetch(PDO::FETCH_ASSOC);
+    $stmtCardType = mysqli_prepare($conn, $sqlCardType);
+    mysqli_stmt_bind_param($stmtCardType, "s", $cardType);
+    mysqli_stmt_execute($stmtCardType);
+    $resultCardType = mysqli_stmt_get_result($stmtCardType);
+    $cardTypeRow = mysqli_fetch_assoc($resultCardType);
     if ($cardTypeRow) {
         $cardType_id = $cardTypeRow['cardType_id'];
     } else {
         // If user does not provide card type assign the default card type
-        $stmtDefaultCardType = $pdo->prepare($sqlCardType);
-        $stmtDefaultCardType->execute([$defaultCardType]);
-        $defaultCardTypeRow = $stmtDefaultCardType->fetch(PDO::FETCH_ASSOC);
+        $stmtDefaultCardType = mysqli_prepare($conn, $sqlCardType);
+        mysqli_stmt_bind_param($stmtDefaultCardType, "s", $defaultCardType);
+        mysqli_stmt_execute($stmtDefaultCardType);
+        $resultDefaultCardType = mysqli_stmt_get_result($stmtDefaultCardType);
+        $defaultCardTypeRow = mysqli_fetch_assoc($resultDefaultCardType);
 
         if ($defaultCardTypeRow) {
             $cardType_id = $defaultCardTypeRow['cardType_id'];
@@ -132,31 +138,32 @@ ini_set('display_errors', 1);
         !empty($_POST["state-billing"]) && !empty($_POST["zip-code-billing"])) {
             
         $sqlInsertBillingAddress = "INSERT INTO BillingAddress (billingStreetAddress, billingCity, billingState, billingZipCode) VALUES (?, ?, ?, ?)";
-        $stmtInsertBillingAddress = $pdo->prepare($sqlInsertBillingAddress);
+        $stmtInsertBillingAddress = mysqli_prepare($conn, $sqlInsertBillingAddress);
         if (!$stmtInsertBillingAddress) {
-            die("SQL error: " . $pdo->errorInfo()[2]);
+            die("SQL error: " . mysqli_error($conn));
         }
 
         // Handle errors
         try {
             // Execute
-            $successInsertBillingAddress = $stmtInsertBillingAddress->execute([$_POST["street-address-billing"], $_POST["city-billing"], $_POST["state-billing"], $_POST["zip-code-billing"]]);
+            mysqli_stmt_bind_param($stmtInsertBillingAddress, "ssss", $_POST["street-address-billing"], $_POST["city-billing"], $_POST["state-billing"], $_POST["zip-code-billing"]);
+            $successInsertBillingAddress = mysqli_stmt_execute($stmtInsertBillingAddress);
 
             if (!$successInsertBillingAddress) {
-                die("Error: Failed to add billing address. " . implode(", ", $stmtInsertBillingAddress->errorInfo()));
+                die("Error: Failed to add billing address. " . mysqli_error($conn));
             }
 
             // Get billing_id
-            $billingAddressId = $pdo->lastInsertId();
-        } catch (PDOException $e) {
+            $billingAddressId = mysqli_insert_id($conn);
+        } catch (Exception $e) {
             die("Error: " . $e->getMessage());
         }
     } else {
         // Track billing_id even if the user did not provide Billing Address
         $sqlDefaultBilling = "INSERT INTO BillingAddress (billingStreetAddress, billingCity, billingState, billingZipCode) VALUES (?, ?, ?, ?)";
-        $stmtDefaultBilling = $pdo->prepare($sqlDefaultBilling);
+        $stmtDefaultBilling = mysqli_prepare($conn, $sqlDefaultBilling);
         if (!$stmtDefaultBilling) {
-            die("SQL error: " . $pdo->errorInfo()[2]);
+            die("SQL error: " . mysqli_error($conn));
         }
 
         // Default billing address values
@@ -168,16 +175,17 @@ ini_set('display_errors', 1);
         // Handle errors
         try {
             // Execute
-            $successDefaultBilling= $stmtDefaultBilling->execute([$defaultBillingStreet, $defaultBillingCity, $defaultBillingState, $defaultBillingZipCode]);
+            mysqli_stmt_bind_param($stmtDefaultBilling, "ssss", $defaultBillingStreet, $defaultBillingCity, $defaultBillingState, $defaultBillingZipCode);
+            $successDefaultBilling = mysqli_stmt_execute($stmtDefaultBilling);
 
             if (!$successDefaultBilling) {
-                die("Error: Failed to add default for billing address. " . implode(", ", $stmtDefaultBilling->errorInfo()));
+                die("Error: Failed to add default for billing address. " . mysqli_error($conn));
             }
 
             // Get billing_id
-            $billingAddressId = $pdo->lastInsertId();
+            $billingAddressId = mysqli_insert_id($conn);
 
-        } catch (PDOException $e) {
+        } catch (Exception $e) {
             die("Error: " . $e->getMessage());
         }
     }
@@ -188,32 +196,34 @@ ini_set('display_errors', 1);
         !empty($_POST["state-shipping"]) && !empty($_POST["zip-code-shipping"])) {
 
         $sqlInsertDeliveryAddress = "INSERT INTO DeliveryAddress (deliveryStreetAddress, deliveryCity, deliveryState, deliveryZipCode) VALUES (?, ?, ?, ?)";
-        $stmtInsertDeliveryAddress = $pdo->prepare($sqlInsertDeliveryAddress);
+        $stmtInsertDeliveryAddress = mysqli_prepare($conn, $sqlInsertDeliveryAddress);
         if (!$stmtInsertDeliveryAddress) {
-            die("SQL error: " . $pdo->errorInfo()[2]);
+            die("SQL error: " . mysqli_error($conn));
         }
 
         // Handle errors
         try {
             // Execute
-            $successInsertDeliveryAddress = $stmtInsertDeliveryAddress->execute([$_POST["street-address-shipping"], $_POST["city-shipping"], $_POST["state-shipping"], $_POST["zip-code-shipping"]]);
+            mysqli_stmt_bind_param($stmtInsertDeliveryAddress, "ssss", $_POST["street-address-shipping"], $_POST["city-shipping"], $_POST["state-shipping"], $_POST["zip-code-shipping"]);
+            $successInsertDeliveryAddress = mysqli_stmt_execute($stmtInsertDeliveryAddress);
 
             if (!$successInsertDeliveryAddress) {
-                die("Error: Failed to add delivery address. " . implode(", ", $stmtInsertDeliveryAddress->errorInfo()));
+                die("Error: Failed to add delivery address. " . mysqli_error($conn));
             }
 
             // Get delivery_id
-            $deliveryAddressId = $pdo->lastInsertId();
+            $deliveryAddressId = mysqli_insert_id($conn);
 
-        } catch (PDOException $e) {
+        } catch (Exception $e) {
             die("Error: " . $e->getMessage());
         }
     } else {
         // Track delivery_id even if the user did not provide Delivery Address
         $sqlDefaultDelivery = "INSERT INTO DeliveryAddress (deliveryStreetAddress, deliveryCity, deliveryState, deliveryZipCode) VALUES (?, ?, ?, ?)";
-        $stmtDefaultDelivery = $pdo->prepare($sqlDefaultDelivery);
+        $stmtDefaultDelivery = mysqli_prepare($conn, $sqlDefaultDelivery);
+
         if (!$stmtDefaultDelivery) {
-            die("SQL error: " . $pdo->errorInfo()[2]);
+            die("SQL error: " . mysqli_error($conn));
         }
 
         // Default delivery address values
@@ -225,80 +235,69 @@ ini_set('display_errors', 1);
         // Handle errors
         try {
             // Execute
-            $successDefaultDelivery = $stmtDefaultDelivery->execute([$defaultStreet, $defaultCity, $defaultState, $defaultZipCode]);
+            mysqli_stmt_bind_param($stmtDefaultDelivery, "ssss", $defaultStreet, $defaultCity, $defaultState, $defaultZipCode);
+            $successDefaultDelivery = mysqli_stmt_execute($stmtDefaultDelivery);
 
             if (!$successDefaultDelivery) {
-                die("Error: Failed to add default delivery address. " . implode(", ", $stmtDefaultDelivery->errorInfo()));
+                die("Error: Failed to add default delivery address. " . mysqli_error($conn));
             }
 
+
             // Get delivery_id
-            $deliveryAddressId = $pdo->lastInsertId();
+            $deliveryAddressId = mysqli_insert_id($conn);
+
         } catch (PDOException $e) {
             die("Error: " . $e->getMessage());
         }
     }
 
+
     // Promo Subscription 
     $promoSubscription = isset($_POST['subscribe-promos']) ? 1 : 2;
 
-
-
     // Add into Users table
-    $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, phoneNumber, numOfCards, account_activation_hash, userStatus_id, userType_id, promoSub_id, billing_id, delivery_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmtUsers = $pdo->prepare($sqlUsers);
+    $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, phoneNumber, account_activation_hash, userStatus_id, userType_id, promoSub_id, billing_id, delivery_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmtUsers = mysqli_prepare($conn, $sqlUsers);
     if (!$stmtUsers) {
-        die("SQL error: " . $pdo->errorInfo()[2]);
+        die("SQL error: " . mysqli_error($conn));
     }
-
-    // //Number of cards added
-    // $numOfCards = 0; // Default value
-    // $lastUserId = null;
-    // if (!empty($encryptedCardNumber) && !empty($_POST["expiration-month"]) && !empty($_POST["expiration-year"])) {
-    //     // Check if the user has less than 3 cards
-    //     $sqlNumOfCards = "SELECT COUNT(*) AS cardCount FROM PaymentCard1 WHERE users_id = ?";
-    //     $stmtNumOfCards = $pdo->prepare($sqlNumOfCards);
-    //     $stmtNumOfCards->execute([$lastUserId]);
-    //     $cardCountRow = $stmtNumOfCards->fetch(PDO::FETCH_ASSOC);
-    //     $numOfCards = $cardCountRow['cardCount'] < 3 ? $cardCountRow['cardCount'] + 1 : 3;
-    // }
 
     // Users execute 
-    if (!$stmtUsers->execute([$_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $phoneNumber, $numOfCards, $activation_token_hash, $userStatus_id, $userType_id, $promoSubscription, $billingAddressId, $deliveryAddressId])) {
-        die("Error: Failed to get Users.");
+    mysqli_stmt_bind_param($stmtUsers, "ssssssiiiii", $_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $phoneNumber, $activation_token, $userStatus_id, $userType_id, $promoSubscription, $billingAddressId, $deliveryAddressId);
+    if (!mysqli_stmt_execute($stmtUsers)) {
+        die("Error: Failed to insert into Users table. " . mysqli_error($conn));
     }
 
-
     // Check if the rows are affected
-    if ($stmtUsers->rowCount() > 0) {
-
+    if (mysqli_affected_rows($conn) > 0) {
         // Get the last added user_id
-        $lastUserId = $pdo->lastInsertId();
+        $lastUserId = mysqli_insert_id($conn);
 
         // Check if payment card was added
         if (!empty($encryptedCardNumber) && !empty($_POST["expiration-month"]) && !empty($_POST["expiration-year"])) {
             // Card 1
             $sqlPaymentCard = "INSERT INTO PaymentCard1 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
                             VALUES (?, ?, ?, ?, ?, ?, ?)";
-            $stmtPaymentCard = $pdo->prepare($sqlPaymentCard);
+            $stmtPaymentCard = mysqli_prepare($conn, $sqlPaymentCard);
             if (!$stmtPaymentCard) {
-                die("SQL error: " . $pdo->errorInfo()[2]);
+                die("SQL error: " . mysqli_error($conn));
             }
 
             // Card 2
             $sqlPaymentCard2 = "INSERT INTO PaymentCard2 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
                                 VALUES (?, ?, ?, ?, ?, ?, ?)";
-            $stmtPaymentCard2 = $pdo->prepare($sqlPaymentCard2);
+            $stmtPaymentCard2 = mysqli_prepare($conn, $sqlPaymentCard2);
             if (!$stmtPaymentCard2) {
-                die("SQL error: " . $pdo->errorInfo()[2]);
+                die("SQL error: " . mysqli_error($conn));
             }
 
             // Card 3
             $sqlPaymentCard3 = "INSERT INTO PaymentCard3 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
                                 VALUES (?, ?, ?, ?, ?, ?, ?)";
-            $stmtPaymentCard3 = $pdo->prepare($sqlPaymentCard3);
+            $stmtPaymentCard3 = mysqli_prepare($conn, $sqlPaymentCard3);
             if (!$stmtPaymentCard3) {
-                die("SQL error: " . $pdo->errorInfo()[2]);
+                die("SQL error: " . mysqli_error($conn));
             }
 
             // Default card values
@@ -311,63 +310,81 @@ ini_set('display_errors', 1);
 
             
             // Execute add cards
-            if (!$stmtPaymentCard->execute([$encryptedCardNumber, $cardType_id, $_POST["expiration-month"], $_POST["expiration-year"], $_POST["first-name"], $_POST["last-name"], $lastUserId])) {
-                die("Error:  Failed to pull PaymentCard.");
+            if (!mysqli_stmt_bind_param($stmtPaymentCard, "sissssi", $encryptedCardNumber, $cardType_id, $_POST["expiration-month"], $_POST["expiration-year"], $_POST["first-name"], $_POST["last-name"], $lastUserId)) {
+                die("Error:  Failed to pull PaymentCard1.");
             }
-            if (!$stmtPaymentCard2->execute([$defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId])) {
-                die("Error: Failed to execute the PaymentCard query.");
+            if (!mysqli_stmt_execute($stmtPaymentCard)) {
+                die("Error: Failed to execute the PaymentCard1 query. " . mysqli_error($conn));
             }
-            if (!$stmtPaymentCard3->execute([$defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId])) {
-                die("Error: Failed to execute the PaymentCard query.");
+            if (!mysqli_stmt_bind_param($stmtPaymentCard2, "sissssi", $defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId)) {
+                die("Error: Failed to bind parameters for PaymentCard2.");
             }
-        } 
+            if (!mysqli_stmt_execute($stmtPaymentCard2)) {
+                die("Error: Failed to execute the PaymentCard2 query. " . mysqli_error($conn));
+            }
+            if (!mysqli_stmt_bind_param($stmtPaymentCard3, "sissssi", $defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId)) {
+                die("Error: Failed to bind parameters for PaymentCard3.");
+            }
+            if (!mysqli_stmt_execute($stmtPaymentCard3)) {
+                die("Error: Failed to execute the PaymentCard3 query. " . mysqli_error($conn));
+            }
+        } else {
 
-        // Track the 3 cards if the user does not add payment card
+            // Track the 3 cards if the user does not add payment card
 
-        // Card 1
-        $sqlPaymentCard1 = "INSERT INTO PaymentCard1 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
-        VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmtPaymentCard1 = $pdo->prepare($sqlPaymentCard1);
-        if (!$stmtPaymentCard1) {
-        die("SQL error: " . $pdo->errorInfo()[2]);
-        }
+            // Card 1
+            $sqlPaymentCard1 = "INSERT INTO PaymentCard1 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmtPaymentCard1 = mysqli_prepare($conn, $sqlPaymentCard1);
+            if (!$stmtPaymentCard1) {
+                die("SQL error: " . mysqli_error($conn));
+            }
 
-        // Card 2
-        $sqlPaymentCard2 = "INSERT INTO PaymentCard2 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
-                            VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmtPaymentCard2 = $pdo->prepare($sqlPaymentCard2);
-        if (!$stmtPaymentCard2) {
-            die("SQL error: " . $pdo->errorInfo()[2]);
-        }
+            // Card 2
+            $sqlPaymentCard2 = "INSERT INTO PaymentCard2 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
+                                VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmtPaymentCard2 = mysqli_prepare($conn, $sqlPaymentCard2);
+            if (!$stmtPaymentCard2) {
+                die("SQL error: " . mysqli_error($conn));
+            }
 
-        // Card 3
-        $sqlPaymentCard3 = "INSERT INTO PaymentCard3 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
-                            VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmtPaymentCard3 = $pdo->prepare($sqlPaymentCard3);
-        if (!$stmtPaymentCard3) {
-            die("SQL error: " . $pdo->errorInfo()[2]);
-        }
+            // Card 3
+            $sqlPaymentCard3 = "INSERT INTO PaymentCard3 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
+                                VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmtPaymentCard3 = mysqli_prepare($conn, $sqlPaymentCard3);
+            if (!$stmtPaymentCard3) {
+                die("SQL error: " . mysqli_error($conn));
+            }
 
-        
-        // Default Card
-        $defaultCardNum = ""; 
-        $defaultCardType_id = 1; 
-        $defaultExpMonth = ""; 
-        $defaultExpYear = ""; 
-        $defaultFirstName = ""; 
-        $defaultLastName = "";
-        
-        // Execute add defult cards
-        if (!$stmtPaymentCard1->execute([$defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId])) {
-            die("Error: Failed to add default paymentCard1.");
-        }
-        if (!$stmtPaymentCard2->execute([$defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId])) {
-            die("Error: Failed to add default paymentCard2.");
-        }
-        if (!$stmtPaymentCard3->execute([$defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId])) {
-            die("Error: Failed to add default paymentCard3.");
-        }
             
+            // Default card values
+            $defaultCardNum = ""; 
+            $defaultCardType_id = 1; 
+            $defaultExpMonth = ""; 
+            $defaultExpYear = ""; 
+            $defaultFirstName = ""; 
+            $defaultLastName = "";
+            
+            // Execute add defult cards
+            if (!mysqli_stmt_bind_param($stmtPaymentCard1, "sissssi", $defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId)) {
+                die("Error: Failed to add default paymentCard1.");
+            }
+            if (!mysqli_stmt_execute($stmtPaymentCard1)) {
+                die("Error: Failed to execute the default PaymentCard1. " . mysqli_error($conn));
+            }
+            if (!mysqli_stmt_bind_param($stmtPaymentCard2, "sissssi", $defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId)) {
+                die("Error: Failed to add default paymentCard2.");
+            }
+            if (!mysqli_stmt_execute($stmtPaymentCard2)) {
+                die("Error: Failed to execute the default PaymentCard2. " . mysqli_error($conn));
+            }
+            if (!mysqli_stmt_bind_param($stmtPaymentCard3, "sissssi", $defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId)) {
+                die("Error: Failed to add default paymentCard3.");
+            }
+            if (!mysqli_stmt_execute($stmtPaymentCard3)) {
+                die("Error: Failed to execute the default PaymentCard3. " . mysqli_error($conn));
+            }
+        }
         
 
         // Email Verification Process
@@ -391,13 +408,18 @@ ini_set('display_errors', 1);
         }
 
         
-
         // Redirect 
         header("Location: registrationconfirmation.php?success=accountCreated");
         exit;
-    } 
-    else {
-        die("Error: Failed pull Users.");
-    } 
+    } else {
+        die("Error: Failed to insert into Users table.");
+    }
+
+
+    // Close statement
+    mysqli_stmt_close($stmtUsers);
+
+    // Close connection
+    mysqli_close($conn);
         
 ?>
