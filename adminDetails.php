@@ -1,9 +1,10 @@
 <?php
+ session_start();
+ if ((!isset($_SESSION["email"])) || (isset($_SESSION["email"]) && $_SESSION["userType_id"] !== 2)) {
 
-if (!isset($_SESSION["email"]) || (isset($_SESSION["email"]) && $_SESSION["userType_id"] != 2)) {
-    header("Location: restrictedAccess.php");
-    exit();
-}
+     header("Location: restrictedAccess.php");
+     exit();
+ }
 
 
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
