@@ -50,10 +50,7 @@ ini_set('display_errors', 1);
     // Hash password
     $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
-    // Create Activation token
-    $activation_token = bin2hex(random_bytes(16));
-    $activation_token_hash = hash("sha256", $activation_token);
-
+    
     //Check if email already exists
     $email = $_POST["email-address"];
     $sqlEmailCheck = "SELECT COUNT(*) AS count FROM Users WHERE email = ?";
@@ -256,15 +253,15 @@ ini_set('display_errors', 1);
     $promoSubscription = isset($_POST['subscribe-promos']) ? 1 : 2;
 
     // Add into Users table
-    $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, phoneNumber, account_activation_hash, userStatus_id, userType_id, promoSub_id, billing_id, delivery_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, phoneNumber, userStatus_id, userType_id, promoSub_id, billing_id, delivery_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmtUsers = mysqli_prepare($conn, $sqlUsers);
     if (!$stmtUsers) {
         die("SQL error: " . mysqli_error($conn));
     }
 
     // Users execute 
-    mysqli_stmt_bind_param($stmtUsers, "ssssssiiiii", $_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $phoneNumber, $activation_token, $userStatus_id, $userType_id, $promoSubscription, $billingAddressId, $deliveryAddressId);
+    mysqli_stmt_bind_param($stmtUsers, "sssssiiiii", $_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $phoneNumber, $userStatus_id, $userType_id, $promoSubscription, $billingAddressId, $deliveryAddressId);
     if (!mysqli_stmt_execute($stmtUsers)) {
         die("Error: Failed to insert into Users table. " . mysqli_error($conn));
     }
@@ -387,29 +384,29 @@ ini_set('display_errors', 1);
         }
         
 
-        // Email Verification Process
-        $name = $_POST["first-name"];
-        $path = (@$_SERVER["HTTPS"] == "on") ? "https://" : "http://";
-        $path .=$_SERVER["SERVER_NAME"]. dirname($_SERVER["PHP_SELF"]);        
-        $mail = require __DIR__ . "/mailer.php";
-        $mail->setFrom("noreply@example.com");
-        $mail->addAddress($_POST["email-address"]);
-        $mail->Subject = "Account Activation";
-        $mail->Body = <<<END
-        Welcome $name <br>
-        Click <a href="$path/activateAccount.php?token=$activation_token">here</a> 
-        to activate your account. 
-        END; 
-        try {
-            $mail->send();
-        } catch (Exception $e) {
-            echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
-            exit;
+        // Send PIN
+        session_start();
+        $email = $_POST["email-address"];
+        $_SESSION["resetEmail"] = $email;
+
+        if(invalidEmail($email) !== false) {
+            header("Location: register.php?error=invalid");
+            exit();
+        }
+
+        else if(userExists($conn, $email) == false) {
+            header("Location: register.php?error=missingaccount");
+            exit();
+        }
+
+        else {
+            //generates a unique PIN for the user
+            generatePINAccountActivation($conn, $email);
+            // Redirect 
+            header("Location: registrationconfirmation.php?email=".$email);
         }
 
         
-        // Redirect 
-        header("Location: registrationconfirmation.php?success=accountCreated");
         exit;
     } else {
         die("Error: Failed to insert into Users table.");
