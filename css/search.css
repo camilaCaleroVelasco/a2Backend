@@ -1,5 +1,6 @@
 .filter-buttons{
     display: flex; /* Use flexbox */
+    justify-content: center;
 }
 #nowPlaying, #comingSoon  {  /* buttons for coming soon and now playing soon */
     width : 300px; /* size of button */
@@ -12,6 +13,7 @@
     border-radius: 4px;
     font-weight: 500;
     cursor: pointer;
+    margin: 0 10px; /* space between buttons */
 
 }
 
@@ -20,19 +22,6 @@
     box-shadow: 0 0 30px   #317DFF, inset 0 0 30px  #317DFF;
 }
 
-
-#comingSoon {
-     margin-left: 100px; 
-  
-
-
-}
-
-#nowPlaying {
-    margin-left: 550px; 
-  
-
-}
 
 
 .image-button img {

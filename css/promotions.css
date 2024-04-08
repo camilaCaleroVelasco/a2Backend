@@ -1,119 +1,34 @@
 
-.tabs {
-    border: 1px solid #317DFF;
-    display: flex;
-    max-width: 600px;
-    width: 100;
-    align-items: center; 
-    justify-content: center;
-    max-width: 600px; 
-    width: 100%; 
-    margin: 0 auto; 
-    padding: 20px;
 
-}
-
-
-.tabs-sidebar {
-    width: 125px;
-    background: #317DFF;
+body::before {
+    content: "  ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity:0.5;
+    background-image: url("../images/background2.jpg");
     
-  
 
 }
 
-.tabs-button {
-    display: block;
-    padding :10px;
-    background:  #317DFF;
-    border: none;
-    width: 100%;
-    outline : none;
-    cursor: pointer;
-
-}
-
-.tabs-content > :first-child {
-    margin-top: 0;
-    justify-content: center;
-}
-
-
-
-
-.tabs-button:active {
-    background: rgb(36, 36, 255);
-
-}
-
-.tabs-button:not(:last-pf-type) {
-    border-bottom: 1px solid #317DFF;
-}
-
-.tabs-button-active {
-font-weight: bold;
-border-right : 2px solid  #317DFF;
-background :#317DFF;
-}
-
-.tabs-content {
-    padding: 15px;   
-    display: none;
-
-}
-
-
-
-.tabs-content-active {
-    display: block;
-    font-weight: bold;
-
-}
-
-.form-input  {
+.button-container {
     display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-    padding: 10px;
-    width: 100%;
-    
-}
-.form-input label {
-    margin-bottom: 5px;
-    font-size: large;
-
-}
-.add-promotion-button {
-    background-color:#317DFF;
-    padding:10px;
-    cursor: pointer;
-    width: 100%;
-
+    justify-content: space-between; /* Distribute space evenly between buttons */
+    margin-top: 30px; /*moves buttons */
 }
 
-.form-input input {
-    padding: 5px;
-    border-radius: 3px;
-    border-radius: 1px solid #317DFF;
-   
-    border: 2px solid rgb(50, 49, 49);
+
+.button {
+    text-decoration: none;
+    text-align: center;
 }
 
-.view-promotions-container > div,
-.edit-promotions-container > div {
-    margin-bottom: 20px; 
-}
 
-.edit-promotions-container button {
-    display: block;
-    padding :10px;
-    background:  #317DFF;
-    border: none;
-    width: 100%;
-    outline : none;
-    cursor: pointer;
-    margin-top: 10px;
 
-}
-
+.date-information  {
+    margin-top: -50px;
+ }
+ 
 
