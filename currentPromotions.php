@@ -1,10 +1,13 @@
 <?php
-session_start();
-if ((!isset($_SESSION["email"])) || (isset($_SESSION["email"]) && $_SESSION["userType_id"] !== 2)) {
+// session_start();
+// if ((!isset($_SESSION["email"])) || (isset($_SESSION["email"]) && $_SESSION["userType_id"] !== 2)) {
 
-    header("Location: restrictedAccess.php");
-    exit();
-}
+//     header("Location: restrictedAccess.php");
+//     exit();
+// }
+
+    include 'currentPromotionGetting.php';
+    currentPromotionsAccess();
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +21,7 @@ if ((!isset($_SESSION["email"])) || (isset($_SESSION["email"]) && $_SESSION["use
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Enable back on to put style -->
-    <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" href="css/currentPromotions.css">
 
 
 </head>
@@ -35,11 +38,17 @@ if ((!isset($_SESSION["email"])) || (isset($_SESSION["email"]) && $_SESSION["use
     <div class="wrapper"> <!-- div class wrapper starts here -->
         <h1> Current Promotions </h1>        
 
-        <form action="#" method="post"> <!--push info to the DB -->
-            <h2> Promotion 1</h2>
+        <!-- <form action="#" method="post"> push info to the DB -->
+            <!-- <h2> Promotion 1</h2> -->
              <!-- added promotions info will appear here --> 
 
-        </form>
+        <!-- </form> -->
+
+        <div name="promoContainer" class="promoContainer">
+            <?php
+                displayCurrentPromos($conn);
+            ?>
+        </div>
 
 
 

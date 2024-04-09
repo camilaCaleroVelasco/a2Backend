@@ -1,0 +1,427 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+*  {
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+  
+
+}
+@media only screen and (max-width: 940px) {
+    .menu-container {
+      display: none;
+    }
+  }
+    
+    
+    header {
+      width:100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 30px 10%;
+      font-weight: bold;
+    }
+    .logo{
+         
+        width: 300px;
+        cursor: pointer;
+        position: fixed;
+      
+    }
+
+body {
+    background: #000000;
+    
+
+}
+
+
+
+
+
+
+body::before {
+    content: "  ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity:0.5;
+    background-image: url("../images/background3.jpg");
+    
+
+}
+  
+
+.wrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 900px;
+    height: 750px;
+    background: rgba(0,0,0,0.75);
+    transform : translate(-50%, -50%);
+    overflow-y: auto;
+
+
+
+}
+
+
+
+.wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+
+.wrapper .form .input-box {
+
+
+    position: relative;
+    height: 60px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 15px;
+    
+ }
+ 
+
+
+
+.wrapper form {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 25px 0 65px;
+ }
+
+ 
+
+
+
+.wrapper h1 {
+    color: #fff;
+    font-size: 3rem;
+    padding: 20px;
+    position: relative;
+    align-items: center;
+    right: -90px; 
+    top: 40px; 
+ 
+}
+
+.wrapper h3 {
+    color: #fff;
+    font-size: 1rem;
+    padding: 100px;
+    position: relative;
+    align-items: center;
+    top: 40px; 
+    
+}
+
+
+.wrapper h2 {
+    color: #fff;    
+    padding: 20px;
+    font-size: 1rem;
+    position: relative;
+    align-items: center;
+    right: -80px; 
+    top: 40px; 
+     
+}
+
+.wrapper .input-box {
+
+    position: relative;
+    height: 60px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 15px;
+    margin-left: 100px; 
+
+}
+
+.wrapper form {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 25px 0 65px;
+
+}
+
+.wrapper div{
+    color: #fff;    
+    padding: 20px;
+    font-size: 1rem;
+    position: relative;
+    align-items: center;
+    right: -80px; 
+    top: 40px; 
+}
+
+.field {
+    width: 50%;  /* adjusts the size of the input box */
+    margin-bottom: 15px;
+    position: relative;
+
+
+    display: flex;
+    align-items: center;
+
+}
+
+.field:last-child {
+    margin-right: 0;
+}
+
+
+
+.input-box input:focus,
+.input-box input:valid {
+    padding: 16px 20px;
+    background : #444;
+
+
+}
+
+
+
+.input-box input:focus::placeholder,
+.input-box input:valid::placeholder {
+    font-size: 0.75rem;
+    transform: translateY(-130%);
+}
+
+.input-box input::placeholder {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    color: #8c8c8c;
+    pointer-events: none;
+    font-size: 1rem;
+    transform: translateY(-50%);
+    transition: all 0.1s ease;
+ 
+ 
+ }
+
+
+
+ .card-information , .address-information {
+    margin-top: -50px;
+ }
+ .card-information .field , .address-information.field {
+    margin-bottom: 20px;
+ }
+
+.input-box input {
+
+    height: 40px;
+    width: 300px;
+    background: #333;
+    outline: none;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 4px;
+    padding : 0 20px;
+
+}
+
+ #submit  {
+    width : 50%;
+    padding :16px 0;
+    font-size: 1rem;
+    background: #317DFF;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 25px 0 10px;
+    margin-left: 220px;
+    
+
+
+}
+
+#submit:hover {
+    border: 5px solid  #317DFF;
+    box-shadow: 0 0 30px   #317DFF, inset 0 0 30px  #317DFF;
+
+
+}
+
+
+
+.wrapper:hover {
+    border: 5px solid  #317DFF;
+    box-shadow: 0 0 30px  #317DFF, inset 0 0 30px  #317DFF;
+
+} 
+
+
+
+form .subscribe-promos input {
+
+
+    margin-right: 5px;
+    accent-color: #b3b3b3;
+    padding: 5px 10px;
+    width: 15px;
+ 
+ 
+ 
+ 
+ }
+ 
+ 
+ form .subscribe-promos  {
+    display: flex;
+    padding: 10px;
+    margin-top: 45px;
+    margin-left: 90px;
+    
+   
+ }
+ 
+
+ form .subscribe-promos label {
+    display: flex;
+    padding: 10px;
+    margin-top: -14px;
+    color: #b3b3b3;
+    height: 10px;
+   
+ }
+
+
+
+.field .icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    right: 110px;
+    bottom: 15px;
+    transition: .5s;
+    
+}
+
+
+
+
+.field:hover .icon {
+    border: 5px solid  #317DFF;
+    box-shadow: 0 0 30px  #317DFF, inset 0 0 30px  #317DFF;
+
+} 
+
+
+
+#card-type  {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.1s ease;
+    color: #b3b3b3;
+    font-size: 0.65rem;
+    border-radius: 4px;
+
+    height: 40px;
+    width: 300px;
+    background : #444;
+    padding: 10px 15px;
+    font-size: 0.75rem;
+    transform: translateY(-50%);
+   
+ 
+    
+  
+
+
+}
+
+
+
+
+
+#card-type:focus,
+#card-type:valid {
+    transform: translateY(-50%);
+    position: absolute;
+    outline: none;
+   
+}
+
+#card-type:focus::placeholder,
+#card-type:valid::placeholder {
+    transform: translateY(-50%);
+    position: absolute;
+   
+}
+
+#enter-payment {
+    width : 50%;
+    padding :16px 0;
+    font-size: 1rem;
+    background: #317DFF;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 25px 0 10px;
+    margin-left: 220px;
+
+}
+
+
+
+
+
+.field input[type ="text"],
+.field input[type ="password"],
+.field input[type ="number"],
+.field input[type ="date"] {
+    padding: 15px;
+}
+.field input[type ="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+.field input[type = "number"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+.field input[type = "number"]::-webkit-outer-spin-button {
+    display: none;
+}
+
+
+@media (max-width: 940px) {
+    body::after before {
+        display: none;
+    }
+    header, .wrapper {
+        padding: 20px;     
+    }
+
+   .wrapper {
+    top: 43%;
+    width: 100%;
+   }
+
+   .wrapper form {
+    margin: 25px 0 40px;
+
+   }
+
+}
