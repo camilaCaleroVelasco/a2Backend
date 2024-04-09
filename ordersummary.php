@@ -69,41 +69,51 @@
           <p><strong>Total Price: $</strong></p>
         </div>
       </div>
+      <div class="payment-method">
+        <label for="payment">Payment Method:</label>
+        <select id="payment" name="payment">
+          <option value="credit_card">Credit Card</option>
+          <option value="paypal">PayPal</option>
+          <option value="bitcoin">Bitcoin</option>
+        </select>
+      </div>
       <div class="options">
         <button class="update-order" onclick="goToBooking()">Update Order</button>
-        <button class="confirm-order" onclick="goToCheckout()">Confirm & Continue to Checkout</button>
+        <button class="confirm-order" onclick="goToCheckout()">Complete Checkout</button>
       </div>
     </div>
   </div>
 
   <script>
     function deleteTicket(element) {
-      if (confirm("Are you sure you want to delete this ticket?")) {
-        let ticket = element.parentElement.parentElement; // Get the parent ticket element
-        ticket.remove();
-        updateTotalPrice();
-      }
+        if (confirm("Are you sure you want to delete this ticket?")) {
+            let ticket = element.parentElement.parentElement; // Get the parent ticket element
+            ticket.remove();
+            updateTotalPrice();
+        }
     }
 
     function updateTotalPrice() {
-      let totalPrice = 0;
-      document.querySelectorAll('.ticket').forEach(ticket => {
-        let priceString = ticket.querySelector('.ticket-info').innerText.split('-')[1].trim();
-        totalPrice += parseFloat(priceString.substring(1));
-      });
-      document.querySelector('.total p strong').innerText = 'Total Price: $' + totalPrice.toFixed(2);
+        let totalPrice = 0;
+        document.querySelectorAll('.ticket').forEach(ticket => {
+            let priceString = ticket.querySelector('.ticket-info').innerText.split('-')[1].trim();
+            totalPrice += parseFloat(priceString.substring(1));
+        });
+        document.querySelector('.total p strong').innerText = 'Total Price: $' + totalPrice.toFixed(2);
     }
 
     function goToBooking() {
-    <?php
-      echo "window.location.href = 'booking.php?movie_id=" . $movie["movie_id"] . "'";
-    ?>
+        <?php
+            echo "window.location.href = 'ageselect.php?movie_id=" . $movie["movie_id"] . "'";
+        ?>
     }
 
     function goToCheckout() {
-      window.location.href = "checkout.php";
+        if (confirm("Are you sure you want to complete the purchase?")) {
+            window.location.href = "confirmation.php";
+        }
     }
-  </script>
+</script>
+
 </body>
 </html>
-

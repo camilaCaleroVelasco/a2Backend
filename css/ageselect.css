@@ -17,6 +17,7 @@ body {
   align-items: center;
   justify-content: center;
 }
+
 .tickets {
   width: 90%; /* Adjusted width for responsiveness */
   max-width: 850px; /* Set a maximum width for larger screens */
@@ -94,8 +95,9 @@ body {
 .options {
   display: flex;
   justify-content: flex-end;
-  justify-content: space-between;
+  align-items: flex-end; /* Add this line */
   margin-top: 20px;
+  width: 100%; /* Ensure the container takes full width */
 }
 
 .options button {
