@@ -64,6 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
             <div class="item">Booked</div>
             <div class="item">Selected</div>
           </div>
+          <br>
           <div class="all-seats">
             <input type="checkbox" name="tickets" id="s1" />
           </div>
@@ -123,25 +124,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
           <br>
           <br>
           <div class="ticket-types">
-  <div class="type">
-    <span>Adult ($15)</span>
-    <button class="minus" data-type="adult">-</button>
-    <span  data-type="adult">0</span>
-    <button class="plus" data-type="adult">+</button>
-  </div>
-  <div class="type">
-    <span>Child ($10)</span>
-    <button class="minus" data-type="child">-</button>
-    <span  data-type="child">0</span>
-    <button class="plus" data-type="child">+</button>
-  </div>
-  <div class="type">
-    <span>Senior ($12) </span>
-    <button class="minus" data-type="senior">-</button>
-    <span data-type="senior">0</span>
-    <button class="plus" data-type="senior">+</button>
-  </div>
-</div>
 
       </div>
 
@@ -163,74 +145,23 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
         countElement.textContent = count;
     }
 
-    // Function to update total ticket count
-    function updateTotalTicketCount() {
-        let totalTickets = 0;
-        document.querySelectorAll("input[name='tickets']:checked").forEach((checkbox) => {
-            totalTickets++;
-        });
-        document.querySelector(".count").textContent = totalTickets;
-        return totalTickets;
-    }
-
-    // Function to enable/disable plus buttons based on total ticket count
-    function updatePlusButtonsState(totalTickets) {
-        let plusButtons = document.querySelectorAll(".plus");
-        plusButtons.forEach((button) => {
-            let type = button.dataset.type;
-            let count = parseInt(document.querySelector(`span[data-type='${type}']`).textContent);
-            if (count >= totalTickets) {
-                button.disabled = true;
-            } else {
-                button.disabled = false;
-            }
-        });
-    }
-
-    // Event listener for plus and minus buttons
-    document.querySelectorAll(".plus").forEach(button => {
-        button.addEventListener("click", function () {
-            let type = this.dataset.type;
-            let increment = 1;
-            let countElement = document.querySelector(`span[data-type='${type}']`);
-            let currentCount = parseInt(countElement.textContent);
-            let newCount = currentCount + increment;
-            if (newCount >= 0) {
-                countElement.textContent = newCount;
-                let totalTickets = updateTotalTicketCount();
-                updatePlusButtonsState(totalTickets);
-            }
-        });
-    });
-
-    // Event listener for minus buttons
-document.querySelectorAll(".minus").forEach(button => {
-    button.addEventListener("click", function () {
-        let type = this.dataset.type;
-        let decrement = 1; // You can adjust this if you want to decrement by a different value
-        let countElement = document.querySelector(`span[data-type='${type}']`);
-        let currentCount = parseInt(countElement.textContent);
-        let newCount = currentCount - decrement; // Subtract the decrement value
-        if (newCount >= 0) { // Make sure count doesn't go negative
-            countElement.textContent = newCount;
-            let totalTickets = updateTotalTicketCount();
-            updatePlusButtonsState(totalTickets); // Update the plus buttons state
-        }
-    });
-});
-
-    // Generate seat checkboxes
-    let seats = document.querySelector(".all-seats");
+ // Generate seat checkboxes
+ let seats = document.querySelector(".all-seats");
     let rowLetters = ['A', 'B', 'C', 'D', 'E', 'F']; // Letters for rows
     for (let row = 0; row < rowLetters.length; row++) {
-        for (let col = 1; col <= 10; col++) { // Assuming 10 columns
-            let seatNumber = rowLetters[row] + col; // Generating seat number
+        let rowLetter = rowLetters[row];
+        seats.insertAdjacentHTML(
+            "beforeend",
+            `<span class="row-letter">${rowLetter}</span>`
+        );
+        for (let col = 1; col <= 9; col++) { // Assuming 10 columns
+            let seatNumber = rowLetter + col; // Generating seat number
             let randint = Math.floor(Math.random() * 2);
             let booked = randint === 1 ? "booked" : "";
             seats.insertAdjacentHTML(
                 "beforeend",
                 `<input type="checkbox" name="tickets" id="s${seatNumber}" />
-                <label for="s${seatNumber}" class="seat ${booked}">${seatNumber}</label>`
+                <label for="s${seatNumber}" class="seat ${booked}">${col}</label>`
             );
         }
     }

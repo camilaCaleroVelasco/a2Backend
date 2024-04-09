@@ -161,12 +161,17 @@ body {
 }
 
 .seat {
-  width: 25px; /* Increase the width */
-  height: 25px; /* Increase the height */
+  width: 40px; /* Increase the width */
+  height: 40px; /* Increase the height */
   background: white;
   border-radius: 0.5mm;
   outline: 0.3mm solid rgb(180, 180, 180);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 40px; /* Center vertically */
 }
 
 .all-seats input:checked + label {
