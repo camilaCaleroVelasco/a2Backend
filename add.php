@@ -1,10 +1,14 @@
 <?php
-$host = 'localhost';  
-$user = 'root';  
-$pass = '';  
-$db = 'movies';  
 
-$conn = mysqli_connect($host, $user, $pass,$db);  
+session_start();
+if ((!isset($_SESSION["email"])) || (isset($_SESSION["email"]) && $_SESSION["userType_id"] !== 2)) {
+
+    header("Location: restrictedAccess.php");
+    exit();
+}
+
+
+include "includes/dbh.inc.php";
 
 if (!$conn) {  
 
@@ -22,16 +26,12 @@ $picture = $_POST['picture'];
 $video = $_POST['video'];
 $rating_code = $_POST['rating_code'];
 $movie_status = $_POST['movie_status'];
-$cast_1 = $_POST['cast_1'];
-$cast_2 = $_POST['cast_2'];
-$cast_3 = $_POST['cast_3'];
-$cast_4 = $_POST['cast_4'];
-$cast_5 = $_POST['cast_5'];
-
+$cast = $_POST['cast'];
 
 $sql = "INSERT INTO Movies(
     movie_title,
     category,
+    cast,
     director,
     producer,
     synopsis,
@@ -44,6 +44,7 @@ $sql = "INSERT INTO Movies(
 VALUES (
         '$movie_title',
         '$category',
+        '$cast',
         '$director',
         '$producer',
         '$synopsis',
@@ -63,26 +64,6 @@ if (mysqli_query($conn, $sql)) {
     echo "Could not insert record: ". mysqli_error($conn);  
 
 }  
-
-$sql = "INSERT INTO Movie_Cast(cast1, cast2, cast3, cast4, cast5)
-        VALUES(
-        '$cast_1',
-        '$cast_2',
-        '$cast_3',
-        '$cast_4',
-        '$cast_5'
-    );";
-
-if (mysqli_query($conn, $sql)) {
-
-    $success = 1;
-
-} else {  
-
-    echo "Could not insert record: ". mysqli_error($conn);  
-
-}  
-   mysqli_close($conn); 
    
 if (isset($success)) {
  

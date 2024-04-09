@@ -1,5 +1,5 @@
 <?php
-  include_once 'includes/databaseConnection.inc.php'; 
+  include_once 'includes/dbh.inc.php'; 
 ?>
 
 <!DOCTYPE html>

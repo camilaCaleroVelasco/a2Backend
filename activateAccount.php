@@ -1,45 +1,46 @@
 <?php
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
 
-    $token = $_GET["token"];
+    session_start();
+    require_once "includes/functions.inc.php";
+    require_once "includes/dbh.inc.php";
+        if(isset($_POST["submit"])) {
 
-    $token_hash = hash("sha256", $token);
+            // pin and email values
+            $pin1 = $_POST["opt1"];
+            $pin2 = $_POST["opt2"];
+            $pin3 = $_POST["opt3"];
+            $pin4 = $_POST["opt4"];
+            $email = $_SESSION["resetEmail"];
 
-    // DB connection
-    $pdo = require __DIR__ . "/includes/databaseConnection.inc.php";
-
-    // Retrieve account_activation_hash
-    $sql = "SELECT * FROM Users
-            WHERE account_activation_hash = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$token_hash]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    if ($user === false) {
-        die("Token not found");
-    }
-
-    // Change UserStatus To Active
-    // Retrieve userStatus_id for 'Active' status
-    $userStatus = 'Active';
-    $sqlUserStatus = "SELECT userStatus_id FROM UserStatus WHERE status = ?";
-    $stmtStatus = $pdo->prepare($sqlUserStatus);
-    $stmtStatus->execute([$userStatus]);
-    $userStatusRow = $stmtStatus->fetch(PDO::FETCH_ASSOC);
-    if (!$userStatusRow) {
-        die("UserStatus not found for status: $userStatus");
-    }
-    $userStatus_id = $userStatusRow['userStatus_id'];
-
-
-
-    // Update Users table to set account_activation_hash to NULL and userStatus_id to 'Active'
-    $sqlUpdate = "UPDATE Users SET account_activation_hash = NULL, userStatus_id = ? WHERE users_id = ?";
-    $stmtUpdate = $pdo->prepare($sqlUpdate);
-
-
-    // Execute the update query
-    if (!$stmtUpdate->execute([$userStatus_id, $user["users_id"]])) {
-        die("Failed to activate account: " . implode(", ", $stmtUpdate->errorInfo()));
-    } 
+            // if the email and pin are valid then update userstatus to active
+            if (correctPIN($conn, $email, $pin1, $pin2, $pin3, $pin4)) {
+                $userStatus_id = 1;
+                $sqlUpdateStatus = "UPDATE Users SET userStatus_id = ? WHERE email = ?";
+                $stmtUpdateStatus = mysqli_prepare($conn, $sqlUpdateStatus);
+                mysqli_stmt_bind_param($stmtUpdateStatus, "is", $userStatus_id, $email);
+                if (!mysqli_stmt_execute($stmtUpdateStatus)) {
+                    // If not valid
+                    header("Location: registrationconfirmation.php?error=updateerror");
+                    exit();
+                
+                // } else {
+                //     // If valid direct to login
+                //     header("Location: login.php?email=".$email);
+                //     exit();
+        }
+            }
+            // Invalid Pin
+            else {
+                header("Location: registrationconfirmation.php?error=invalidpin");
+            }
+        }
+        else {
+            header("Location: registrationconfirmation.php");
+            exit();
+        }
+        
 
 ?>
 
@@ -74,4 +75,3 @@
 
 </body>
 </html>
-

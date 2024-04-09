@@ -1,12 +1,11 @@
 <?php
     //session_start(); not needed beacuse editProfileProcess added
-    include 'includes/databaseConnection.inc.php';
+    include "includes/dbh.inc.php";
     include_once 'editProfileProcess.php';
-        $mysqli = new mysqli("localhost","root","","movies");
         $sqlNP = "SELECT * FROM movies WHERE movie_status LIKE '%now playing%'";
         $sqlCS = "SELECT * FROM movies WHERE movie_status LIKE '%coming soon%'";
-        $resultNP = mysqli_query( $mysqli, $sqlNP ) or die("bad query: $sql");
-        $resultCS = mysqli_query( $mysqli, $sqlCS ) or die("bad query: $sql");
+        $resultNP = mysqli_query( $conn, $sqlNP ) or die("bad query: $sql");
+        $resultCS = mysqli_query( $conn, $sqlCS ) or die("bad query: $sql");
 ?>
 
 <!DOCTYPE html>

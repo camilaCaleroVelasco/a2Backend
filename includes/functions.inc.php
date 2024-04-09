@@ -170,6 +170,29 @@
         sendPINEmail($email, $pin1, $pin2, $pin3, $pin4);
 
     }
+    
+    // generate pin for account activation
+    function generatePINAccountActivation($conn, $email) {
+        //initially generate a PIN
+        $pin1 = rand(0,9);
+        $pin2 = rand(0,9);
+        $pin3 = rand(0,9);
+        $pin4 = rand(0,9);
+
+        // check if PIN is unique, if not, keep regenerating
+        while (notUniquePIN($conn, $pin1, $pin2, $pin3, $pin4)) {
+            $pin1 = rand(0,9);
+            $pin2 = rand(0,9);
+            $pin3 = rand(0,9);
+            $pin4 = rand(0,9);
+        }
+
+        updatePIN($conn, $email, $pin1, $pin2, $pin3, $pin4);
+
+        sendPINEmailAccountActivation($email, $pin1, $pin2, $pin3, $pin4);
+
+    }
+
 
     //Ensures PIN is unique within the DB
     function notUniquePIN($conn, $pin1, $pin2, $pin3, $pin4) {
@@ -303,6 +326,25 @@
         $mail->Subject = "Password Reset PIN";
         $mail->Body = <<<END
         To update your password, please type in the following PIN:
+        <br>
+        $pin1 $pin2 $pin3 $pin4
+        END; // Change URL according to your localhost directory
+        try {
+            $mail->send();
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
+            exit();
+        }
+
+    }
+    // Send pin to email to activate account
+    function sendPINEmailAccountActivation($email, $pin1, $pin2, $pin3, $pin4) {
+        $mail = require "mailer.php";
+        $mail->setFrom("noreply@example.com");
+        $mail->addAddress($email);
+        $mail->Subject = "Activate Account PIN";
+        $mail->Body = <<<END
+        To activate your account, please type in the following PIN:
         <br>
         $pin1 $pin2 $pin3 $pin4
         END; // Change URL according to your localhost directory

@@ -1,3 +1,13 @@
+<?php
+     session_start();
+     if ((!isset($_SESSION["email"])) || (isset($_SESSION["email"]) && $_SESSION["userType_id"] !== 2)) {
+ 
+         header("Location: restrictedAccess.php");
+         exit();
+     }
+ 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -134,15 +144,7 @@ textarea {
             </select>
         </div>
         <br>
-        <input type="text" name="cast_1" placeholder="Cast 1">
-        <br>
-        <input type="text" name="cast_2" placeholder="Cast 2">
-        <br>
-        <input type="text" name="cast_3" placeholder="Cast 3">
-        <br>
-        <input type="text" name="cast_4" placeholder="Cast 4">
-        <br>
-        <input type="text" name="cast_5" placeholder="Cast 5">
+        <input type="text" name="cast" placeholder="Cast">
         <br>
         <button id = "submit" type="submit" name="submit"> Add </button>
 </body>
