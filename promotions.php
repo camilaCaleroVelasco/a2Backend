@@ -1,10 +1,6 @@
 <?php
-session_start();
-if ((!isset($_SESSION["email"])) || (isset($_SESSION["email"]) && $_SESSION["userType_id"] !== 2)) {
-
-    header("Location: restrictedAccess.php");
-    exit();
-}
+    include 'promotionProcess.php';
+    promotionAccess();
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +34,7 @@ if ((!isset($_SESSION["email"])) || (isset($_SESSION["email"]) && $_SESSION["use
         <h2> Promotion Content</h2>
 
 
-        <form action="#" method="post"> <!--push info to the DB -->
+        <form action="promotionProcess.php" method="post"> <!--push info to the DB -->
 
 
             <div class="input-box"> <!-- div class input-box starts here -->
@@ -135,7 +131,7 @@ if ((!isset($_SESSION["email"])) || (isset($_SESSION["email"]) && $_SESSION["use
 
             <div class="button-container">
 
-                <button type="submit" name=add-promotion-button; class="button" id="submit">
+                <button type="submit" name="add-promotion-button"; class="button" id="submit">
                     Add Promotion </button>
                 <a href="currentPromotions.php" class="button" id="submit">View Current Promotions</a>
 
