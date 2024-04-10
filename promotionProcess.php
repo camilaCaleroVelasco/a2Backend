@@ -4,8 +4,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
     session_start();
-    include_once 'includes/functions.inc.php';
+    //include_once 'includes/functions.inc.php';
     include_once 'includes/dbh.inc.php';
+    include_once 'includes/emails.php';
 
     // If not an admin then they cannot access promotion page
     function promotionAccess() {
@@ -16,6 +17,8 @@ ini_set('display_errors', 1);
             exit();
         }
     }
+
+    
 
     // Get PromoStatus
     $promoStatus = 'Active';
@@ -28,7 +31,7 @@ ini_set('display_errors', 1);
     if(!$promoStatusRow) {
         die("Promotion Status not found: $promoStatus");
     }
-    
+
     // Set variables 
     $promoStatusId = $promoStatusRow['promoStatus_id'];
     $promoName = $_POST["promotion-name"];
@@ -60,6 +63,7 @@ ini_set('display_errors', 1);
 
                 // Check rows if added new info
                 if(mysqli_stmt_affected_rows($stmtInsertPromo) > 0) {
+                    sendEmailPromoToSubs($conn);
                     header("Location: currentPromotions.php?success=completed");
                     exit();
                 }
