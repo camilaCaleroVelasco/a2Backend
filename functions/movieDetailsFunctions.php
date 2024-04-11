@@ -1,6 +1,6 @@
 <?php
 
-// Connect to DB andfind movie info, if not found return false
+// Connect to DB and find movie info, if not found return false
 function getMovieInfo($conn, $movie_id) {
     $sql = "SELECT * FROM movies WHERE movie_id = ?";
 
@@ -25,6 +25,7 @@ function getMovieInfo($conn, $movie_id) {
     mysqli_stmt_close($stmt);
 }
 
+// Connect to DB and find movie category info, if not found return false
 function getMovieCategory($conn, $category_id) {
     $sql = "SELECT * FROM moviecategory WHERE category_id = ?";
 
