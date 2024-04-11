@@ -12,26 +12,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
     $movie_id = $_GET["movie_id"];
 
         require_once "includes/dbh.inc.php";
+        require_once "functions/movieDetailsFunctions.php";
 
-        $sql = "SELECT * FROM movies WHERE movie_id = ?";
-
-        $stmt = mysqli_stmt_init($conn);
-
-        if(!mysqli_stmt_prepare($stmt, $sql)) {
-            header("Location: adminDetails.php?error=stmtfailed"); 
-            exit();
-        }
-
-        mysqli_stmt_bind_param($stmt, "i", $movie_id);
-        mysqli_stmt_execute($stmt);
-
-        $resultData = mysqli_stmt_get_result($stmt); // Fetch single movie
-
-        $result = mysqli_fetch_assoc($resultData);
-
-        if (!$result) {
-            echo "<p>Sorry, movie was not found!.</p>";
-        }
+        $result = getMovieInfo($conn, $movie_id);
+        $category = getMovieCategory($conn, $result['category_id']);
 } 
 else {
     header("Location: index.php"); //Redirect so DB is not accessible
@@ -78,7 +62,7 @@ else {
         </br> 
         <strong> Producer: </strong> <?php echo $result['producer']; ?>
         </br>
-        <strong>Category:</strong> <?php echo $result['category'];?>
+        <strong>Category:</strong> <?php echo $category['category'];?>
         <br>
         <strong>Cast:</strong> <?php echo $result['cast'];?></strong>
                     </br>

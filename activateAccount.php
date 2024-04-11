@@ -16,6 +16,7 @@
 
             // if the email and pin are valid then update userstatus to active
             if (correctPIN($conn, $email, $pin1, $pin2, $pin3, $pin4)) {
+                updatePIN($conn, $email, NULL, NULL, NULL, NULL);
                 $userStatus_id = 1;
                 $sqlUpdateStatus = "UPDATE Users SET userStatus_id = ? WHERE email = ?";
                 $stmtUpdateStatus = mysqli_prepare($conn, $sqlUpdateStatus);

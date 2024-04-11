@@ -21,7 +21,7 @@
             } elseif(isset($_POST["now-playing-button"])) {
                 $results = filterMoviesByStatus($conn, "now playing", $search);
                 if($results == false) {
-                    $results =  $results = filterMoviesByCategory($conn, "now playing", $search);
+                    $results = filterMoviesByCategory($conn, "now playing", $search);
                 }
             }
         }

@@ -27,6 +27,7 @@ VALUES('INACTIVE');
 -- END OF ENUMERATION
 CREATE TABLE Promotion(
     promo_id INT PRIMARY KEY AUTO_INCREMENT,
+    promoName VARCHAR(255),
     promoCode VARCHAR(255),
     startDay INT,
     startMonth INT,
