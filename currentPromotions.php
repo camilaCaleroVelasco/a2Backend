@@ -6,7 +6,7 @@
 //     exit();
 // }
 
-include 'currentPromotionGetting.php';
+include 'Get/currentPromotionGetting.php';
 currentPromotionsAccess();
 ?>
 
