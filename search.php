@@ -69,8 +69,6 @@
                 }
             }
             else {
-                session_unset();
-                session_destroy();
               echo "<li><a href='login.php'>LOGIN</a></li>";
             }
           ?>
@@ -86,7 +84,7 @@
 
 
 
-    <form action="search.php?moviesearch=<?php.$_SESSION['search']?>" method="POST"> <!-- Specify the action and method for the form -->
+    <form action="search.php?moviesearch=<?php.$search?>" method="POST"> <!-- Specify the action and method for the form -->
         <div class = "filter-buttons">
             <button type="submit" id="nowPlaying" name="now-playing-button">Now Playing</button>
             <button type="submit" id="comingSoon" name="coming-soon-button">Coming Soon</button>
