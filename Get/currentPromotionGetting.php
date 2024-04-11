@@ -2,16 +2,11 @@
 
     session_start();
     include_once 'includes/dbh.inc.php';
+    require_once "functions/checkIfAdminFunction.php"; 
+    
+    // Checks if user is admin
+    checkIfAdmin();
 
-    // Function to check if it is an admin accessing page
-    function currentPromotionsAccess() {
-            
-        if ((!isset($_SESSION["email"])) || (isset($_SESSION["email"]) && $_SESSION["userType_id"] !== 2)) {
-
-            header("Location: restrictedAccess.php");
-            exit();
-        }
-    }
     function displayCurrentPromos($conn) {
         $sqlCurrentPromos = "SELECT * FROM promotion";
         $resultCurrentPromo = mysqli_query($conn, $sqlCurrentPromos);

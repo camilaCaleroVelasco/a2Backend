@@ -7,7 +7,7 @@
 // }
 
 include 'Get/currentPromotionGetting.php';
-currentPromotionsAccess();
+
 ?>
 
 <!DOCTYPE html>
