@@ -295,7 +295,7 @@
 
 
                 <div class="field">
-                    <select name="card-type1" id="card-type" value="<?php echo htmlspecialchars($currentCard1CardType); ?>">
+                    <select name="card-type1" id="card-type" class = "card-type-select" value="<?php echo htmlspecialchars($currentCard1CardType); ?>">
                         <option value="" selected disabled> Card Type </option>
                         <option value="1"> Visa </option>
                         <option value="2"> Master Card</option>
@@ -395,7 +395,7 @@
 
 
                 <div class="field">
-                    <select name="card-type2" id="card-type" value="<?php echo htmlspecialchars($currentCard2CardType); ?>">
+                    <select name="card-type2" id="card-type" class = "card-type-select" value="<?php echo htmlspecialchars($currentCard2CardType); ?>">
                         <option value="" selected disabled> Card Type </option>
                         <option value="1"> Visa </option>
                         <option value="2"> Master Card</option>
@@ -491,7 +491,7 @@
 
 
                 <div class="field">
-                    <select name="card-type3" id="card-type" value="<?php echo htmlspecialchars($currentCard3CardType); ?>">
+                    <select name="card-type3"  class = "card-type-select" id="card-type" value="<?php echo htmlspecialchars($currentCard3CardType); ?>">
                         <option value="" selected disabled> Card Type </option>
                         <option value="1"> Visa </option>
                         <option value="2"> Master Card</option>
@@ -583,6 +583,19 @@
         });
     }
     </script>
+
+
+
+<script>
+    // JavaScript to handle updating the selected value for all card type selects
+    var cardTypeSelects = document.querySelectorAll(".card-type-select");
+    cardTypeSelects.forEach(function(select) {
+        select.addEventListener("change", function() {
+            var selectedValue = this.value;
+            console.log("Selected card type: " + selectedValue);
+        });
+    });
+</script>
 
   
 
