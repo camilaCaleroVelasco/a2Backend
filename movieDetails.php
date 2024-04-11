@@ -1,18 +1,10 @@
 <?php
+    require_once "includes/dbh.inc.php";
     include_once 'editProfileProcess.php';
-    if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
-
-        $movie_id = $_GET["movie_id"];
-
-        require_once "includes/dbh.inc.php";
-        require_once "functions/movieDetailsFunctions.php";
-
-        $result = getMovieInfo($conn, $movie_id);
-        $category = getMovieCategory($conn, $result['category_id']);
-    } 
-    else {
-        header("Location: index.php"); //Redirect so DB is not accessible
-    }
+    include_once "get/movieDetailsGet.php";
+    $details = getMovieDetails($conn);
+    $result = $details['movieInfo'];
+    $category = $details['category'];
 ?>
 
 <!DOCTYPE html>

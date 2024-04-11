@@ -2,7 +2,7 @@
     session_start();
 
     require_once "includes/dbh.inc.php";
-    require_once "functions/movieDetailsFunctions.php";
+    include_once "get/movieDetailsGet.php";
     require_once "functions/checkIfAdminFunction.php"; 
     
 

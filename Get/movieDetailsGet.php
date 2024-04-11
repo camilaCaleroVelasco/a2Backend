@@ -49,3 +49,19 @@ function getMovieCategory($conn, $category_id) {
     }
     mysqli_stmt_close($stmt);
 }
+
+function getMovieDetails($conn) {
+    if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
+
+        $movie_id = $_GET["movie_id"];
+        $result = getMovieInfo($conn, $movie_id);
+        $category = getMovieCategory($conn, $result['category_id']);
+        return[
+            'movieInfo' => $result,
+            'category' => $category
+        ];
+    } 
+    else {
+        header("Location: index.php"); //Redirect so DB is not accessible
+    }
+}
