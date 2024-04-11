@@ -111,3 +111,37 @@
                  }
         } 
     }
+
+    // Shows login error and success messages
+    function errorCheck() {
+        // Error messages
+        if (isset($_GET["error"])) {
+            if ($_GET["error"] == "emptyinput") {
+                echo "<p>Fill in all fields!</p>";
+            }
+            else if ($_GET["error"] == "incorrectlogin") {
+                echo "<p>Login is incorrect!</p>";
+            }
+            else if ($_GET["error"] == "inactive") {
+                echo "<p>Please verify your account</p>";
+            }
+            else if ($_GET["error"] == "suspended") {
+                echo "<p>Your account is suspended.</p>";
+            }
+            else if ($_GET["error"] == "inactiveAdmin") {
+                echo "<p>Please contact an active Admin for assistance.</p>";
+            }
+            else if ($_GET["error"] == "stmtfailed") {
+                echo "<p>FATIAL CONNECTION ERROR.</p>";
+            }
+            else if($_GET["error"] == "notLoggedIn") {
+                echo "<p> To continue checking out, please login.";
+            }
+        }
+        if (isset($_GET["success"])) {
+            if ($_GET["success"] == "pwdupdate") {
+                session_unset();
+                echo "<p>Your password has been updated successfully. Please login.</p>";
+            }
+        }
+    }
