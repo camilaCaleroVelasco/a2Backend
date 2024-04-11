@@ -1,34 +1,18 @@
 <?php
+    include_once 'editProfileProcess.php';
+    if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
 
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
-
-    $movie_id = $_GET["movie_id"];
+        $movie_id = $_GET["movie_id"];
 
         require_once "includes/dbh.inc.php";
+        require_once "functions/movieDetailsFunctions.php";
 
-        $sql = "SELECT * FROM movies WHERE movie_id = ?";
-
-        $stmt = mysqli_stmt_init($conn);
-
-        if(!mysqli_stmt_prepare($stmt, $sql)) {
-            header("Location: adminDetails.php?error=stmtfailed"); 
-            exit();
-        }
-
-        mysqli_stmt_bind_param($stmt, "i", $movie_id);
-        mysqli_stmt_execute($stmt);
-
-        $resultData = mysqli_stmt_get_result($stmt); // Fetch single movie
-
-        $result = mysqli_fetch_assoc($resultData);
-
-        if (!$result) {
-            echo "<p>Sorry, movie was not found!.</p>";
-        }
-} 
-else {
-    header("Location: index.php"); //Redirect so DB is not accessible
-}
+        $result = getMovieInfo($conn, $movie_id);
+        $category = getMovieCategory($conn, $result['category_id']);
+    } 
+    else {
+        header("Location: index.php"); //Redirect so DB is not accessible
+    }
 ?>
 
 <!DOCTYPE html>
@@ -43,10 +27,24 @@ else {
 </head>
 <body>
 <header>
-    <a href="index.php"><img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo">  
+    <a href="index.php"><img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo"></a>  
         <nav>
-            <ul class="nav__links">
-                <li><a href="login.php">LOGIN</a></li> <!-- Link to the login page -->
+        <ul class="nav__links">
+            <?php
+            if (isset($_SESSION["email"])) {
+                echo "<p> Hello, " . $currentFirstName . "</p>";
+                echo "<li><a href='editProfile.php'>VIEW PROFILE</a></li>";
+                echo "<li><a href='logout.php'>LOGOUT</a></li>";
+                if($_SESSION["userType_id"] == 2) {
+                    echo "<li><a href='admin.php'>ADMIN</a></li>";
+                }
+            }
+            else {
+                session_unset();
+                session_destroy();
+              echo "<li><a href='login.php'>LOGIN</a></li>";
+            }
+          ?>
                 <li class="search">
                     <form action="search.php" method="POST"> <!-- Specify the action and method for the form -->
                         <input id="search" type="text" name="moviesearch" placeholder="Search Movies">
@@ -73,7 +71,7 @@ else {
         </br> 
         <strong> Producer: </strong> <?php echo $result['producer']; ?>
         </br>
-        <strong>Category:</strong> <?php echo $result['category'];?>
+        <strong>Category:</strong> <?php echo $category['category'];?>
         <br>
         <strong>Cast:</strong> <?php echo $result['cast'];?></strong>
                     </br>

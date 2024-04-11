@@ -1,20 +1,44 @@
 <?php
-require_once "includes/dbh.inc.php";
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    require_once "includes/dbh.inc.php";
+    require_once "functions/searchFunctions.php";
+    include_once 'editProfileProcess.php';
 
-    $search = $_POST["moviesearch"];
+    // Initialize the $results variable
+    $results = array();
 
-    $sql = "SELECT * FROM movies WHERE (movie_title LIKE '%$search%' OR category LIKE '%$search%')"; //sql
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Check if search term and filter are provided
+        if(isset($_POST["now-playing-button"]) || isset($_POST["coming-soon-button"])) {
+            $search = $_SESSION['search'];
 
-    $results = mysqli_query($conn, $sql) or die("bad query: $sql");
+            // Filter based on both search term and filter
+            if(isset($_POST["coming-soon-button"])) {
+                $results = filterMoviesByStatus($conn, "coming soon", $search);
+                if($results == false) {
+                    $results = filterMoviesByCategory($conn, "coming soon", $search);
+                }
 
-    //echo var_dump($results) . "<br>";
+            } elseif(isset($_POST["now-playing-button"])) {
+                $results = filterMoviesByStatus($conn, "now playing", $search);
+                if($results == false) {
+                    $results =  $results = filterMoviesByCategory($conn, "now playing", $search);
+                }
+            }
+        }
+        // Check if only search term is provided
+        elseif(isset($_POST["moviesearch"])) {
+            $_SESSION['search'] = $_POST["moviesearch"];
 
-} else {
-    header("Location: index.php");//sends back to the index page so ppl can't get data
-}
+            $search = $_POST["moviesearch"];
+
+            $results = searchMovieTitle($conn, $search);
+            //var_dump($results);
+            if($results == false) {
+                $results = searchMovieCategory($conn,$search);
+            }
+        }
+    } 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,23 +54,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <header>
-        <a href="index.php"><img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo">
-            <nav>
-                <ul class="nav__links">
-                    <li><a href="admin.php">ADMIN</a></li>
-                    <li><a href="login.php">LOGIN</a></li> <!-- Link to the login page -->
-                    <li class="search">
-                        <form action="search.php" method="POST"> <!-- Specify the action and method for the form -->
-                            <input id="search" type="text" name="moviesearch" placeholder="Search Movies">
-                        </form>
-                    </li>
-
-                </ul>
-            </nav>
+    <a href= "index.php">
+            <img class="logo" src="images/A2 movies Icon.jpeg" alt="logo">
+        </a>
+        <nav>
+            <ul class="nav__links">
+            <?php
+            if (isset($_SESSION["email"])) {
+                echo "<p> Hello, " . $currentFirstName . "</p>";
+                echo "<li><a href='editProfile.php'>VIEW PROFILE</a></li>";
+                echo "<li><a href='logout.php'>LOGOUT</a></li>";
+                if($_SESSION["userType_id"] == 2) {
+                    echo "<li><a href='admin.php'>ADMIN</a></li>";
+                }
+            }
+            else {
+                session_unset();
+                session_destroy();
+              echo "<li><a href='login.php'>LOGIN</a></li>";
+            }
+          ?>
+                <li class="search">
+                    <form action="search.php" method="POST"> <!-- Specify the action and method for the form -->
+                        <input id="search" type="text" name="moviesearch" placeholder="Search Movies">
+                    </form>
+                </li>
+               
+            </ul>
+        </nav>
     </header>
 
 
-    <form action="search.php" method="POST"> <!-- Specify the action and method for the form -->
+
+    <form action="search.php?moviesearch=<?php.$_SESSION['search']?>" method="POST"> <!-- Specify the action and method for the form -->
         <div class = "filter-buttons">
             <button type="submit" id="nowPlaying" name="now-playing-button">Now Playing</button>
             <button type="submit" id="comingSoon" name="coming-soon-button">Coming Soon</button>
@@ -54,20 +94,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 
     
-    <h3 id ="searchHeader">Search results:</h3>
+    <h2 id ="searchHeader">Search results:</h2>
 
 
     <section class = "image-section">
 
-   
-
         <?php
-        if (empty($results)) {
+        if ($results == false) {
             echo "<div>";
             echo "<p> There were no results! </p>";
             echo "</div>";
         } else {
-            while ($row = mysqli_fetch_array($results)) {
+            
+            foreach ($results as $row) {
                 echo "<div>";
                 //direct to movieDetails when button is clicked
                 echo "<a href='movieDetails.php?movie_id=" . $row["movie_id"] . "'>";
