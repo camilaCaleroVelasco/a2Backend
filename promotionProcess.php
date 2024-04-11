@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
     session_start();
     //include_once 'includes/functions.inc.php';
     include_once 'includes/dbh.inc.php';
-    include_once 'includes/emails.php';
+    include_once 'functions/emailsFunctions.php';
     require_once "functions/checkIfAdminFunction.php"; 
 
     // Check if user is an admin
