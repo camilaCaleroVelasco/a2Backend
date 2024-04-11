@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-    include_once 'includes/functions.inc.php';
+    include_once 'functions/activateAccountFunctions.php';
     include_once 'includes/dbh.inc.php';
 
 
@@ -388,17 +388,17 @@ ini_set('display_errors', 1);
         session_start();
         $email = $_POST["email-address"];
         $_SESSION["resetEmail"] = $email;
-
+//
         if(invalidEmail($email) !== false) {
             header("Location: register.php?error=invalid");
             exit();
         }
-
+//
         else if(userExists($conn, $email) == false) {
             header("Location: register.php?error=missingaccount");
             exit();
         }
-
+//
         else {
             //generates a unique PIN for the user
             generatePINAccountActivation($conn, $email);
