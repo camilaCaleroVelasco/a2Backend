@@ -6,8 +6,8 @@
 //     exit();
 // }
 
-    include 'currentPromotionGetting.php';
-    currentPromotionsAccess();
+include 'currentPromotionGetting.php';
+currentPromotionsAccess();
 ?>
 
 <!DOCTYPE html>
@@ -21,6 +21,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Enable back on to put style -->
+
+
+    <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" href="css/promotions.css">
     <link rel="stylesheet" href="css/currentPromotions.css">
 
 
@@ -36,22 +40,15 @@
 
     <!-- Beginning Field for Register Info -->
     <div class="wrapper"> <!-- div class wrapper starts here -->
-        <h1> Current Promotions </h1>        
-
-        <!-- <form action="#" method="post"> push info to the DB -->
-            <!-- <h2> Promotion 1</h2> -->
-             <!-- added promotions info will appear here --> 
-
-        <!-- </form> -->
+        <h1> Current Promotions </h1>
 
         <div name="promoContainer" class="promoContainer">
             <?php
-                displayCurrentPromos($conn);
+            displayCurrentPromos($conn);
             ?>
         </div>
 
-
-
+        <a href="promotions.php"  class = "button" id="add-promo">Add Promotions</a>
     </div> <!-- div class wrapper ends here -->
 
 

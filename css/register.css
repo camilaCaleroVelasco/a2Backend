@@ -72,7 +72,7 @@ body::before {
 
 
 .wrapper::-webkit-scrollbar {
-    display: none;
+    display: none;  /* hide form scrollbar */
 }
 
 

@@ -1,6 +1,6 @@
 <?php
-    include 'promotionProcess.php';
-    promotionAccess();
+include 'promotionProcess.php';
+promotionAccess();
 ?>
 
 <!DOCTYPE html>
@@ -15,16 +15,14 @@
 
     <!-- Enable back on to put style -->
     <link rel="stylesheet" href="css/register.css">
-    <link rel="stylesheet" href="css/promotions.css"> 
+    <link rel="stylesheet" href="css/promotions.css">
 
 </head>
 
 <body>
     <header>
-        <a href="index.php">
-            <img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo">
-            <!--clicking a2 movies icon will link back to homepage-->
-        </a>
+        <a href="index.php"><img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo"></a>
+        
     </header>
 
     <!-- Beginning Field for Register Info -->
@@ -79,10 +77,10 @@
 
             <h3> Promotion Date</h3>
 
-      
 
 
-            <div class=" input-box date-information"> <!-- Card Info Fields start here-->
+
+            <div class=" input-box date-information"> <!-- Fields start here-->
 
                 <div class="field">
                     <input type="number" placeholder="Start Month" name="start-month" required>
@@ -127,11 +125,11 @@
                 </div>
 
 
-            </div> 
+            </div>
 
             <div class="button-container">
 
-                <button type="submit" name="add-promotion-button"; class="button" id="submit">
+                <button type="submit" name="add-promotion-button"class="button" id="submit">
                     Add Promotion </button>
                 <a href="currentPromotions.php" class="button" id="submit">View Current Promotions</a>
 
