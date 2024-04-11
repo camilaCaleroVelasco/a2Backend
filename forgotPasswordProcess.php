@@ -5,7 +5,7 @@
         $_SESSION["resetEmail"] = $email;
 
         require_once "includes/dbh.inc.php";
-        require_once "includes/functions.inc.php";
+        require_once "functions/forgotPasswordFunctions.php";
 
         if(invalidEmail($email) !== false) {
             header("Location: forgotPassword.php?error=invalid");

@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require_once "includes/functions.inc.php";
+    require_once "functions/forgotPasswordFunctions.php";
     require_once "includes/dbh.inc.php";
         if(isset($_POST["submit"])) {
 

@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require_once "includes/functions.inc.php";
+    require_once "functions/forgotPasswordFunctions.php";
     require_once "includes/dbh.inc.php";
     $email = $_SESSION["resetEmail"];
     if(isset($_POST["submit"])) {
