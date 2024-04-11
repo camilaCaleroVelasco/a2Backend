@@ -307,7 +307,7 @@ ini_set('display_errors', 1);
 
             
             // Execute add cards
-            if (!mysqli_stmt_bind_param($stmtPaymentCard, "sissssi", $encryptedCardNumber, $cardType_id, $_POST["expiration-month"], $_POST["expiration-year"], $_POST["first-name"], $_POST["last-name"], $lastUserId)) {
+            if (!mysqli_stmt_bind_param($stmtPaymentCard, "sissssi", $encryptedCardNumber, $cardType_id, $_POST["expiration-month"], $_POST["expiration-year"], $_POST["card-first-name1"], $_POST["card-last-name1"], $lastUserId)) {
                 die("Error:  Failed to pull PaymentCard1.");
             }
             if (!mysqli_stmt_execute($stmtPaymentCard)) {
