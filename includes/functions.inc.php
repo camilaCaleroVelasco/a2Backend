@@ -1,4 +1,16 @@
 <?php
+
+  function invalidEmail($email) {
+    $result;
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $result = false;
+    }
+    else {
+        $result = true;
+    }
+    return $result;
+}
+
     // generate pin for account activation
     function generatePINAccountActivation($conn, $email) {
         //initially generate a PIN
