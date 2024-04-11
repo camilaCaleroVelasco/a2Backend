@@ -1,11 +1,11 @@
 <?php
     //session_start(); not needed beacuse editProfileProcess added
-    include "includes/dbh.inc.php";
     include_once 'editProfileProcess.php';
-        $sqlNP = "SELECT * FROM movies WHERE movie_status LIKE '%now playing%'";
-        $sqlCS = "SELECT * FROM movies WHERE movie_status LIKE '%coming soon%'";
-        $resultNP = mysqli_query( $conn, $sqlNP ) or die("bad query: $sql");
-        $resultCS = mysqli_query( $conn, $sqlCS ) or die("bad query: $sql");
+    require_once 'Get/indexGet.php';
+    
+    $moviesIndex = getMovies($conn);
+    $resultNP = $moviesIndex['nowPlaying'];
+    $resultCS = $moviesIndex['comingSoon'];
 ?>
 
 <!DOCTYPE html>
@@ -39,6 +39,7 @@
                 session_destroy();
               echo "<li><a href='login.php'>LOGIN</a></li>";
             }
+
           ?>
                 <li class="search">
                     <form action="search.php" method="POST"> <!-- Specify the action and method for the form -->
