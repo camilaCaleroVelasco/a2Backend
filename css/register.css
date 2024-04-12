@@ -59,11 +59,12 @@ body::before {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 900px;
+    max-width: 900px;
     height: 750px;
     background: rgba(0,0,0,0.75);
     transform : translate(-50%, -50%);
     overflow-y: auto;
+    width: 80%;
 
 
 
@@ -401,17 +402,29 @@ form .subscribe-promos input {
         display: none;
     }
     header, .wrapper {
-        padding: 20px;     
+        padding: 50px;     
     }
 
    .wrapper {
-    top: 43%;
+    top: 100%;
     width: 100%;
    }
 
    .wrapper form {
-    margin: 25px 0 40px;
+    margin: 45px 0 20px;
 
    }
 
 }
+
+@media (max-width: 940px) {
+    .wrapper {
+        top: 50px; /* Adjust the top position for smaller screens */
+        width: 90%; /* Adjust the width for smaller screens */
+        max-width: 100%; /* Ensure it doesn't exceed the screen width */
+        height: auto; /* Allow the height to adjust based on content */
+        padding: 20px; /* Add padding for better spacing */
+    }
+}
+
+
