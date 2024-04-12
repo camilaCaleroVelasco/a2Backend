@@ -214,3 +214,19 @@
         }
         
     }
+
+    // Shows login error and success messages
+    function errorCheck() {
+        // Error messages
+        if (isset($_GET["error"])) {
+            if ($_GET["error"] == "updateerror") {
+                echo "<p>Error: DB CONNECTION ERROR</p>";
+            }
+            else if ($_GET["error"] == "invalidpin") {
+                echo "<p>Incorrect PIN!</p>";
+            }
+        }
+        else {
+            echo "<p>  Registration was successful! Please check your email to verify your account.</p>";
+        }
+    }

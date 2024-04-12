@@ -82,7 +82,7 @@ CREATE TABLE Users(
     password VARCHAR(255),
     firstName VARCHAR(255),
     lastName VARCHAR(255),
-    phoneNumber INT,
+    phoneNumber VARCHAR(255),
     userStatus_id INT,
     userType_id INT,
     pwdResetPin1 INT,

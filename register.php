@@ -13,6 +13,8 @@ include_once 'includes/dbh.inc.php';
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Enable back on to put style -->
+
+
     <link rel="stylesheet" href="css/register.css">
 
 </head>

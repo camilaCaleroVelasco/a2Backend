@@ -25,12 +25,15 @@ $email = $_SESSION["resetEmail"];
     <div class="wrapper">  <!-- div class wrapper starts here -->
         <h1> Reset Password</h1> <!-- form class starts here -->
         <?php if (isset($_GET["error"])) {
-                        if ($_GET["error"] == "invalidpin") {
-                            echo "<p>Incorrect PIN. Try again!</p>";
-                        }
-                    }
+                if ($_GET["error"] == "invalidpin") {
+                    echo "<p>Incorrect PIN. Try again!</p>";
+                }
+            }
+            else {
+                echo "<p> Please check your email and enter the 4 digit code that was sent to reset your password.</p>";
+            }
         ?>
-        <p> Please check your email and enter the 4 digit code that was sent to reset your password.</p>
+
         <form action = "resetPasswordVerifProcess.php?email=<?php.$email?>" method = "POST" autocomplete = "off">
             
             <div class="code-input">

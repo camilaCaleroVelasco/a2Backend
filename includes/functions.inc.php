@@ -529,7 +529,7 @@ function userExists($conn, $email) {
     // Delete
     //done
     function deleteUserPaymentCard1($conn, $usersid) {
-        $sql = "UPDATE paymentcard1 SET cardNum = '', cardType_id = 1, expMonth = '', expYear = '',
+        $sql = "UPDATE paymentcard1 SET cardNum = '', cardType_id = NULL, expMonth = '', expYear = '',
         firstName = '', lastName = '' WHERE users_id = ?;";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
@@ -540,6 +540,8 @@ function userExists($conn, $email) {
         mysqli_stmt_bind_param($stmt, "i", $usersid);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
+         
+
     }
 
     //done

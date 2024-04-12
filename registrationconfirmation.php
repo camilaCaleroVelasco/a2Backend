@@ -28,7 +28,10 @@
     
     <div class="wrapper">  <!-- div class wrapper starts here -->
         <h1> Verify Account Now!</h1> <!-- form class starts here -->
-        <p>  Registration was successful! Please check your email to verify your account.</p>
+        <?php
+            require_once "functions/activateAccountFunctions.php";
+            errorCheck();
+        ?>
         <form action = "activateAccount.php?email=<?php $email ?>" method="post"  autocomplete = "off"> 
             
             <div class="code-input">
