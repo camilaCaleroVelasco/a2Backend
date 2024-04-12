@@ -1,6 +1,6 @@
 <?php
     require_once "Get/adminMovieGet.php";
-    $movie = adminMovieGet($conn, $sql);
+    $movie = adminMovieGet($conn);
     $resultNP = $movie['nowPlaying'];
     $resultCS = $movie['comingSoon'];
 
