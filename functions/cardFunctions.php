@@ -265,7 +265,7 @@
     // Delete functions
     //
     function deleteUserPaymentCard1($conn, $usersid) {
-        $sql = "UPDATE paymentcard1 SET cardNum = '', lastFour ='0', cardType_id = 1, expMonth = '', expYear = '',
+        $sql = "UPDATE paymentcard1 SET cardNum = '', lastFour ='0', cardType_id = null, expMonth = '', expYear = '',
         firstName = '', lastName = '' WHERE users_id = ?;";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
@@ -280,7 +280,7 @@
 
     //
     function deleteUserPaymentCard2($conn, $usersid) {
-        $sql = "UPDATE paymentcard2 SET cardNum = '', lastFour = '0', cardType_id = 1, expMonth = '', expYear = '',
+        $sql = "UPDATE paymentcard2 SET cardNum = '', lastFour = '0', cardType_id = null, expMonth = '', expYear = '',
         firstName = '', lastName = '' WHERE users_id = ?;";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
@@ -295,7 +295,7 @@
 
     //
     function deleteUserPaymentCard3($conn, $usersid) {
-        $sql = "UPDATE paymentcard3 SET cardNum = '', lastFour ='0', cardType_id = 1, expMonth = '', expYear = '',
+        $sql = "UPDATE paymentcard3 SET cardNum = '', lastFour ='0', cardType_id = null, expMonth = '', expYear = '',
         firstName = '', lastName = '' WHERE users_id = ?;";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {

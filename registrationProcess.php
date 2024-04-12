@@ -100,7 +100,7 @@ ini_set('display_errors', 1);
 
     // Get $cardType_id 
     $cardType = $_POST["card-type"];
-    $defaultCardType = 'Visa'; // Default cardType
+    //$defaultCardType = ''; // Default cardType
     $sqlCardType = "SELECT cardType_id FROM PaymentCardType WHERE type = ?";
     $stmtCardType = mysqli_prepare($conn, $sqlCardType);
     mysqli_stmt_bind_param($stmtCardType, "s", $cardType);
@@ -109,18 +109,19 @@ ini_set('display_errors', 1);
     $cardTypeRow = mysqli_fetch_assoc($resultCardType);
     if ($cardTypeRow) {
         $cardType_id = $cardTypeRow['cardType_id'];
-    } else {
-        // If user does not provide card type assign the default card type
-        $stmtDefaultCardType = mysqli_prepare($conn, $sqlCardType);
-        mysqli_stmt_bind_param($stmtDefaultCardType, "s", $defaultCardType);
-        mysqli_stmt_execute($stmtDefaultCardType);
-        $resultDefaultCardType = mysqli_stmt_get_result($stmtDefaultCardType);
-        $defaultCardTypeRow = mysqli_fetch_assoc($resultDefaultCardType);
-
-        if ($defaultCardTypeRow) {
-            $cardType_id = $defaultCardTypeRow['cardType_id'];
-        } 
     }
+    // } else {
+    //     // If user does not provide card type assign the default card type
+    //     $stmtDefaultCardType = mysqli_prepare($conn, $sqlCardType);
+    //     mysqli_stmt_bind_param($stmtDefaultCardType, "s", $defaultCardType);
+    //     mysqli_stmt_execute($stmtDefaultCardType);
+    //     $resultDefaultCardType = mysqli_stmt_get_result($stmtDefaultCardType);
+    //     $defaultCardTypeRow = mysqli_fetch_assoc($resultDefaultCardType);
+
+    //     if ($defaultCardTypeRow) {
+    //         $cardType_id = $defaultCardTypeRow['cardType_id'];
+    //     } 
+    // }
 
     // Encrypt card number
     $encryptedCardNumber = null;
@@ -301,7 +302,7 @@ ini_set('display_errors', 1);
 
             // Default card values
             $defaultCardNum = "";
-            $defaultCardType_id = 1; 
+            $defaultCardType_id = null; 
             $defaultExpMonth = "";
             $defaultExpYear = "";
             $defaultFirstName = "";
@@ -360,7 +361,7 @@ ini_set('display_errors', 1);
             
             // Default card values
             $defaultCardNum = ""; 
-            $defaultCardType_id = 1; 
+            $defaultCardType_id = null; 
             $defaultExpMonth = ""; 
             $defaultExpYear = ""; 
             $defaultFirstName = ""; 

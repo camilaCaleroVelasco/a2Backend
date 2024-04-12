@@ -408,13 +408,16 @@ include_once 'editProfileProcess.php';
 
 
                 <div class="field">
-                    <select name="card-type2" id="card-type" class="card-type-select"
-                        value="<?php echo htmlspecialchars($currentCard2CardType); ?>">
-                        <option value="" selected disabled> Card Type </option>
-                        <option value="1"> Visa </option>
-                        <option value="2"> Master Card</option>
-                        <option value="3"> American Express </option>
-
+                    <select name="card-type2" id="card-type" class="card-type-select">
+                        <?php if ($currentCard2CardType === NULL): ?>
+                            <option value="" selected disabled> Card Type </option>
+                        <?php endif; ?>
+                        <option value="1" <?php if (isset($currentCard2CardType) && $currentCard2CardType == "1")
+                            echo " selected"; ?>> Visa </option>
+                        <option value="2" <?php if (isset($currentCard2CardType) && $currentCard2CardType == "2")
+                            echo " selected"; ?>> Master Card</option>
+                        <option value="3" <?php if (isset($currentCard2CardType) && $currentCard2CardType == "3")
+                            echo " selected"; ?>> American Express </option>
                     </select>
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
@@ -514,13 +517,16 @@ include_once 'editProfileProcess.php';
 
 
                 <div class="field">
-                    <select name="card-type3" class="card-type-select" id="card-type"
-                        value="<?php echo htmlspecialchars($currentCard3CardType); ?>">
-                        <option value="" selected disabled> Card Type </option>
-                        <option value="1"> Visa </option>
-                        <option value="2"> Master Card</option>
-                        <option value="3"> American Express </option>
-
+                    <select name="card-type3" class="card-type-select" id="card-type">
+                    <?php if ($currentCard3CardType === NULL): ?>
+                            <option value="" selected disabled> Card Type </option>
+                        <?php endif; ?>
+                        <option value="1" <?php if (isset($currentCard3CardType) && $currentCard3CardType == "1")
+                            echo " selected"; ?>> Visa </option>
+                        <option value="2" <?php if (isset($currentCard3CardType) && $currentCard3CardType == "2")
+                            echo " selected"; ?>> Master Card</option>
+                        <option value="3" <?php if (isset($currentCard3CardType) && $currentCard3CardType == "3")
+                            echo " selected"; ?>> American Express </option>
                     </select>
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
