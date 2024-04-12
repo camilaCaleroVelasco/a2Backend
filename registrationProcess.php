@@ -97,6 +97,7 @@ ini_set('display_errors', 1);
     // Get Phone Number
     $phoneNumber = $_POST["phone-number"];
 
+
     // Get $cardType_id 
     $cardType = $_POST["card-type"];
     $defaultCardType = 'Visa'; // Default cardType
@@ -125,6 +126,7 @@ ini_set('display_errors', 1);
     $encryptedCardNumber = null;
     if (!empty($_POST["card-number"])) {
         $cardNumber = $_POST["card-number"];
+        $lastFour = substr($cardNumber, -4); //store last 4 numbers of the card
         $encryptionKey = 'encription-012df';
         $encryptedCardNumber = openssl_encrypt($cardNumber, 'aes-256-cbc', $encryptionKey, 0, $encryptionKey);
     }
@@ -274,24 +276,24 @@ ini_set('display_errors', 1);
         // Check if payment card was added
         if (!empty($encryptedCardNumber) && !empty($_POST["expiration-month"]) && !empty($_POST["expiration-year"])) {
             // Card 1
-            $sqlPaymentCard = "INSERT INTO PaymentCard1 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
-                            VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $sqlPaymentCard = "INSERT INTO PaymentCard1 (cardNum, lastFour, cardType_id, expMonth, expYear, firstName, lastName, users_id)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmtPaymentCard = mysqli_prepare($conn, $sqlPaymentCard);
             if (!$stmtPaymentCard) {
                 die("SQL error: " . mysqli_error($conn));
             }
 
             // Card 2
-            $sqlPaymentCard2 = "INSERT INTO PaymentCard2 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
-                                VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $sqlPaymentCard2 = "INSERT INTO PaymentCard2 (cardNum, lastFour,  cardType_id, expMonth, expYear, firstName, lastName, users_id)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmtPaymentCard2 = mysqli_prepare($conn, $sqlPaymentCard2);
             if (!$stmtPaymentCard2) {
                 die("SQL error: " . mysqli_error($conn));
             }
 
             // Card 3
-            $sqlPaymentCard3 = "INSERT INTO PaymentCard3 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
-                                VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $sqlPaymentCard3 = "INSERT INTO PaymentCard3 (cardNum, lastFour, cardType_id, expMonth, expYear, firstName, lastName, users_id)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmtPaymentCard3 = mysqli_prepare($conn, $sqlPaymentCard3);
             if (!$stmtPaymentCard3) {
                 die("SQL error: " . mysqli_error($conn));
@@ -304,22 +306,24 @@ ini_set('display_errors', 1);
             $defaultExpYear = "";
             $defaultFirstName = "";
             $defaultLastName = "";
+            $defaultLastFour = "0";
+
 
             
             // Execute add cards
-            if (!mysqli_stmt_bind_param($stmtPaymentCard, "sissssi", $encryptedCardNumber, $cardType_id, $_POST["expiration-month"], $_POST["expiration-year"], $_POST["card-first-name1"], $_POST["card-last-name1"], $lastUserId)) {
+            if (!mysqli_stmt_bind_param($stmtPaymentCard, "siissssi", $encryptedCardNumber, $lastFour, $cardType_id, $_POST["expiration-month"], $_POST["expiration-year"], $_POST["card-first-name1"], $_POST["card-last-name1"], $lastUserId)) {
                 die("Error:  Failed to pull PaymentCard1.");
             }
             if (!mysqli_stmt_execute($stmtPaymentCard)) {
                 die("Error: Failed to execute the PaymentCard1 query. " . mysqli_error($conn));
             }
-            if (!mysqli_stmt_bind_param($stmtPaymentCard2, "sissssi", $defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId)) {
+            if (!mysqli_stmt_bind_param($stmtPaymentCard2, "siissssi", $defaultCardNum, $defaultLastFour, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId)) {
                 die("Error: Failed to bind parameters for PaymentCard2.");
             }
             if (!mysqli_stmt_execute($stmtPaymentCard2)) {
                 die("Error: Failed to execute the PaymentCard2 query. " . mysqli_error($conn));
             }
-            if (!mysqli_stmt_bind_param($stmtPaymentCard3, "sissssi", $defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId)) {
+            if (!mysqli_stmt_bind_param($stmtPaymentCard3, "siissssi", $defaultCardNum, $defaultLastFour, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId)) {
                 die("Error: Failed to bind parameters for PaymentCard3.");
             }
             if (!mysqli_stmt_execute($stmtPaymentCard3)) {
@@ -330,24 +334,24 @@ ini_set('display_errors', 1);
             // Track the 3 cards if the user does not add payment card
 
             // Card 1
-            $sqlPaymentCard1 = "INSERT INTO PaymentCard1 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $sqlPaymentCard1 = "INSERT INTO PaymentCard1 (cardNum, lastFour, cardType_id, expMonth, expYear, firstName, lastName, users_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmtPaymentCard1 = mysqli_prepare($conn, $sqlPaymentCard1);
             if (!$stmtPaymentCard1) {
                 die("SQL error: " . mysqli_error($conn));
             }
 
             // Card 2
-            $sqlPaymentCard2 = "INSERT INTO PaymentCard2 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
-                                VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $sqlPaymentCard2 = "INSERT INTO PaymentCard2 (cardNum, lastFour, cardType_id, expMonth, expYear, firstName, lastName, users_id)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmtPaymentCard2 = mysqli_prepare($conn, $sqlPaymentCard2);
             if (!$stmtPaymentCard2) {
                 die("SQL error: " . mysqli_error($conn));
             }
 
             // Card 3
-            $sqlPaymentCard3 = "INSERT INTO PaymentCard3 (cardNum, cardType_id, expMonth, expYear, firstName, lastName, users_id)
-                                VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $sqlPaymentCard3 = "INSERT INTO PaymentCard3 (cardNum, lastFour, cardType_id, expMonth, expYear, firstName, lastName, users_id)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmtPaymentCard3 = mysqli_prepare($conn, $sqlPaymentCard3);
             if (!$stmtPaymentCard3) {
                 die("SQL error: " . mysqli_error($conn));
@@ -361,21 +365,22 @@ ini_set('display_errors', 1);
             $defaultExpYear = ""; 
             $defaultFirstName = ""; 
             $defaultLastName = "";
+            $defaultLastFour ="0";
             
             // Execute add defult cards
-            if (!mysqli_stmt_bind_param($stmtPaymentCard1, "sissssi", $defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId)) {
+            if (!mysqli_stmt_bind_param($stmtPaymentCard1, "siissssi", $defaultCardNum, $defaultLastFour, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId)) {
                 die("Error: Failed to add default paymentCard1.");
             }
             if (!mysqli_stmt_execute($stmtPaymentCard1)) {
                 die("Error: Failed to execute the default PaymentCard1. " . mysqli_error($conn));
             }
-            if (!mysqli_stmt_bind_param($stmtPaymentCard2, "sissssi", $defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId)) {
+            if (!mysqli_stmt_bind_param($stmtPaymentCard2, "siissssi", $defaultCardNum, $defaultLastFour, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId)) {
                 die("Error: Failed to add default paymentCard2.");
             }
             if (!mysqli_stmt_execute($stmtPaymentCard2)) {
                 die("Error: Failed to execute the default PaymentCard2. " . mysqli_error($conn));
             }
-            if (!mysqli_stmt_bind_param($stmtPaymentCard3, "sissssi", $defaultCardNum, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId)) {
+            if (!mysqli_stmt_bind_param($stmtPaymentCard3, "siissssi", $defaultCardNum, $defaultLastFour, $defaultCardType_id, $defaultExpMonth, $defaultExpYear, $defaultFirstName, $defaultLastName, $lastUserId)) {
                 die("Error: Failed to add default paymentCard3.");
             }
             if (!mysqli_stmt_execute($stmtPaymentCard3)) {

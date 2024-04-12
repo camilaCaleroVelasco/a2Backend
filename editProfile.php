@@ -314,7 +314,12 @@
                 </div>
 
                 <div class="field">
-                    <input type="text" placeholder="Card Number" name="card-number1" value="XXXX-XXXX-XXXX-<?php echo $currentCard1LastFour?>">
+                    <input type="text" placeholder="Card Number" name="card-number1" value="<?php 
+                    if($currentCard1LastFour == 0) {
+                        echo "";
+                    }else{
+                        echo "XXXX-XXXX-" .$currentCard1LastFour;
+                    } ?>">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -414,7 +419,12 @@
                 </div>
 
                 <div class="field">
-                    <input type="text" placeholder="Card Number" name="card-number2" value="XXXX-XXXX-XXXX-<?php echo $currentCard2LastFour?>">
+                    <input type="text" placeholder="Card Number" name="card-number2" value="<?php
+                    if($currentCard2LastFour == 0) {
+                        echo "";
+                    }else{
+                        echo "XXXX-XXXX-" .$currentCard2LastFour;
+                    } ?>">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">
@@ -510,7 +520,12 @@
                 </div>
 
                 <div class="field">
-                    <input type="text" placeholder="Card Number" name="card-number3" value="XXXX-XXXX-XXXX-<?php echo $currentCard3LastFour?>">
+                    <input type="text" placeholder="Card Number" name="card-number3" value="<?php
+                    if($currentCard3LastFour == 0) {
+                        echo "";
+                    }else{
+                        echo "XXXX-XXXX-" .$currentCard3LastFour;
+                    } ?>">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
                         viewBox="0 0 576 512">

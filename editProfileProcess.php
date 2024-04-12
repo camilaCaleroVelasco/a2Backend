@@ -264,7 +264,6 @@ if (isset($_SESSION["users_id"])) {
             $cardType = $_POST["card-type2"];
             $cardNumber = $_POST["card-number2"];
             $lastFour = substr($cardNumber, -4); //store last 4 numbers of the card
-
             $encryptionKey = 'encription-012df';
             $encryptedCardNumber = openssl_encrypt($cardNumber, 'aes-256-cbc', $encryptionKey, 0, $encryptionKey);
             $expMonth = $_POST["expiration-month2"];
