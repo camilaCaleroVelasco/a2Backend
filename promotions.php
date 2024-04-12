@@ -1,6 +1,5 @@
 <?php
 include 'promotionProcess.php';
-promotionAccess();
 ?>
 
 <!DOCTYPE html>

@@ -6,19 +6,12 @@ ini_set('display_errors', 1);
     session_start();
     //include_once 'includes/functions.inc.php';
     include_once 'includes/dbh.inc.php';
-    include_once 'includes/emails.php';
+    include_once 'functions/emailsFunctions.php';
+    require_once "functions/checkIfAdminFunction.php"; 
 
-    // If not an admin then they cannot access promotion page
-    function promotionAccess() {
+    // Check if user is an admin
+    checkIfAdmin();
 
-        if ((!isset($_SESSION["email"])) || (isset($_SESSION["email"]) && $_SESSION["userType_id"] !== 2)) {
-
-            header("Location: restrictedAccess.php");
-            exit();
-        }
-    }
-
-    
 
     // Get PromoStatus
     $promoStatus = 'Active';

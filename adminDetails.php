@@ -1,25 +1,8 @@
 <?php
- session_start();
- if ((!isset($_SESSION["email"])) || (isset($_SESSION["email"]) && $_SESSION["userType_id"] !== 2)) {
-
-     header("Location: restrictedAccess.php");
-     exit();
- }
-
-
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
-
-    $movie_id = $_GET["movie_id"];
-
-        require_once "includes/dbh.inc.php";
-        require_once "functions/movieDetailsFunctions.php";
-
-        $result = getMovieInfo($conn, $movie_id);
-        $category = getMovieCategory($conn, $result['category_id']);
-} 
-else {
-    header("Location: index.php"); //Redirect so DB is not accessible
-}
+    require_once "Get/adminDetailsGet.php";
+    $details = getAdminDetails($conn);
+    $result = $details['movieInfo'];
+    $category = $details['category'];
 ?>
 
 <!DOCTYPE html>

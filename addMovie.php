@@ -1,10 +1,10 @@
 <?php
      session_start();
-     if ((!isset($_SESSION["email"])) || (isset($_SESSION["email"]) && $_SESSION["userType_id"] !== 2)) {
- 
-         header("Location: restrictedAccess.php");
-         exit();
-     }
+    
+    require_once "functions/checkIfAdminFunction.php"; 
+
+    // Checks if user is admin
+    checkIfAdmin();
  
 ?>
 
@@ -108,7 +108,7 @@ textarea {
             </ul>
         </nav>
     </header>
-    <form action="add.php" method="POST">
+    <form action="addProcess.php" method="POST">
         <input type="text" name="movie_title" placeholder="Movie Title">
         <br>
         <input type="text" name="category" placeholder="Movie Category">

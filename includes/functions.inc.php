@@ -207,6 +207,7 @@ function userExists($conn, $email) {
 
     }
 
+    // got it
     function sendEmailEditProfileSuccess($email) {
         $mail = require "mailer.php";
         $mail->setFrom("noreply@example.com");
@@ -223,6 +224,7 @@ function userExists($conn, $email) {
         }
     }
 
+    //done
     function userPaymentCard1Exists($conn, $email) {
         $usersid = getUsersID($conn, $email);
         $result;
@@ -255,6 +257,7 @@ function userExists($conn, $email) {
          return $result;
     }
 
+    //done
     function getUsersID($conn, $email) {
         $sql = "SELECT * FROM users WHERE email = ?;";
         $stmt = mysqli_stmt_init($conn);
@@ -279,6 +282,7 @@ function userExists($conn, $email) {
         return $result;
     }
 
+    // done
     function addUserPaymentCard1($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
         //encrypt payment card code here 
         $sql = "INSERT INTO paymentcard1 (cardNum, cardType_id, expMonth, expYear,
@@ -307,6 +311,7 @@ function userExists($conn, $email) {
         
     // }
 
+    //done
     function userPaymentCard2Exists($conn, $email) {
         $usersid = getUsersID($conn, $email);
         $result;
@@ -339,6 +344,7 @@ function userExists($conn, $email) {
          return $result;
     }
 
+    // done
     function addUserPaymentCard2($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
         //encrypt payment card code here 
         $sql = "INSERT INTO paymentcard2 (cardNum, cardType_id, expMonth, expYear,
@@ -367,6 +373,7 @@ function userExists($conn, $email) {
     //     mysqli_stmt_close($stmt);  
     // }
 
+    //done
     function userPaymentCard3Exists($conn, $email) {
         $usersid = getUsersID($conn, $email);
         $result;
@@ -399,6 +406,7 @@ function userExists($conn, $email) {
          return $result;
     }
     
+    //done
     function addUserPaymentCard3($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
         //encrypt payment card code here 
         $sql = "INSERT INTO paymentcard3 (cardNum, cardType_id, expMonth, expYear,
@@ -428,6 +436,7 @@ function userExists($conn, $email) {
 
     // }
 
+    //done
     function getNumOfCardsData($conn, $email) {
         $sql = "SELECT * FROM users WHERE email = ?;";
         $stmt = mysqli_stmt_init($conn);
@@ -452,11 +461,13 @@ function userExists($conn, $email) {
 
     }
 
+    //done
     function getCurrentNumOfCards($conn, $email) {
         $cardNum = getNumOfCardsData($conn, $email);
         return $cardNum["numOfCards"];
     }
 
+    // done
     function updateNumCard($conn, $email, $num) {
         $sql = "UPDATE users SET  numOfCards= ? WHERE email = ?;";
         $stmt = mysqli_stmt_init($conn);
@@ -470,6 +481,7 @@ function userExists($conn, $email) {
         mysqli_stmt_close($stmt);
     }
 
+    //done
     function updateUserPaymentCard1($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
         $sql = "UPDATE paymentcard1 SET cardNum = ?, cardType_id = ?, expMonth = ?, expYear = ?,
         firstName = ?, lastName = ? WHERE users_id = ?;";
@@ -484,6 +496,7 @@ function userExists($conn, $email) {
         mysqli_stmt_close($stmt);
     }
 
+    //done
     function updateUserPaymentCard2($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
         $sql = "UPDATE paymentcard2 SET cardNum = ?, cardType_id = ?, expMonth = ?, expYear = ?,
         firstName = ?, lastName = ? WHERE users_id = ?;";
@@ -498,6 +511,7 @@ function userExists($conn, $email) {
         mysqli_stmt_close($stmt);
     }
 
+    //done
     function updateUserPaymentCard3($conn, $usersid, $cardNum, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
         $sql = "UPDATE paymentcard3 SET cardNum = ?, cardType_id = ?, expMonth = ?, expYear = ?,
         firstName = ?, lastName = ? WHERE users_id = ?;";
@@ -511,7 +525,9 @@ function userExists($conn, $email) {
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
     }
+
     // Delete
+    //done
     function deleteUserPaymentCard1($conn, $usersid) {
         $sql = "UPDATE paymentcard1 SET cardNum = '', cardType_id = NULL, expMonth = '', expYear = '',
         firstName = '', lastName = '' WHERE users_id = ?;";
@@ -528,6 +544,7 @@ function userExists($conn, $email) {
 
     }
 
+    //done
     function deleteUserPaymentCard2($conn, $usersid) {
         $sql = "UPDATE paymentcard2 SET cardNum = '', cardType_id = 1, expMonth = '', expYear = '',
         firstName = '', lastName = '' WHERE users_id = ?;";
@@ -542,6 +559,7 @@ function userExists($conn, $email) {
         mysqli_stmt_close($stmt);
     }
 
+    //done
     function deleteUserPaymentCard3($conn, $usersid) {
         $sql = "UPDATE paymentcard3 SET cardNum = '', cardType_id = 1, expMonth = '', expYear = '',
         firstName = '', lastName = '' WHERE users_id = ?;";

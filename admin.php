@@ -1,11 +1,9 @@
 <?php
     session_start();
-    if ((!isset($_SESSION["email"])) || (isset($_SESSION["email"]) && $_SESSION["userType_id"] !== 2)) {
+    require_once "functions/checkIfAdminFunction.php"; 
 
-        header("Location: restrictedAccess.php");
-        exit();
-    }
-
+    // Check if user is an admin
+    checkIfAdmin();
 ?>
 
 <!DOCTYPE html>

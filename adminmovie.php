@@ -1,16 +1,9 @@
 <?php
-     session_start();
-     if ((!isset($_SESSION["email"])) || (isset($_SESSION["email"]) && $_SESSION["userType_id"] !== 2)) {
- 
-         header("Location: restrictedAccess.php");
-         exit();
-     }
- 
-    include "includes/dbh.inc.php";
-        $sqlNP = "SELECT * FROM movies WHERE movie_status LIKE '%now playing%'";
-        $sqlCS = "SELECT * FROM movies WHERE movie_status LIKE '%coming soon%'";
-        $resultNP = mysqli_query( $conn, $sqlNP ) or die("bad query: $sql");
-        $resultCS = mysqli_query( $conn, $sqlCS ) or die("bad query: $sql");
+    require_once "Get/adminMovieGet.php";
+    $movie = adminMovieGet($conn, $sql);
+    $resultNP = $movie['nowPlaying'];
+    $resultCS = $movie['comingSoon'];
+
 ?>
 
 <!DOCTYPE html>

@@ -5,7 +5,8 @@ ini_set('display_errors', 1);
 session_start();
 
 require_once 'includes/dbh.inc.php';
-require_once 'includes/functions.inc.php';
+require_once 'functions/cardFunctions.php';
+require_once 'functions/emailsFunctions.php';
 
 $userSuccess = false;
 $billingSuccess = false;
@@ -67,6 +68,7 @@ if (isset($_SESSION["users_id"])) {
             $currentCard1CardType = $row['cardType_id'];
             $currentCard1ExpMonth = $row['expMonth'];
             $currentCard1ExpYear = $row['expYear'];
+            $currentCard1LastFour = $row['lastFour'];
 
             mysqli_stmt_close($stmt1);
 
@@ -84,6 +86,7 @@ if (isset($_SESSION["users_id"])) {
                 $currentCard2CardType = $row['cardType_id'];
                 $currentCard2ExpMonth = $row['expMonth'];
                 $currentCard2ExpYear = $row['expYear'];
+                $currentCard2LastFour = $row['lastFour'];
                 mysqli_stmt_close($stmt2);
 
                 // Get the current paymentcard2 information including billing address
@@ -100,6 +103,7 @@ if (isset($_SESSION["users_id"])) {
                     $currentCard3CardType = $row['cardType_id'];
                     $currentCard3ExpMonth = $row['expMonth'];
                     $currentCard3ExpYear = $row['expYear'];
+                    $currentCard3LastFour = $row['lastFour'];
                     mysqli_stmt_close($stmt3);
                 }
             }
@@ -232,6 +236,7 @@ if (isset($_SESSION["users_id"])) {
             $lastName = $_POST["card-last-name1"];
             $cardType = $_POST["card-type1"];
             $cardNumber = $_POST["card-number1"];
+            $lastFour = substr($cardNumber, -4); //store last 4 numbers of the card
             $encryptionKey = 'encription-012df';
             $encryptedCardNumber = openssl_encrypt($cardNumber, 'aes-256-cbc', $encryptionKey, 0, $encryptionKey);
             $expMonth = $_POST["expiration-month1"];
@@ -240,12 +245,12 @@ if (isset($_SESSION["users_id"])) {
 
                 if (!userPaymentCard1Exists($conn, $email)) {
                     $usersid = getUsersID($conn, $email);
-                    addUserPaymentCard1($conn, $usersid, $encryptedCardNumber, $cardType, $expMonth, $expYear, $firstName, $lastName);
+                    addUserPaymentCard1($conn, $usersid, $encryptedCardNumber, $lastFour, $cardType, $expMonth, $expYear, $firstName, $lastName);
                     updateNumCard($conn, $email, 1);
                 }
                 else if (userPaymentCard1Exists($conn, $email) ) {
                     $usersid = getUsersID($conn, $email);
-                    updateUserPaymentCard1($conn, $usersid, $encryptedCardNumber, $cardType, $expMonth, $expYear, $firstName, $lastName);
+                    updateUserPaymentCard1($conn, $usersid, $encryptedCardNumber, $lastFour, $cardType, $expMonth, $expYear, $firstName, $lastName);
                 }
         }
         
@@ -258,6 +263,7 @@ if (isset($_SESSION["users_id"])) {
             $lastName = $_POST["card-last-name2"];
             $cardType = $_POST["card-type2"];
             $cardNumber = $_POST["card-number2"];
+            $lastFour = substr($cardNumber, -4); //store last 4 numbers of the card
             $encryptionKey = 'encription-012df';
             $encryptedCardNumber = openssl_encrypt($cardNumber, 'aes-256-cbc', $encryptionKey, 0, $encryptionKey);
             $expMonth = $_POST["expiration-month2"];
@@ -265,13 +271,13 @@ if (isset($_SESSION["users_id"])) {
             $email = $_SESSION["email"];
                 if (!userPaymentCard2Exists($conn, $email)) {
                     $usersid = getUsersID($conn, $email);
-                    addUserPaymentCard2($conn, $usersid, $encryptedCardNumber, $cardType, $expMonth, $expYear, $firstName, $lastName);
+                    addUserPaymentCard2($conn, $usersid, $encryptedCardNumber, $lastFour, $cardType, $expMonth, $expYear, $firstName, $lastName);
                     updateNumCard($conn, $email, 2);
                     header("Location: editProfile.php?success=paymentAdded");
                 }
                 else if (userPaymentCard2Exists($conn, $email) ) {
                 $usersid = getUsersID($conn, $email);
-                updateUserPaymentCard2($conn, $usersid, $encryptedCardNumber, $cardType, $expMonth, $expYear, $firstName, $lastName);
+                updateUserPaymentCard2($conn, $usersid, $encryptedCardNumber, $lastFour, $cardType, $expMonth, $expYear, $firstName, $lastName);
                 header("Location: editProfile.php?success=paymentAdded");
                 }
         }
@@ -284,6 +290,8 @@ if (isset($_SESSION["users_id"])) {
             $lastName = $_POST["card-last-name3"];
             $cardType = $_POST["card-type3"];
             $cardNumber = $_POST["card-number3"];
+            $lastFour = substr($cardNumber, -4); //store last 4 numbers of the card
+
             $encryptionKey = 'encription-012df';
             $encryptedCardNumber = openssl_encrypt($cardNumber, 'aes-256-cbc', $encryptionKey, 0, $encryptionKey);
             $expMonth = $_POST["expiration-month3"];
@@ -292,12 +300,12 @@ if (isset($_SESSION["users_id"])) {
             
                 if (!userPaymentCard3Exists($conn, $email)) {
                     $usersid = getUsersID($conn, $email);
-                    addUserPaymentCard3($conn, $usersid, $encryptedCardNumber, $cardType, $expMonth, $expYear, $firstName, $lastName);
+                    addUserPaymentCard3($conn, $usersid, $encryptedCardNumber, $lastFour, $cardType, $expMonth, $expYear, $firstName, $lastName);
                     updateNumCard($conn, $email, 3);
                 }
                 else if (userPaymentCard3Exists($conn, $email) ) {
                 $usersid = getUsersID($conn, $email);
-                updateUserPaymentCard3($conn, $usersid, $encryptedCardNumber, $cardType, $expMonth, $expYear, $firstName, $lastName);
+                updateUserPaymentCard3($conn, $usersid, $encryptedCardNumber, $lastFour, $cardType, $expMonth, $expYear, $firstName, $lastName);
                 }
         }
 
