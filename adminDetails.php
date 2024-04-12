@@ -60,7 +60,7 @@
                 <h4>
                     <!-- button for booking -->
                     <button id = "detailsbutton"> Edit Details </button>
-                    <button id = "detailsbutton"> Edit Showtimes </button>
+                    <a href="addShowtimes.php?id=<?php echo $result['movie_id']; ?>"><button id="detailsbutton">Edit Showtimes</button></a>
                     <button id="detailsbutton" onclick="confirmDelete(<?php echo $result['movie_id']; ?>)">DELETE MOVIE</button>
                 </h4>
             </a>

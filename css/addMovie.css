@@ -48,86 +48,21 @@ header {
     font-size: large;
 }
 
-.admin-view {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: calc(100vh - 80px);
-}
-
-.admin-content {
-    padding: 40px;
-    text-align: center;
-}
-
-.admin-content h2 {
-    margin-bottom: 20px;
-    color: #ffffff;
-}
-
-.movie-list {
-    list-style: none;
-    margin-top: 20px;
-    color: white; /* Set movie list content text color to white */
-}
-
-.movie-list li {
-    margin-bottom: 20px; /* Add margin between each movie info */
-    text-decoration: none; /* Remove underline from movie list */
-}
-
-.movie-title {
-    font-weight: bold;
-}
-
-.movie-options a {
-    color: #317dff;
-    text-decoration: none;
-}
-
-.movie-options a:hover {
-    color: #1356eb;
-}
-
-hr {
-    border: none;
-    border-top: 1px solid white; /* Set border color to white */
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.admin-content p.movie-info {
-    font-size: 18px; /* Make the info text bigger */
-}
-
-.add-movie-btn {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #317dff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.add-movie-btn:hover {
-    background-color: #1356eb;
-}
-
-/* CSS styles for the form and button */
-form {
+ /* CSS styles for form */
+ form {
     max-width: 500px;
-    margin: 5% auto; /* Center the form vertically and horizontally */
-    padding: 15px;
+    margin: 0 auto;
+    padding: 20px;
     background-color: #333;
     border-radius: 10px;
 }
 
-input[type="text"] {
-    width: calc(100% - 20px);
-    padding: 8px;
-    margin: 6px 0;
+input[type="text"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
     border: none;
     border-radius: 5px;
     background-color: #555;
@@ -136,7 +71,7 @@ input[type="text"] {
 }
 
 button[type="submit"] {
-    width: calc(100% - 30px);
+    width: 100%;
     padding: 10px;
     margin-top: 10px;
     border: none;
@@ -145,17 +80,12 @@ button[type="submit"] {
     color: white;
     cursor: pointer;
     font-size: 16px;
+    font-weight: bold;
     transition: background-color 0.3s ease;
-    font-weight: bolder;
 }
 
 button[type="submit"]:hover {
     background-color: #1356eb;
-}
-
-/* Adjust margin for header to create gap */
-header {
-    margin-bottom: 20px;
 }
 
 /* Media query for smaller screens */

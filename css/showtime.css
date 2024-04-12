@@ -1,0 +1,178 @@
+/* CSS styles for form */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: white;
+    background-color: black;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    /* background-image: ; */
+    background-size: contain; /* Change from 'cover' to 'contain' */
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 10%;
+    font-weight: bold;
+}
+
+.logo {
+    width: 300px;
+    cursor: pointer;
+    text-decoration: none; /* Remove underline from logo */
+}
+
+.nav__links {
+    list-style: none;
+}
+
+.nav__links li {
+    display: inline-block;
+    padding: 0px 20px;
+}
+
+.nav__links li a {
+    transition: all 0.3s ease 0s;
+    text-decoration: none; /* Remove underline from nav links */
+}
+
+.nav__links li a:hover {
+    color: #317dff;
+    font-size: large;
+}
+
+form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 10px;
+}
+
+input[type="text"],
+input[type="time"],
+input[type="date"] {
+    width: calc(50% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #555;
+    color: white;
+    font-size: 16px;
+}
+
+button[type="button"],
+button[type="submit"] {
+    width: calc(50% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #317dff;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button[type="button"]:hover,
+button[type="submit"]:hover {
+    background-color: #1356eb;
+}
+
+.showtime {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    background-color: transparent; /* Add this line to set background to transparent */
+}
+
+.showtime input[type="time"],
+.showtime input[type="date"] {
+    width: calc(50% - 20px); /* Adjusted width */
+}
+
+/* CSS styles for popup */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 400px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+
+.popup-content {
+    background-color: rgba(51, 51, 51, 0.9); /* Adjust the alpha value for slight transparency */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Add box shadow for depth */
+}
+
+.popup-content input[type="time"] {
+    width: calc(100% - 20px);
+}
+
+.popup-content button {
+    width: calc(50% - 10px);
+    margin-top: 10px;
+}
+
+.close {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+#showtimesContainer {
+    background-color: transparent; /* Set the background color to transparent */
+}
+
+h2{
+    background-color: transparent;
+    text-align: center;
+}
+
+h3{
+    background-color: transparent;
+    text-align: center;
+}
+
+button.select-times-button {
+    width: calc(50% - 20px);
+    padding: 12px 24px; /* Increased padding for better button size */
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #317dff89;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Added transition for transform */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Added subtle shadow */
+}
+
+button.select-times-button:hover {
+    background-color: #1356eb; /* Darker shade on hover */
+    transform: translateY(-2px); /* Lift button slightly on hover */
+}
