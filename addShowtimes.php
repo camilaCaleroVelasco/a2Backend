@@ -2,10 +2,14 @@
     session_start();
     
     require_once "functions/checkIfAdminFunction.php"; 
-
+    require_once "functions/addShowtimesFunctions.php";
     // Checks if user is admin
     checkIfAdmin();
- 
+    $details = getMovieDetailsShowtime($conn);
+    $result = $details['movieInfo'];
+
+    
+
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +33,7 @@
     </header>
 
     <!-- Popup for selecting times -->
-    <?php for($i = 0; $i < 7; $i++): ?>
+    <?php for($i = 0; $i < 5; $i++): ?>
         <div id="popup<?php echo $i; ?>" class="popup">
             <div class="popup-content">
                 <span class="close" onclick="closePopup(<?php echo $i; ?>)">&times;</span>
@@ -38,20 +42,27 @@
                 <input type="time" id="popupTime2_<?php echo $i; ?>" required>
                 <input type="time" id="popupTime3_<?php echo $i; ?>" required>
                 <input type="time" id="popupTime4_<?php echo $i; ?>" required>
-                <input type="time" id="popupTime5_<?php echo $i; ?>" required>
-                <input type="time" id="popupTime6_<?php echo $i; ?>" required>
+               
                 <button onclick="saveTimes(<?php echo $i; ?>)">Save Times</button>
             </div>
         </div>
     <?php endfor; ?>
 
-    <form id="showtimesForm" action="addShowtimes.php" method="POST">
-        <h2>Placeholder</h2>
+    <form id="showtimesForm" action="addShowtimesProcess.php" method="POST">
+    <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($result['movie_id']); ?>">
+        
+        <h2>
+            <?php 
+            echo $result['movie_title'];
+             ?>
+        </h2>
+        
+        
         <br>
         <!-- Showtimes -->
         <div id="showtimesContainer">
             <!-- Showtime templates -->
-            <?php for($i = 0; $i < 7; $i++): ?>
+            <?php for($i = 0; $i < 5; $i++): ?>
                 <div class="showtime">
                     <input type="date" name="date[]" required>
                     <input type="hidden" name="times[]" value="">
@@ -82,8 +93,8 @@
                 document.getElementById('popupTime2_' + index).value,
                 document.getElementById('popupTime3_' + index).value,
                 document.getElementById('popupTime4_' + index).value,
-                document.getElementById('popupTime5_' + index).value,
-                document.getElementById('popupTime6_' + index).value
+                // document.getElementById('popupTime5_' + index).value,
+                // document.getElementById('popupTime6_' + index).value
             ];
 
             var timesInput = currentShowtime.querySelector('input[type="hidden"]');
