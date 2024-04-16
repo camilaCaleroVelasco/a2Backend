@@ -317,3 +317,8 @@ input {
     max-width: 1000px; /* Set a maximum width if necessary */
   }
 }
+
+/* Hide scrollbar */
+::-webkit-scrollbar {
+  display: none;
+}

@@ -9,7 +9,6 @@
         require_once "includes/dbh.inc.php";
 
         $sql = "SELECT * FROM movies WHERE movie_id = ?";
-
             
         $stmt = mysqli_stmt_init($conn);
 
@@ -31,9 +30,10 @@
     } else {
         header("Location: index.php"); // Redirect if no movie ID
     }
+
+    // Handle submitted promo code
+    
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -72,6 +72,13 @@
         <div class="total">
           <p><strong>Total Price: $</strong></p>
         </div>
+      </div>
+      <div class="promo-code">
+        <form method="post">
+          <label for="promo_code">Promo Code:</label><br>
+          <input type="text" id="promo_code" name="promo_code">
+          <button type="submit">Apply</button>
+        </form>
       </div>
       <div class="payment-method">
         <label for="payment">Payment Method:</label>
@@ -117,7 +124,7 @@
             window.location.href = "confirmation.php";
         }
     }
-</script>
+  </script>
 
 </body>
 </html>
