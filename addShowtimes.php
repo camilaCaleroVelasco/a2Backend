@@ -7,9 +7,8 @@
     checkIfAdmin();
     $details = getMovieDetailsShowtime($conn);
     $result = $details['movieInfo'];
-
+    $rooms = getRooms($conn);
     
-
 ?>
 
 <!DOCTYPE html>
@@ -66,8 +65,18 @@
                     <input type="date" name="date[]" required>
                     <input type="hidden" name="times[]" value="">
                     <button type="button" class="select-times-button" onclick="showPopup(<?php echo $i; ?>)">Select Times</button>
+                    <select name="room_id[]">
+                        <option value="" selected disabled> Select Room </option>
+                        <?php foreach($rooms as $room): ?>
+                            <option value="<?php echo htmlspecialchars($room['room_id']); ?>">
+                                <?php echo htmlspecialchars($room['roomTitle']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
             <?php endfor; ?>
+            <!-- Dropdown to choose room -->
+            
         </div>
 
         <!-- Save button -->

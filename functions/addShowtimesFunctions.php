@@ -45,3 +45,18 @@
         //     header("Location: index.php"); //Redirect so DB is not accessible
         // }
     }
+
+    function getRooms($conn) {
+        $sqlRooms = "SELECT room_id, roomTitle, roomNumber FROM Room";
+        $result = mysqli_query($conn, $sqlRooms);
+        $rooms = [];
+        if(mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $rooms[] = $row;
+            }
+        }
+        else {
+            echo "There was no rooms found";
+        }
+        return $rooms;
+    }
