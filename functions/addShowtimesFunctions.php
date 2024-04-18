@@ -35,7 +35,7 @@
     function getMovieDetailsShowtime($conn) {
         if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
 
-            $movie_id = $_GET["movie_id"];
+            $movie_id = (int)$_GET["movie_id"];
             $result = getMovieInfoShowtime($conn, $movie_id);
             return[
                 'movieInfo' => $result

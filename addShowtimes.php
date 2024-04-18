@@ -48,8 +48,7 @@
         </div>
     <?php endfor; ?>
 
-    <form id="showtimesForm" action="addShowtimesProcess.php" method="POST">
-    <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($result['movie_id']); ?>">
+    <form id="showtimesForm" action="addShowtimesProcess.php?movie_id=<?php echo htmlspecialchars($result['movie_id']); ?>" method="POST">
         
         <h2>
             <?php 
@@ -72,9 +71,9 @@
         </div>
 
         <!-- Save button -->
-        <button type="submit" name="submit">Save Showtimes</button>
-    </form>
+        <button id="submit" type="submit" name="submit">Save Showtimes</button>
 
+    </form>
     <script>
         var currentShowtime;
 
