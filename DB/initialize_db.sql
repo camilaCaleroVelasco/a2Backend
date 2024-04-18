@@ -181,18 +181,20 @@ CREATE TABLE Booking(
 -- TICKET TYPE ENUMERATION
 CREATE TABLE TicketType(
     ticketType_id INT PRIMARY KEY AUTO_INCREMENT,
-    ticketType VARCHAR(255)
+    ticketType VARCHAR(255), 
+    ticketPrice INT 
 );
 -- Key = 1
-INSERT INTO TicketType(ticketType)
-VALUES('CHILD');
+INSERT INTO TicketType(ticketType, ticketPrice)
+VALUES('CHILD', '10');
 -- Key = 2
 INSERT INTO TicketType(ticketType)
-VALUES('ADULT');
+VALUES('ADULT', '15');
 -- Key = 3
 INSERT INTO TicketType(ticketType)
-VALUES('SENIOR');
+VALUES('SENIOR', '12');
 -- END OF ENUMERATION
+
 CREATE TABLE Theater(
     theater_id INT PRIMARY KEY AUTO_INCREMENT,
     theaterName VARCHAR(255),
@@ -217,14 +219,21 @@ INSERT INTO ShowPeriod(startTime)
 VALUES('11:00');
 -- Key = 2
 INSERT INTO ShowPeriod(startTime)
-VALUES('4:30');
+VALUES('2:00');
 -- Key = 3
 INSERT INTO ShowPeriod(startTime)
+VALUES('4:30');
+-- Key = 4
+INSERT INTO ShowPeriod(startTime)
+VALUES('6:30');
+-- Key = 5
+INSERT INTO ShowPeriod(startTime)
 VALUES('8:00');
--- Key = 2
+-- Key = 6
 INSERT INTO ShowPeriod(startTime)
 VALUES('10:30');
 -- END OF ENUMERATION
+
 CREATE TABLE Showing(
     show_id INT PRIMARY KEY AUTO_INCREMENT,
     movie_id INT,
@@ -238,6 +247,7 @@ CREATE TABLE Showing(
     showYear INT,
     numOfAvailableSeats INT
 );
+
 CREATE TABLE Ticket(
     ticket_id INT PRIMARY KEY AUTO_INCREMENT,
     ticketDay INT,
@@ -251,6 +261,7 @@ CREATE TABLE Ticket(
     FOREIGN KEY (show_id) REFERENCES Showing(show_id),
     seat VARCHAR(255)
 );
+
 CREATE TABLE Seats(
     seat_id INT PRIMARY KEY AUTO_INCREMENT,
     show_id INT,
