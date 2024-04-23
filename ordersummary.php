@@ -1,9 +1,5 @@
 <?php
-    session_start();
-    if (!isset($_SESSION["email"])) {
-        header("Location: login.php?error=notLoggedIn");
-    }
-    else if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
+    if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
 
         $movie_id = $_GET["movie_id"];
         require_once "includes/dbh.inc.php";
