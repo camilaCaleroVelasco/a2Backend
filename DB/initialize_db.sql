@@ -188,10 +188,10 @@ CREATE TABLE TicketType(
 INSERT INTO TicketType(ticketType, ticketPrice)
 VALUES('CHILD', '10');
 -- Key = 2
-INSERT INTO TicketType(ticketType)
+INSERT INTO TicketType(ticketType, ticketPrice)
 VALUES('ADULT', '15');
 -- Key = 3
-INSERT INTO TicketType(ticketType)
+INSERT INTO TicketType(ticketType, ticketPrice)
 VALUES('SENIOR', '12');
 -- END OF ENUMERATION
 
