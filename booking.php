@@ -1,5 +1,5 @@
 <?php
-
+  session_start();
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
 
     $movie_id = $_GET["movie_id"];
@@ -168,7 +168,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
     // Add event listener to the "Book" button
     document.getElementById("bookButton").addEventListener("click", function () {
         <?php
-        echo "window.location.href = 'ordersummary.php?movie_id=" . $movie["movie_id"] . "'";
+          echo "window.location.href = 'ageselect.php?movie_id=" . $movie["movie_id"] . "'";
         ?>
     });
 
@@ -179,14 +179,28 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
         checkbox.disabled = true;
     });
 
-    // Handle ticket selection
-    let tickets = seats.querySelectorAll("input");
-    tickets.forEach((ticket) => {
-        ticket.addEventListener("change", () => {
-            let totalTickets = updateTotalTicketCount();
-            updatePlusButtonsState(totalTickets);
+// Handle ticket selection
+let tickets = seats.querySelectorAll("input[name='tickets']");
+tickets.forEach((ticket) => {
+    ticket.addEventListener("change", () => {
+        // Check if user is logged in
+        fetch('checkLogin.php') // Assuming this file checks the login status
+        .then(response => {
+            if (!response.ok) {
+                // If user is not logged in, prevent them from selecting a ticket
+                ticket.checked = false; // Uncheck the ticket
+                // Redirect user to login page with error message
+                window.location.href = 'login.php?error=notLoggedIn';
+            } else {
+                let totalTickets = updateTotalTicketCount();
+                updatePlusButtonsState(totalTickets);
+            }
+        })
+        .catch(error => {
+            console.error('Error checking login status:', error);
         });
     });
+});
 
     // Initialize plus buttons state
     let totalTickets = updateTotalTicketCount();

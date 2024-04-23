@@ -135,7 +135,7 @@
                 echo "<p>FATIAL CONNECTION ERROR.</p>";
             }
             else if($_GET["error"] == "notLoggedIn") {
-                echo "<p> To continue checking out, please login.";
+                echo "<p> To continue making selections, please login.";
             }
         }
         if (isset($_GET["success"])) {

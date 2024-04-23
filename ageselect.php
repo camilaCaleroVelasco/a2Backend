@@ -116,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
         // Add event listener to continue button
         document.getElementById("continue-btn").addEventListener("click", function () {
             <?php
-            echo "window.location.href = 'booking.php?movie_id=" . $movie["movie_id"] . "'";
+            echo "window.location.href = 'ordersummary.php?movie_id=" . $movie["movie_id"] . "'";
             ?>
         });
 

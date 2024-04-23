@@ -74,7 +74,7 @@
 
         <div>
         <!-- direct to movieDetails when button is clicked -->
-            <a href="ageselect.php?movie_id=<?php echo $result['movie_id']?>">
+            <a href="booking.php?movie_id=<?php echo $result['movie_id']?>">
                 <!-- Image button -->
                 <h4>
                     <!-- button for booking -->
