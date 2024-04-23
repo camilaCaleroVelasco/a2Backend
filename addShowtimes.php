@@ -9,6 +9,7 @@
     $result = $details['movieInfo'];
     $rooms = getRooms($conn);
     
+
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +66,8 @@
                     <input type="date" name="date[]" required>
                     <input type="hidden" name="times[]" value="">
                     <button type="button" class="select-times-button" onclick="showPopup(<?php echo $i; ?>)">Select Times</button>
-                    <select name="room_id[]">
+
+                    <select name="room_id[]" onchange="selectRoom(<?php echo $i; ?>)">
                         <option value="" selected disabled> Select Room </option>
                         <?php foreach($rooms as $room): ?>
                             <option value="<?php echo htmlspecialchars($room['room_id']); ?>">
@@ -73,6 +75,7 @@
                             </option>
                         <?php endforeach; ?>
                     </select>
+
                 </div>
             <?php endfor; ?>
             <!-- Dropdown to choose room -->
@@ -83,6 +86,19 @@
         <button id="submit" type="submit" name="submit">Save Showtimes</button>
 
     </form>
+
+    <!-- Display overlaps -->
+    <?php if (!empty($overlaps)): ?>
+        <div id="overlapsContainer">
+            <h3>Overlapping Showtimes:</h3>
+            <ul>
+                <?php foreach($overlaps as $overlap): ?>
+                    <li><?php echo $overlap; ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+
     <script>
         var currentShowtime;
 
@@ -104,12 +120,20 @@
                 // document.getElementById('popupTime5_' + index).value,
                 // document.getElementById('popupTime6_' + index).value
             ];
-
+            
+            
             var timesInput = currentShowtime.querySelector('input[type="hidden"]');
             timesInput.value = popupTimes.join(',');
 
             closePopup(index);
         }
+
+        function selectRoom(index) {
+            selectedRooms[index] = currentShowtime.querySelector('select[name="room_id[]"]').value;
+
+        }
+
+
     </script>
 </body>
 </html>
