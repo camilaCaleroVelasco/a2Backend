@@ -8,6 +8,8 @@
     $details = getMovieDetailsShowtime($conn);
     $result = $details['movieInfo'];
     $rooms = getRooms($conn);
+    $showTimes = getShowTimes($conn);
+
     
 
 ?>
@@ -38,11 +40,51 @@
             <div class="popup-content">
                 <span class="close" onclick="closePopup(<?php echo $i; ?>)">&times;</span>
                 <h3>Select Times</h3>
-                <input type="time" id="popupTime1_<?php echo $i; ?>" required>
-                <input type="time" id="popupTime2_<?php echo $i; ?>" required>
-                <input type="time" id="popupTime3_<?php echo $i; ?>" required>
-                <input type="time" id="popupTime4_<?php echo $i; ?>" required>
-               
+                <select id="popupTime_<?php echo $i; ?>_1" required>
+                    <option value="" selected disabled>Select Time</option>
+                    <?php foreach ($showTimes as $times): ?>
+                        <?php foreach ($times as $time): ?>
+                            <option value="<?php echo htmlspecialchars($time); ?>">
+                                <?php echo htmlspecialchars($time); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                    
+                </select>
+
+                <select id="popupTime_<?php echo $i; ?>_2" required>
+                    <option value="" selected disabled>Select Time</option>
+                    <?php foreach ($showTimes as $times): ?>
+                        <?php foreach ($times as $time): ?>
+                            <option value="<?php echo htmlspecialchars($time); ?>">
+                                <?php echo htmlspecialchars($time); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </select>
+
+                <select id="popupTime_<?php echo $i; ?>_3" required>
+                    <option value="" selected disabled>Select Time</option>
+                    <?php foreach ($showTimes as $times): ?>
+                        <?php foreach ($times as $time): ?>
+                            <option value="<?php echo htmlspecialchars($time); ?>">
+                                <?php echo htmlspecialchars($time); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </select>
+
+                <select id="popupTime_<?php echo $i; ?>_4" required>
+                    <option value="" selected disabled>Select Time</option>
+                    <?php foreach ($showTimes as $times): ?>
+                        <?php foreach ($times as $time): ?>
+                            <option value="<?php echo htmlspecialchars($time); ?>">
+                                <?php echo htmlspecialchars($time); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </select>
+            
                 <button onclick="saveTimes(<?php echo $i; ?>)">Save Times</button>
             </div>
         </div>
@@ -113,14 +155,11 @@
 
         function saveTimes(index) {
             var popupTimes = [
-                document.getElementById('popupTime1_' + index).value,
-                document.getElementById('popupTime2_' + index).value,
-                document.getElementById('popupTime3_' + index).value,
-                document.getElementById('popupTime4_' + index).value,
-                // document.getElementById('popupTime5_' + index).value,
-                // document.getElementById('popupTime6_' + index).value
+                document.getElementById('popupTime_' + index + '_1').value,
+                document.getElementById('popupTime_' + index + '_2').value,
+                document.getElementById('popupTime_' + index + '_3').value,
+                document.getElementById('popupTime_' + index + '_4').value
             ];
-            
             
             var timesInput = currentShowtime.querySelector('input[type="hidden"]');
             timesInput.value = popupTimes.join(',');

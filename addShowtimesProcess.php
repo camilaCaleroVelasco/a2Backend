@@ -12,12 +12,12 @@ ini_set('display_errors', 1);
 
     // Get movieID
     $movieID =  $_GET['movie_id'];
-
     if (!$movieID) {
         echo "movieID not found $movieID";
         exit();
     }
 
+    // Overlapping variables
     $overlaps= []; //hold overlapping shows times
     $_SESSION['overlaps'] = $overlaps;
     
@@ -28,14 +28,16 @@ ini_set('display_errors', 1);
         // Check if the button was pressed
         if(isset($_POST['submit'])){
             $dates = $_POST['date'];
-            $timesArr = $_POST['times'];
             $roomIDs = $_POST['room_id'];
-            
+            $showPeriodID = $_POST['times'];
+            $timesArr = $_POST['times'];
+
 
             // Loop through dates
             foreach ($dates as $index => $date) {
                 // Get time for each date
                 $times = array_filter(explode(',', $timesArr[$index])); // Filter out empty times
+
                 foreach($times as $time) {
                     $roomID = $roomIDs[$index];
 
@@ -47,14 +49,24 @@ ini_set('display_errors', 1);
                     $stmtCheckOverlap->bind_result($overlapCount);
                     $stmtCheckOverlap->fetch();
                     $stmtCheckOverlap->close();
+                   
 
                     if($overlapCount == 0) {
-                        $sqlSchedule = "INSERT INTO Showing (movie_id, room_id, showDate, showTime) VALUES (?, ?, ?, ?)";
+                        // Get the showPeriod_id for the selected time
+                        $sqlFetchShowPeriodID = "SELECT showPeriod_id FROM ShowPeriod WHERE startTime = ?";
+                        $stmtFetchShowPeriodID = $conn->prepare($sqlFetchShowPeriodID);
+                        $stmtFetchShowPeriodID->bind_param("s", $time);
+                        $stmtFetchShowPeriodID->execute();
+                        $stmtFetchShowPeriodID->bind_result($showPeriodID);
+                        $stmtFetchShowPeriodID->fetch();
+                        $stmtFetchShowPeriodID->close();
+                        
+                        $sqlSchedule = "INSERT INTO Showing (movie_id, room_id, showPeriod_id, showDate, showTime) VALUES (?, ?, ?, ?, ?)";
                         $stmtSchedule = $conn->prepare($sqlSchedule);
                         if(!$stmtSchedule){
                             echo "Error: " . $conn->error;
                         }
-                        $stmtSchedule->bind_param("iiss", $movieID, $roomID, $date, $time);
+                        $stmtSchedule->bind_param("iiiss", $movieID, $roomID, $showPeriodID, $date, $time);
 
                         if(!$stmtSchedule->execute()) {
                             echo "Error adding Showtime: " . $stmtSchedule->error;

@@ -60,3 +60,22 @@
         }
         return $rooms;
     }
+
+    function getShowTimes($conn) {
+        $showTimes = array();
+
+        // Prepare SQL statement to fetch show times for the given room
+        $sql = "SELECT showPeriod_id, startTime FROM ShowPeriod";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        // Fetch and store the show times in an array
+        while ($row = $result->fetch_assoc()) {
+            $showTimes[$row['showPeriod_id']][] = $row['startTime'];
+        }
+
+        // Close the statement and return the show times
+        $stmt->close();
+        return $showTimes;
+    }
