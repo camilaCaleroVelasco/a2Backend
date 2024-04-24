@@ -1,5 +1,6 @@
 <?php
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 require_once "functions/checkIfAdminFunction.php"; 
 include "includes/dbh.inc.php";
@@ -13,8 +14,22 @@ if (!$conn) {
 
 }  
 
-$movie_title = $_POST['movie_title'];
+// Get category_id
 $category = $_POST['category'];
+$sqlCategory = "SELECT category_id FROM MovieCategory WHERE category = ?";
+$stmtCategory = mysqli_stmt_init($conn);
+if(!mysqli_stmt_prepare($stmtCategory, $sqlCategory)) {
+    header("Location: addMovie.php?error=stmtfailed");
+    exit();
+}
+mysqli_stmt_bind_param($stmtCategory, "s", $category);
+mysqli_stmt_execute($stmtCategory);
+$resultCategory = mysqli_stmt_get_result($stmtCategory);
+$categoryRow = mysqli_fetch_assoc($resultCategory);
+$category_id = $categoryRow['category_id'];
+
+// Insert into DB
+$movie_title = $_POST['movie_title'];
 $director = $_POST['director'];
 $producer = $_POST['producer'];
 $synopsis = $_POST['synopsis'];
@@ -27,7 +42,7 @@ $cast = $_POST['cast'];
 
 $sql = "INSERT INTO Movies(
     movie_title,
-    category,
+    category_id,
     cast,
     director,
     producer,
@@ -40,7 +55,7 @@ $sql = "INSERT INTO Movies(
 )
 VALUES (
         '$movie_title',
-        '$category',
+        '$category_id',
         '$cast',
         '$director',
         '$producer',

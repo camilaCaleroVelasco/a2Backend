@@ -29,7 +29,7 @@
         </nav>
     </header>
 
-    <form action="add.php" method="POST">
+    <form action="addProcess.php" method="POST">
         <input type="text" name="movie_title" placeholder="Movie Title">
         <input type="text" name="category" placeholder="Movie Category">
         <input type="text" name="director" placeholder="Director">
