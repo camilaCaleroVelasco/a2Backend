@@ -136,7 +136,7 @@
 
     function goToBooking() {
         <?php
-            echo "window.location.href = 'ageselect.php?movie_id=" . $movie["movie_id"] . "'";
+            echo "window.location.href = 'booking.php?movie_id=" . $movie["movie_id"] . "'";
         ?>
     }
 
