@@ -1,9 +1,16 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
   session_start();
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
+  require_once "functions/bookingFunctions.php"; 
+  if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
+
+    require_once "includes/dbh.inc.php";
 
     $movie_id = $_GET["movie_id"];
-        require_once "includes/dbh.inc.php";
+    $dates = getDates($conn, $movie_id);
+    $times = getTimes($conn, $movie_id);
 
         $sql = "SELECT * FROM movies WHERE movie_id = ?";
 
@@ -70,55 +77,38 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
         </div>
         <div class="timings">
           <div class="dates">
-            <input type="radio" name="date" id="d1" checked />
-            <label for="d1" class="dates-item">
-              <div class="day">Fri</div>
-              <div class="date">1</div>
-            </label>
-            <input type="radio" id="d2" name="date" />
-            <label class="dates-item" for="d2">
-              <div class="day">Sat</div>
-              <div class="date">2</div>
-            </label>
-            <input type="radio" id="d3" name="date" />
-            <label class="dates-item" for="d3">
-              <div class="day">Sun</div>
-              <div class="date">3</div>
-            </label>
-            <input type="radio" id="d4" name="date" />
-            <label class="dates-item" for="d4">
-              <div class="day">Mon</div>
-              <div class="date">4</div>
-            </label>
-            <input type="radio" id="d5" name="date" />
-            <label class="dates-item" for="d5">
-              <div class="day">Tue</div>
-              <div class="date">5</div>
-            </label>
-            <input type="radio" id="d6" name="date" />
-            <label class="dates-item" for="d6">
-              <div class="day">Wed</div>
-              <div class="date">6</div>
-            </label>
-            <input type="radio" id="d7" name="date" />
-            <label class="dates-item" for="d7">
-              <div class="day">Thu</div>
-              <div class="date">7</div>
-            </label>
+            <?php
+            // If there's no showtimes available tell the user
+            if(empty($dates)) {
+              echo "<p> Sorry, There are no show times available<p>";
+            } else {
+              foreach ($dates as $date) {
+                echo "<input type='radio' name='date' id='d{$date['day']}' />";
+                echo "<label class='dates-item' for='d{$date['day']}'>";
+                echo "<div class='day'>{$date['dayName']}</div>";
+                echo "<div class='date'>{$date['day']}</div>";
+                echo "</label>";
+              }
+            }
+          ?>
+
           </div>
           <div class="times">
-              <input type="radio" name="time" id="t1" checked />
-              <label for="t1" class="time">11:00</label>
-              <input type="radio" id="t2" name="time" />
-              <label for="t2" class="time"> 2:00 </label>
-              <input type="radio" id="t3" name="time" />
-              <label for="t3" class="time"> 4:30 </label>
-              <input type="radio" id="t4" name="time" />
-              <label for="t4" class="time"> 6:30 </label>
-              <input type="radio" id="t5" name="time" />
-              <label for="t5" class="time"> 8:00 </label>
-              <input type="radio" id="t6" name="time" />
-              <label for="t6" class="time"> 10:30 </label>
+            <?php
+              foreach ($dates as $date) {
+                echo "<div class='date-times' id='date-{$date['day']}'>";
+                if (isset($times[$date['showDate']])) {
+                  foreach ($times[$date['showDate']] as $time) {
+                      echo "<input type='radio' name='time' id='{$time}' />";
+                      echo "<label for='{$time}' class='time'>{$time}</label>";
+                  }
+                } else {
+                  echo "<p>Sorry, there are no show times available for this date.</p>";
+                }
+                echo "</div>";
+              }
+            ?>
+            
           </div>
           <br>
           <br>
