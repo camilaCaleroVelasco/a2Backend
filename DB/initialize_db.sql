@@ -201,6 +201,9 @@ CREATE TABLE Theater(
     theaterLocation VARCHAR(255),
     numOfShowrooms INT
 );
+INSERT INTO Theater(theaterName, theaterLocation, numOfShowrooms)
+VALUES('A2Theater', '123 Athens', 3);
+
 CREATE TABLE Room(
     room_id INT PRIMARY KEY AUTO_INCREMENT,
     totalNumOfSeats INT,
@@ -209,6 +212,18 @@ CREATE TABLE Room(
     theater_id INT,
     FOREIGN KEY (theater_id) REFERENCES Theater(theater_id)
 );
+
+-- Key = 1
+INSERT INTO Room(totalNumOfSeats, roomTitle, roomNumber, theater_id)
+VALUES(54,'Platinum', '101', 1);
+-- Key = 2
+INSERT INTO Room(totalNumOfSeats, roomTitle, roomNumber, theater_id)
+VALUES(54,'Royal', '102', 1);
+-- Key = 3
+INSERT INTO Room(totalNumOfSeats, roomTitle, roomNumber, theater_id)
+VALUES(54,'VIP', '103', 1);
+
+
 -- SHOW PERIOD ENUMERATION
 CREATE TABLE ShowPeriod(
     showPeriod_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -219,19 +234,14 @@ INSERT INTO ShowPeriod(startTime)
 VALUES('11:00');
 -- Key = 2
 INSERT INTO ShowPeriod(startTime)
-VALUES('2:00');
+VALUES('1:00');
 -- Key = 3
 INSERT INTO ShowPeriod(startTime)
 VALUES('4:30');
 -- Key = 4
 INSERT INTO ShowPeriod(startTime)
-VALUES('6:30');
--- Key = 5
-INSERT INTO ShowPeriod(startTime)
-VALUES('8:00');
--- Key = 6
-INSERT INTO ShowPeriod(startTime)
-VALUES('10:30');
+VALUES('7:30');
+
 -- END OF ENUMERATION
 
 CREATE TABLE Showing(
@@ -242,9 +252,8 @@ CREATE TABLE Showing(
     FOREIGN KEY (room_id) REFERENCES Room(room_id),
     showPeriod_id INT,
     FOREIGN KEY (showPeriod_id) REFERENCES ShowPeriod(showPeriod_id),
-    showDay INT,
-    showMonth INT,
-    showYear INT,
+    showDate VARCHAR(255),
+    showTime VARCHAR(255),
     numOfAvailableSeats INT
 );
 

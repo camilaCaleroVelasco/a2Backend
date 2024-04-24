@@ -171,9 +171,9 @@ ini_set('display_errors', 1);
             if (!response.ok) {
               window.location.href = 'login.php?error=notLoggedIn';
             } else{
-              <?php
-              echo "window.location.href = 'ageselect.php?movie_id=" . $movie["movie_id"] . "'";
-            ?>
+              let totalTickets = updateTotalTicketCount();
+              let movieId = <?php echo $movie["movie_id"]; ?>;
+              window.location.href = `ageselect.php?movie_id=${movieId}&totalTickets=${totalTickets}`;
             }
         })
     });
