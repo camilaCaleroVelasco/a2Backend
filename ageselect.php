@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
       <!-- Ticket types section -->
       <div class="ticket-types">
         <!-- Adult ticket type -->
-        <div class="ticket-type">
+        <div class="ticket-type adult"> <!-- Updated class to include "adult" -->
           <div class="icon">
             <i class="material-icons">person</i>
           </div>
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
           </div>
         </div>
         <!-- Child ticket type -->
-        <div class="ticket-type">
+        <div class="ticket-type child"> <!-- Updated class to include "child" -->
           <div class="icon">
             <i class="material-icons">child_care</i>
           </div>
@@ -88,53 +88,86 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
           </div>
         </div>
         <!-- Senior ticket type -->
-<div class="ticket-type">
-  <div class="icon">
-    <i class="material-icons">person_outline</i>
-  </div>
-  <div class="type-details">
-    <div class="type-name">Senior (Age 65+)</div>
-    <div class="price">$12.00</div>
-  </div>
-  <div class="quantity">
-    <button class="quantity-btn minus">-</button>
-    <span class="quantity-value">0</span>
-    <button class="quantity-btn plus">+</button>
-  </div>
-</div>
+        <div class="ticket-type senior"> <!-- Updated class to include "senior" -->
+          <div class="icon">
+            <i class="material-icons">person_outline</i>
+          </div>
+          <div class="type-details">
+            <div class="type-name">Senior (Age 65+)</div>
+            <div class="price">$12.00</div>
+          </div>
+          <div class="quantity">
+            <button class="quantity-btn minus">-</button>
+            <span class="quantity-value">0</span>
+            <button class="quantity-btn plus">+</button>
+          </div>
+        </div>
       </div>
       <!-- Continue button -->
       <div class="options">
         <button id="continue-btn">Continue</button>
       </div>
+    </div>
   </div>
-</div>
+</body>
   <!-- JavaScript -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Add event listener to continue button
-        document.getElementById("continue-btn").addEventListener("click", function () {
-            <?php
-            echo "window.location.href = 'ordersummary.php?movie_id=" . $movie["movie_id"] . "'";
-            ?>
-        });
+        var adultQuantity = 0;
+        var childQuantity = 0;
+        var seniorQuantity = 0;
+        var totalTickets = <?php echo isset($_GET['totalTickets']) ? intval($_GET['totalTickets']) : 0; ?>;
 
-        // Add event listeners to plus and minus buttons
+        function updateQuantities() {
+            document.getElementById("adult-quantity").textContent = adultQuantity;
+            document.getElementById("child-quantity").textContent = childQuantity;
+            document.getElementById("senior-quantity").textContent = seniorQuantity;
+
+            var totalQuantity = adultQuantity + childQuantity + seniorQuantity;
+            document.getElementById("total-quantity").textContent = totalQuantity;
+
+            // Disable plus buttons if total quantity exceeds total tickets limit
+            document.querySelectorAll(".quantity-btn.plus").forEach(function(button) {
+                if (totalQuantity >= totalTickets) {
+                    button.disabled = true;
+                } else {
+                    button.disabled = false;
+                }
+            });
+        }
+
         document.querySelectorAll(".quantity-btn").forEach(function(button) {
             button.addEventListener("click", function() {
-                var quantityElement = this.parentNode.querySelector(".quantity-value");
+                var ticketType = this.closest(".ticket-type");
+                var quantityElement = ticketType.querySelector(".quantity-value");
                 var quantity = parseInt(quantityElement.textContent);
                 
                 if (this.classList.contains("plus")) {
-                    quantity++;
+                    if (totalTickets <= 0 || (adultQuantity + childQuantity + seniorQuantity) < totalTickets) {
+                        quantity++;
+                    }
                 } else {
-                    quantity = Math.max(0, quantity - 1); // Ensure quantity doesn't go below zero
+                    quantity = Math.max(0, quantity - 1);
                 }
 
                 quantityElement.textContent = quantity;
+
+                if (ticketType.classList.contains("adult")) {
+                    adultQuantity = quantity;
+                } else if (ticketType.classList.contains("child")) {
+                    childQuantity = quantity;
+                } else if (ticketType.classList.contains("senior")) {
+                    seniorQuantity = quantity;
+                }
+
+                updateQuantities();
             });
+        });
+
+        document.getElementById("continue-btn").addEventListener("click", function () {
+            var url = 'ordersummary.php?movie_id=<?php echo $movie["movie_id"]; ?>&adult=' + adultQuantity + '&child=' + childQuantity + '&senior=' + seniorQuantity;
+            window.location.href = url;
         });
     });
 </script>
-</body>
 </html>

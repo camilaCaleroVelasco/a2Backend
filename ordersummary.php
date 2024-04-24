@@ -23,6 +23,11 @@
         if (!$movie) { // Check if movie found
             echo "<p>Movie not found.</p>";
         }
+
+        // Retrieve ticket variables from URL parameters
+        $adult = isset($_GET['adult']) ? intval($_GET['adult']) : 0;
+        $child = isset($_GET['child']) ? intval($_GET['child']) : 0;
+        $senior = isset($_GET['senior']) ? intval($_GET['senior']) : 0;
     } else {
         header("Location: index.php"); // Redirect if no movie ID
     }
@@ -53,18 +58,38 @@
       </div>
       <div class="ticket-details">
         <h2>Ticket Details</h2>
-        <div class="ticket">
-          <p class="ticket-info"><?php echo $movie['movie_title']; ?></p>
-          <p class="ticket-info">Date: March 1, 2024</p>
-          <p class="ticket-info">Time: 11:00 AM</p>
-          <p class="ticket-info"> <span class="delete-ticket" onclick="deleteTicket(this)">X</span></p>
-        </div>
-        <div class="ticket">
-          <p class="ticket-info"><?php echo $movie['movie_title']; ?></p>
-          <p class="ticket-info">Date: March 1, 2024</p>
-          <p class="ticket-info">Time: 11:00 AM</p>
-          <p class="ticket-info"> <span class="delete-ticket" onclick="deleteTicket(this)">X</span></p>
-        </div>
+        <?php
+        // Loop through adult, child, and senior variables to generate ticket details
+              for ($i = 0; $i < $adult; $i++) {
+                echo "<div class='ticket'>";
+                echo "<p class='ticket-info'>" . $movie['movie_title'] . "</p>";
+                echo "<p class='ticket-info'>Date: March 1, 2024</p>";
+                echo "<p class='ticket-info'>Time: 11:00 AM</p>";
+                echo "<p class='ticket-info'> Adult Ticket x1</p>";
+                echo "<p class='ticket-info'> <span class='delete-ticket' onclick='deleteTicket(this)'>X</span></p>";
+                echo "</div>";
+              }
+
+            for ($i = 0; $i < $child; $i++) {
+                echo "<div class='ticket'>";
+                echo "<p class='ticket-info'>" . $movie['movie_title'] . "</p>";
+                echo "<p class='ticket-info'>Date: March 1, 2024</p>";
+                echo "<p class='ticket-info'>Time: 11:00 AM</p>";
+                echo "<p class='ticket-info'> Child Ticket x1</p>";
+                echo "<p class='ticket-info'> <span class='delete-ticket' onclick='deleteTicket(this)'>X</span></p>";
+                echo "</div>";
+            }
+
+            for ($i = 0; $i < $senior; $i++) {
+                echo "<div class='ticket'>";
+                echo "<p class='ticket-info'>" . $movie['movie_title'] . "</p>";
+                echo "<p class='ticket-info'>Date: March 1, 2024</p>";
+                echo "<p class='ticket-info'>Time: 11:00 AM</p>";
+                echo "<p class='ticket-info'> Senior Ticket x1</p>";
+                echo "<p class='ticket-info'> <span class='delete-ticket' onclick='deleteTicket(this)'>X</span></p>";
+                echo "</div>";
+            }
+        ?>
         <div class="total">
           <p><strong>Total Price: $</strong></p>
         </div>
@@ -90,7 +115,7 @@
       </div>
     </div>
   </div>
-
+</body>
   <script>
     function deleteTicket(element) {
         if (confirm("Are you sure you want to delete this ticket?")) {
@@ -122,5 +147,5 @@
     }
   </script>
 
-</body>
+
 </html>
