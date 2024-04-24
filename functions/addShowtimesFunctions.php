@@ -31,7 +31,8 @@
         }
         mysqli_stmt_close($stmt);
     }
-
+    
+    // Gets the movie details
     function getMovieDetailsShowtime($conn) {
         if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
 
@@ -46,6 +47,7 @@
         // }
     }
 
+    // Gets the rooms
     function getRooms($conn) {
         $sqlRooms = "SELECT room_id, roomTitle, roomNumber FROM Room";
         $result = mysqli_query($conn, $sqlRooms);
@@ -61,6 +63,7 @@
         return $rooms;
     }
 
+    // Gets the show times
     function getShowTimes($conn) {
         $showTimes = array();
 
@@ -78,4 +81,42 @@
         // Close the statement and return the show times
         $stmt->close();
         return $showTimes;
+    }
+
+    // Deletes previous dates that were in the DB
+    function deletePassedDate($conn, $movie_id) {
+        $currentDate = date("Y-m-d");
+
+        $sqlDeletePassedDate = "DELETE FROM Showing WHERE showDate < ?";
+        $stmtDeletePassedDate = $conn->prepare($sqlDeletePassedDate);
+        $stmtDeletePassedDate->bind_param("s", $currentDate);
+        $stmtDeletePassedDate->execute();
+
+        $stmtDeletePassedDate->close();
+
+
+    }
+
+    // Checks if the date picked is valid
+    function isDateValid($date) {
+        $currentDate = date("Y-m-d");
+        return(
+            $date >= $currentDate
+        );
+    }
+
+    // Check if the show dates picked overlap in date room and time
+    function checkOverlap($conn, $date, $roomID, $time) {
+        $overlapCount = 0;
+
+        $sqlCheckOverlap = "SELECT COUNT(*) FROM Showing WHERE room_id = ? AND showDate = ? AND showTime = ?";
+        $stmtCheckOverlap = $conn->prepare($sqlCheckOverlap);
+        $stmtCheckOverlap->bind_param("iss", $roomID, $date, $time);
+        $stmtCheckOverlap->execute();
+        $stmtCheckOverlap->bind_result($overlapCount);
+        $stmtCheckOverlap->fetch();
+        $stmtCheckOverlap->close();
+
+        return [$overlapCount > 0, $overlapCount];
+
     }

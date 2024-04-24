@@ -6,6 +6,8 @@ ini_set('display_errors', 1);
     session_start();
     require_once "functions/checkIfAdminFunction.php"; 
     include "includes/dbh.inc.php";
+    include "functions/addShowtimesFunctions.php";
+
 
     // Makes sures that the user is an admin
     checkIfAdmin();
@@ -27,11 +29,25 @@ ini_set('display_errors', 1);
 
         // Check if the button was pressed
         if(isset($_POST['submit'])){
+            // Variables
             $dates = $_POST['date'];
             $roomIDs = $_POST['room_id'];
             $showPeriodID = $_POST['times'];
             $timesArr = $_POST['times'];
 
+            // Check if the date picked has not passed yet
+            foreach($dates as $date) {
+                if(!isDateValid($date)) {
+                    echo '<script>alert("Error: Date ' . $date . ' has already passed!");</script>';
+                    // Redirect back to the form without processing
+                    echo "<script>window.history.back();</script>";
+                    exit();
+                    
+                }
+            }
+
+            // Delete passed dates from the database
+            deletePassedDate($conn, $movieID);
 
             // Loop through dates
             foreach ($dates as $index => $date) {
@@ -41,17 +57,13 @@ ini_set('display_errors', 1);
                 foreach($times as $time) {
                     $roomID = $roomIDs[$index];
 
-                    // Check if the time selected overlaps with an existing showtime in the same room and date
-                    $sqlCheckOverlap = "SELECT COUNT(*) FROM Showing WHERE room_id = ? AND showDate = ? AND showTime = ?";
-                    $stmtCheckOverlap = $conn->prepare($sqlCheckOverlap);
-                    $stmtCheckOverlap->bind_param("iss", $roomID, $date, $time);
-                    $stmtCheckOverlap->execute();
-                    $stmtCheckOverlap->bind_result($overlapCount);
-                    $stmtCheckOverlap->fetch();
-                    $stmtCheckOverlap->close();
-                   
-
-                    if($overlapCount == 0) {
+                    // Check if date and time overlaps
+                    list($isOverlap, $overlapCount) = checkOverlap($conn, $date, $roomID, $time);
+                    
+                    if($isOverlap) {
+                        $overlaps[] = "Showtime exists in room $roomID on $date at $time.";
+                    } 
+                    else {
                         // Get the showPeriod_id for the selected time
                         $sqlFetchShowPeriodID = "SELECT showPeriod_id FROM ShowPeriod WHERE startTime = ?";
                         $stmtFetchShowPeriodID = $conn->prepare($sqlFetchShowPeriodID);
@@ -74,14 +86,10 @@ ini_set('display_errors', 1);
 
                         $stmtSchedule->close();
                     }
-                    else {
-                        $overlaps[] = "Showtime exists in room $roomID on $date at $time.";
-                    }
                 }
             }
         }
         if(!empty($overlaps)) {
-            // Display a message if there's an overlap
             echo "<script>alert('Overlap Detected:\\n" . implode("\\n", $overlaps) . "');</script>";
             // Redirect back to the form without processing
             echo "<script>window.history.back();</script>";
