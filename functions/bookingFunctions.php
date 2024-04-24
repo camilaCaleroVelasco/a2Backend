@@ -9,7 +9,7 @@
 
     // Get the dates available in the DB
     function getDates($conn, $movie_id){
-        $sqlDates = "SELECT DISTINCT showDate FROM Showing WHERE movie_id = ?";
+        $sqlDates = "SELECT DISTINCT showDate FROM Showing WHERE movie_id = ? ORDER BY showDate ASC";
         $stmtDates = mysqli_stmt_init($conn);
 
         if (!mysqli_stmt_prepare($stmtDates, $sqlDates)) {
