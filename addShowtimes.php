@@ -40,6 +40,7 @@
             <div class="popup-content">
                 <span class="close" onclick="closePopup(<?php echo $i; ?>)">&times;</span>
                 <h3>Select Times</h3>
+                <br>
                 <select id="popupTime_<?php echo $i; ?>_1" required>
                     <option value="" selected disabled>Select Time</option>
                     <?php foreach ($showTimes as $times): ?>
@@ -51,7 +52,7 @@
                     <?php endforeach; ?>
                     
                 </select>
-
+                <br>
                 <select id="popupTime_<?php echo $i; ?>_2" required>
                     <option value="" selected disabled>Select Time</option>
                     <?php foreach ($showTimes as $times): ?>
@@ -62,7 +63,7 @@
                         <?php endforeach; ?>
                     <?php endforeach; ?>
                 </select>
-
+                <br>
                 <select id="popupTime_<?php echo $i; ?>_3" required>
                     <option value="" selected disabled>Select Time</option>
                     <?php foreach ($showTimes as $times): ?>
@@ -73,7 +74,7 @@
                         <?php endforeach; ?>
                     <?php endforeach; ?>
                 </select>
-
+                <br>
                 <select id="popupTime_<?php echo $i; ?>_4" required>
                     <option value="" selected disabled>Select Time</option>
                     <?php foreach ($showTimes as $times): ?>
@@ -84,7 +85,7 @@
                         <?php endforeach; ?>
                     <?php endforeach; ?>
                 </select>
-            
+                <br>
                 <button onclick="saveTimes(<?php echo $i; ?>)">Save Times</button>
             </div>
         </div>
