@@ -134,6 +134,15 @@ ini_set('display_errors', 1);
         countElement.textContent = count;
     }
 
+    // Function to update total ticket count
+      function updateTotalTicketCount() {
+        let selectedTickets = document.querySelectorAll("input[name='tickets']:checked");
+        let totalTickets = selectedTickets.length;
+        let totalElement = document.querySelector(".count");
+        totalElement.textContent = totalTickets;
+        return totalTickets;
+    }  
+
  // Generate seat checkboxes
  let seats = document.querySelector(".all-seats");
     let rowLetters = ['A', 'B', 'C', 'D', 'E', 'F']; // Letters for rows
@@ -157,9 +166,16 @@ ini_set('display_errors', 1);
 
     // Add event listener to the "Book" button
     document.getElementById("bookButton").addEventListener("click", function () {
-        <?php
-          echo "window.location.href = 'ageselect.php?movie_id=" . $movie["movie_id"] . "'";
-        ?>
+      fetch('checkLogin.php') // Assuming this file checks the login status
+        .then(response => {
+            if (!response.ok) {
+              window.location.href = 'login.php?error=notLoggedIn';
+            } else{
+              <?php
+              echo "window.location.href = 'ageselect.php?movie_id=" . $movie["movie_id"] . "'";
+            ?>
+            }
+        })
     });
 
     // Disable booked seats
@@ -192,7 +208,7 @@ tickets.forEach((ticket) => {
     });
 });
 
-    // Initialize plus buttons state
+
     let totalTickets = updateTotalTicketCount();
     updatePlusButtonsState(totalTickets);
 
