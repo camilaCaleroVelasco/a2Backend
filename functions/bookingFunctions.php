@@ -5,8 +5,7 @@
     require_once "functions/checkIfAdminFunction.php"; 
     include "includes/dbh.inc.php";
 
-    // Makes sures that the user is an admin
-    checkIfAdmin();
+    
 
     // Get the dates available in the DB
     function getDates($conn, $movie_id){
