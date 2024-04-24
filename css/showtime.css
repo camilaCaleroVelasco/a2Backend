@@ -72,7 +72,7 @@ input[type="date"] {
 
 button[type="button"],
 button[type="submit"] {
-    width: calc(50% - 20px);
+    width: calc(40% - 10px);
     padding: 10px;
     margin: 10px 0;
     border: none;
@@ -175,4 +175,26 @@ button.select-times-button {
 button.select-times-button:hover {
     background-color: #1356eb; /* Darker shade on hover */
     transform: translateY(-2px); /* Lift button slightly on hover */
+}
+
+.popup-content {
+    display: flex;
+    flex-direction: column;
+    text-align-last: center;
+
+}
+
+.popup-content select {
+    margin-bottom: 10px;
+    width: 160px;
+    margin: 0 auto;
+    text-align-last: center;    
+    
+}
+
+.popup-content select option {
+    text-align: center;
+}
+.popup-content button {
+    align-self: center;
 }

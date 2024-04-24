@@ -56,6 +56,9 @@ header {
     background-color: #333;
     border-radius: 10px;
 }
+option.placeholder {
+    color: gray;
+}
 
 input[type="text"],
 textarea,
@@ -69,6 +72,8 @@ select {
     color: white;
     font-size: 16px;
 }
+
+
 
 button[type="submit"] {
     width: 100%;
