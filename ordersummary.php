@@ -4,7 +4,7 @@ session_start();
 
         $movie_id = $_GET["movie_id"];
         require_once "includes/dbh.inc.php";
-
+        include "functions/orderSummaryFunctions.php";
         $sql = "SELECT * FROM movies WHERE movie_id = ?";
             
         $stmt = mysqli_stmt_init($conn);
@@ -29,6 +29,9 @@ session_start();
         $adult = isset($_GET['adult']) ? intval($_GET['adult']) : 0;
         $child = isset($_GET['child']) ? intval($_GET['child']) : 0;
         $senior = isset($_GET['senior']) ? intval($_GET['senior']) : 0;
+
+        /// retrieve users_id
+        $user_id = $_SESSION["users_id"];
     } else {
         header("Location: index.php"); // Redirect if no movie ID
     }
@@ -52,6 +55,7 @@ session_start();
   <link rel="stylesheet" href="css/ordersummary.css">
 </head>
 <body>
+  <header>
   <div class="center">
     <div class="order-summary">
       <div class="head">
@@ -103,13 +107,23 @@ session_start();
         </form>
       </div>
       <div class="payment-method">
-        <label for="payment">Payment Method:</label>
-        <select id="payment" name="payment">
-          <option value="credit_card">Credit Card</option>
-          <option value="paypal">PayPal</option>
-          <option value="bitcoin">Bitcoin</option>
-        </select>
-      </div>
+    <label for="payment">Payment Method:</label>
+    <select id="payment" name="payment">
+    <?php
+      $paymentMethods = getPaymentMethods($user_id, $conn);
+      // Check if payment methods are available
+      if (!empty($paymentMethods)) {
+          // Loop through payment methods and generate options
+          foreach ($paymentMethods as $method) {
+              echo "<option value='" . $method . "'>" . $method . "</option>";
+          }
+      } else {
+          // If no payment methods are available, display a default option
+          echo "<option value='None'>No Payment Methods Found.</option>";
+      }
+      ?>
+    </select>
+</div>
       <div class="options">
         <button class="update-order" onclick="goToBooking()">Update Order</button>
         <button class="confirm-order" onclick="goToCheckout()">Complete Checkout</button>
