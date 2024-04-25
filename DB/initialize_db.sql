@@ -166,17 +166,15 @@ VALUES('EXPIRED');
 -- END OF ENUMERATION
 CREATE TABLE Booking(
     booking_id INT PRIMARY KEY AUTO_INCREMENT,
-    bookingNumber INT,
-    bookingDay INT,
-    bookingMonth INT,
-    bookingYear INT,
+    bookingDate VARCHAR(255),
     bookingStatus_id INT,
     FOREIGN KEY (bookingStatus_id) REFERENCES BookingStatus(bookingStatus_id),
     numberOfSeats INT,
     promo_id INT,
     FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id),
     users_id INT,
-    FOREIGN KEY (users_id) REFERENCES Users(users_id)
+    FOREIGN KEY (users_id) REFERENCES Users(users_id),
+    priceTotal INT
 );
 -- TICKET TYPE ENUMERATION
 CREATE TABLE TicketType(
@@ -257,20 +255,6 @@ CREATE TABLE Showing(
     numOfAvailableSeats INT
 );
 
-CREATE TABLE Ticket(
-    ticket_id INT PRIMARY KEY AUTO_INCREMENT,
-    ticketDay INT,
-    ticketMonth INT,
-    ticketYear INT,
-    ticketType_id INT,
-    FOREIGN KEY (ticketType_id) REFERENCES TicketType(ticketType_id),
-    booking_id INT,
-    FOREIGN KEY (booking_id) REFERENCES Booking(booking_id),
-    show_id INT,
-    FOREIGN KEY (show_id) REFERENCES Showing(show_id),
-    seat VARCHAR(255)
-);
-
 CREATE TABLE Seats(
     seat_id INT PRIMARY KEY AUTO_INCREMENT,
     show_id INT,
@@ -278,4 +262,15 @@ CREATE TABLE Seats(
     seatRow VARCHAR(255),
     seatColumn int,
     isAvailable VARCHAR(255)
+);
+CREATE TABLE Ticket(
+    ticket_id INT PRIMARY KEY AUTO_INCREMENT,
+    ticketType_id INT,
+    FOREIGN KEY (ticketType_id) REFERENCES TicketType(ticketType_id),
+    booking_id INT,
+    FOREIGN KEY (booking_id) REFERENCES Booking(booking_id),
+    show_id INT,
+    FOREIGN KEY (show_id) REFERENCES Showing(show_id),
+    seat_id INT,
+    FOREIGN KEY (seat_id) REFERENCES Seats(seat_id)
 );
