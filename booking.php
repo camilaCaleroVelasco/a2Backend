@@ -83,7 +83,7 @@ ini_set('display_errors', 1);
               echo "<p> Sorry, There are no show times available<p>";
             } else {
               foreach ($dates as $date) {
-                echo "<input type='radio' name='date' id='d{$date['day']}' />";
+                echo "<input type='radio' name='date' id='d{$date['day']}'  />";
                 echo "<label class='dates-item' for='d{$date['day']}'>";
                 echo "<div class='day'>{$date['dayName']}</div>";
                 echo "<div class='date'>{$date['day']}</div>";
@@ -97,10 +97,14 @@ ini_set('display_errors', 1);
             <?php
               foreach ($dates as $date) {
                 echo "<div class='date-times' id='date-{$date['day']}'>";
+                // Check if there are show times available for that day
                 if (isset($times[$date['showDate']])) {
-                  foreach ($times[$date['showDate']] as $time) {
-                      echo "<input type='radio' name='time' id='{$time}' />";
-                      echo "<label for='{$time}' class='time'>{$time}</label>";
+                  // Loop throught the times that are assigned to the date
+                  foreach ($times[$date['showDate']] as $index => $time) {
+                      // Assign a unique ID for each show time
+                      $uniqueId = "t{$date['day']}-{$index}";
+                      echo "<input type='radio' name='time' id='{$uniqueId}' />";
+                      echo "<label for='{$uniqueId}' class='time'>{$time}</label>";
                   }
                 } else {
                   echo "<p>Sorry, there are no show times available for this date.</p>";
