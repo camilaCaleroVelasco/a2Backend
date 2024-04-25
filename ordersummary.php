@@ -1,5 +1,5 @@
 <?php
-    if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"])) {
+    if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"]) && isset($_SESSION["email"])) {
 
         $movie_id = $_GET["movie_id"];
         require_once "includes/dbh.inc.php";
