@@ -15,6 +15,10 @@ $times = getTimes($conn, $movie_id);
 // Prepare dates and times data for JavaScript
 $datesJson = json_encode($dates);
 $timesJson = json_encode($times);
+
+// Get seat availability data
+$seatsJson = json_encode(getSeatAvailability($conn, 1));
+
 ?>
 
 <!DOCTYPE html>
@@ -103,26 +107,33 @@ document.addEventListener("DOMContentLoaded", function () {
         return totalTickets;
     }  
 
-    // Generate seat checkboxes
+    // Generate static HTML for seat checkboxes and labels
     let seats = document.querySelector(".all-seats");
-    let rowLetters = ['A', 'B', 'C', 'D', 'E', 'F']; // Letters for rows
-    for (let row = 0; row < rowLetters.length; row++) {
-        let rowLetter = rowLetters[row];
+    let availabilityData = <?php echo $seatsJson; ?>; // Assuming $seatsJson contains availability data
+
+    let rowLetters = Object.keys(availabilityData); // Extract row letters from availability data
+
+    rowLetters.forEach(rowLetter => {
         seats.insertAdjacentHTML(
             "beforeend",
             `<span class="row-letter">${rowLetter}</span>`
         );
-        for (let col = 1; col <= 9; col++) { // Assuming 10 columns
-            let seatNumber = rowLetter + col; // Generating seat number
-            let randint = Math.floor(Math.random() * 2);
-            let booked = randint === 1 ? "booked" : "";
-            seats.insertAdjacentHTML(
-                "beforeend",
-                `<input type="checkbox" name="tickets" id="s${seatNumber}" />
-                <label for="s${seatNumber}" class="seat ${booked}">${col}</label>`
-            );
-        }
-    }
+
+        for (let col = 1; col <= 9; col++) { // Assuming 9 columns, adjust as per your actual data
+        let seatNumber = rowLetter + col;
+        let isAvailable = availabilityData[rowLetter][col]; // Get availability status
+
+        // Set 'booked' class based on availability status
+        let booked = isAvailable === 'NO' ? "booked" : "";
+
+        seats.insertAdjacentHTML(
+            "beforeend",
+            `<input type="checkbox" name="tickets" id="s${seatNumber}" />
+            <label for="s${seatNumber}" class="seat ${booked}">${col}</label>`
+        );
+      }
+    });
+
 
     // Attach event listener to date radio buttons
     let dateRadios = document.querySelectorAll("input[name='date']");

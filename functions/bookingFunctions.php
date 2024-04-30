@@ -69,3 +69,55 @@
         return $availableTimes;
 
     }
+
+    // Get the available seats
+    function getSeatAvailability($conn, $show_id) {
+        $sql = "SELECT * FROM seats WHERE show_id = ?";
+        $stmt = mysqli_stmt_init($conn);
+
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            header("Location: booking.php?error=stmtfailed");
+            exit();
+        }
+        mysqli_stmt_bind_param($stmt, "i", $show_id);
+        mysqli_stmt_execute($stmt);
+        $results = mysqli_stmt_get_result($stmt);
+
+        $bookingAvailability = array();
+        while ($row = mysqli_fetch_assoc($results)) {
+            $seatRow = $row['seatRow'];
+            $seatCol = $row['seatColumn'];
+            $isAvailable = $row['isAvailable'];
+            $bookingAvailability[$seatRow][$seatCol] = $isAvailable;
+        }
+
+        return  $bookingAvailability;
+
+    }
+
+    function getShowId($conn, $showDate, $showTime) {
+        // Debugging: Output the input parameters
+        echo "Show Date: " . $showDate . "<br>";
+        echo "Show Time: " . $showTime . "<br>";
+    
+        $sql = "SELECT show_id FROM showing WHERE showDate = ? AND showTime = ?";
+        $stmt = mysqli_stmt_init($conn);
+    
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            header("Location: booking.php?error=stmtfailed");
+            exit();
+        }
+        mysqli_stmt_bind_param($stmt, "ss", $showDate, $showTime);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+    
+        // Debugging: Output the SQL query and result
+        echo "SQL Query: " . $sql . "<br>";
+        echo "Result: " . var_dump($result) . "<br>";
+    
+        if ($row = mysqli_fetch_assoc($result)) {
+            return $row['show_id'];
+        } else {
+            return null;
+        }
+    }
