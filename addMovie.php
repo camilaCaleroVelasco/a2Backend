@@ -24,7 +24,7 @@
             <ul class="nav__links">
                 <li><a href="adminmovie.php">MOVIES</a></li>
                 <li><a href="admin.php">USERS</a></li>
-                <li><a href="login.php">PROMOTIONS</a></li>
+                <li><a href="promotions.php">PROMOTIONS</a></li>
             </ul>
         </nav>
     </header>
