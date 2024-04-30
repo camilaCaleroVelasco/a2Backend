@@ -20,7 +20,7 @@ include 'promotionProcess.php';
 
 <body>
     <header>
-        <a href="index.php"><img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo"></a>
+        <a href="admin.php"><img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo"></a>
         
     </header>
 

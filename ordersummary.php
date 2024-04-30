@@ -100,10 +100,10 @@ session_start();
         </div>
       </div>
       <div class="promo-code">
-        <form method="post">
+        <form method="post" action= 'orderSummaryProcess.php'>
           <label for="promo_code">Promo Code:</label><br>
           <input type="text" id="promo_code" name="promo_code">
-          <button type="submit">Apply</button>
+          <button type="submit" name="submit">Apply</button>
         </form>
       </div>
       <div class="payment-method">

@@ -13,3 +13,5 @@ vendor/composer/platform_check.php
 composer.lock
 test.php
 cardInfoProcess.php
+orderSummaryProcess.php
+ordersummary.php

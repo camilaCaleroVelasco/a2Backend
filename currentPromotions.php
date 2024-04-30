@@ -26,7 +26,7 @@ include 'Get/currentPromotionGetting.php';
 
 <body>
     <header>
-        <a href="index.php">
+        <a href="admin.php">
             <img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo">
             <!--clicking a2 movies icon will link back to homepage-->
         </a>
