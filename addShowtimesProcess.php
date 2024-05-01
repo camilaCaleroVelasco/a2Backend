@@ -7,6 +7,8 @@ ini_set('display_errors', 1);
     require_once "functions/checkIfAdminFunction.php"; 
     include "includes/dbh.inc.php";
     include "functions/addShowtimesFunctions.php";
+    include "classes/seatinitializer.php";
+
 
 
     // Makes sures that the user is an admin
@@ -85,6 +87,11 @@ ini_set('display_errors', 1);
                         }
 
                         $stmtSchedule->close();
+
+                        // Initialize seats
+                        $show_id = $conn->insert_id;
+                        $seatInitializer = new SeatInitializer();
+                        $seatInitializer->initialize_seats($conn, $show_id);
                     }
                 }
             }
