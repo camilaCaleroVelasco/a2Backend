@@ -12,12 +12,20 @@ $movie_id = $movie["movie_id"];
 $dates = getDates($conn, $movie_id);
 $times = getTimes($conn, $movie_id);
 
+foreach ($dates as $date) {
+  $showDate = $date['showDate'];
+  echo "showDate: $showDate <br>";
+  $showTime = getShowTimesByMovieIDAndDate($conn, $movie_id, $showDate);
+  echo "Times: " . implode(", ", $showTime) . "<br>";
+}
+
 // Prepare dates and times data for JavaScript
 $datesJson = json_encode($dates);
 $timesJson = json_encode($times);
 
-// Get seat availability data
-$seatsJson = json_encode(getSeatAvailability($conn, 1));
+$getShowID = getShowId($conn, $showDate, $showTime);
+$seatsJson = json_encode(getSeatAvailability($conn, $getShowID));
+
 
 ?>
 
