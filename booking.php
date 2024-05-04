@@ -31,7 +31,6 @@ if (!empty($showTime)) {
 } else {
     $initialSeatsJson = json_encode([]);
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +54,7 @@ if (!empty($showTime)) {
                     <div class="status">
                         <div class="item">Available</div>
                         <div class="item">Booked</div>
-                        <div class="item">Selected</div>
+                        <div class "item">Selected</div>
                     </div>
                     <br>
                     <div class="all-seats">
@@ -102,6 +101,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const timesData = <?php echo $timesJson; ?>;
     const initialSeatsData = <?php echo $initialSeatsJson; ?>;
 
+    // Set up a default "completely booked" seat layout
+    const defaultBookedSeatsData = {};
+    const numRows = 8;
+    const numCols = 8;
+    for (let row = 0; row < numRows; row++) {
+        const rowLetter = String.fromCharCode(65 + row);
+        defaultBookedSeatsData[rowLetter] = {};
+        for (let col = 0; col <= numCols; col++) {
+            defaultBookedSeatsData[rowLetter][col] = "NO";
+        }
+    }
+
     function updateSeatAvailability(selectedDate, selectedTime) {
         fetch('getSeatAvailability.php', {
             method: 'POST',
@@ -125,6 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => {
             console.error('Error fetching seat availability:', error);
+            updateSeatsUI(defaultBookedSeatsData);
         });
     }
 
@@ -144,6 +156,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 `);
             }
         }
+
+        // Reattach event listeners to the new checkboxes
+        const tickets = document.querySelectorAll("input[name='tickets']");
+        tickets.forEach(ticket => {
+            ticket.addEventListener("change", updateTotalTicketCount);
+        });
+
+        updateTotalTicketCount(); // Update button state based on current ticket count
     }
 
     function updateTotalTicketCount() {
@@ -151,15 +171,27 @@ document.addEventListener("DOMContentLoaded", function () {
         const totalTickets = selectedTickets.length;
         const totalElement = document.querySelector(".count");
         totalElement.textContent = totalTickets;
+
+        const bookButton = document.getElementById("bookButton");
+        if (totalTickets > 0) {
+            bookButton.disabled = false;
+        } else {
+            bookButton.disabled = true;
+        }
+
         return totalTickets;
     }
 
     function initializePage() {
-        // Initialize the seats with the initial data
-        updateSeatsUI(initialSeatsData);
+        const dateRadios = document.querySelectorAll("input[name='date']");
+
+        if (dateRadios.length === 0 || Object.keys(timesData).length === 0) {
+            updateSeatsUI(defaultBookedSeatsData); // Display default booked seats
+        } else {
+            updateSeatsUI(initialSeatsData); // Display initial seat data
+        }
 
         // Attach event listener to date radio buttons
-        const dateRadios = document.querySelectorAll("input[name='date']");
         dateRadios.forEach(radio => {
             radio.addEventListener("change", () => {
                 const selectedDate = radio.value;
@@ -183,7 +215,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
 
-        // Attach event listener to time radio buttons
         document.addEventListener("change", function(event) {
             if (event.target && event.target.matches("input[name='time']")) {
                 const selectedDate = document.querySelector("input[name='date']:checked").value;
@@ -192,9 +223,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        // Add event listener to the "Book" button
         document.getElementById("bookButton").addEventListener("click", function () {
-            fetch('checkLogin.php') // Assuming this file checks the login status
+            fetch('checkLogin.php')
                 .then(response => {
                     if (!response.ok) {
                         window.location.href = 'login.php?error=notLoggedIn';
@@ -205,8 +235,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
         });
 
+        // Initially disable the "Continue" button
+        document.getElementById("bookButton").disabled = true;
+
         updateTotalTicketCount();
     }
+
+    initializePage();
 
     initializePage();
 });
@@ -214,4 +249,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
-

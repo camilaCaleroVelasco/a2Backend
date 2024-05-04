@@ -3,44 +3,82 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 session_start();
-    if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"]) && isset($_SESSION["email"])) {
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"]) && isset($_SESSION["email"])) {
 
-        $movie_id = $_GET["movie_id"];
-        require_once "includes/dbh.inc.php";
-        include "functions/orderSummaryFunctions.php";
-        $sql = "SELECT * FROM movies WHERE movie_id = ?";
-            
-        $stmt = mysqli_stmt_init($conn);
+    $movie_id = $_GET["movie_id"];
+    require_once "includes/dbh.inc.php";
+    include "functions/orderSummaryFunctions.php";
 
-        if(!mysqli_stmt_prepare($stmt, $sql)) {
-            header("Location: booking.php?error=stmtfailed"); 
-            exit();
-        }
+    // Retrieve movie information
+    $sql = "SELECT * FROM movies WHERE movie_id = ?";
+    $stmt = mysqli_stmt_init($conn);
 
-        mysqli_stmt_bind_param($stmt, "i", $movie_id);
-        mysqli_stmt_execute($stmt);
-
-        $resultData = mysqli_stmt_get_result($stmt); // Fetch single movie
-            
-        $movie = mysqli_fetch_assoc($resultData);
-
-        if (!$movie) { // Check if movie found
-            echo "<p>Movie not found.</p>";
-        }
-
-        // Retrieve ticket variables from URL parameters
-        $adult = isset($_GET['adult']) ? intval($_GET['adult']) : 0;
-        $child = isset($_GET['child']) ? intval($_GET['child']) : 0;
-        $senior = isset($_GET['senior']) ? intval($_GET['senior']) : 0;
-
-        /// retrieve users_id
-        $user_id = $_SESSION["users_id"];
-    } else {
-        header("Location: index.php"); // Redirect if no movie ID
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("Location: booking.php?error=stmtfailed");
+        exit();
     }
 
-    // Handle submitted promo code
-    
+    mysqli_stmt_bind_param($stmt, "i", $movie_id);
+    mysqli_stmt_execute($stmt);
+    $resultData = mysqli_stmt_get_result($stmt);
+    $movie = mysqli_fetch_assoc($resultData);
+
+    if (!$movie) {
+        echo "<p>Movie not found.</p>";
+    }
+
+    // Retrieve ticket variables from URL parameters
+    $adult = isset($_GET['adult']) ? intval($_GET['adult']) : 0;
+    $child = isset($_GET['child']) ? intval($_GET['child']) : 0;
+    $senior = isset($_GET['senior']) ? intval($_GET['senior']) : 0;
+
+    // Retrieve ticket prices
+    $ticketPrices = [];
+    $ticketTypes = ["child", "adult", "senior"];
+    foreach ($ticketTypes as $type) {
+        $sql = "SELECT ticketPrice FROM tickettype WHERE ticketType = ?";
+        if (mysqli_stmt_prepare($stmt, $sql)) {
+            $upperType = strtoupper($type);
+            mysqli_stmt_bind_param($stmt, "s", $upperType);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            $row = mysqli_fetch_assoc($result);
+            $ticketPrices[$type] = $row['ticketPrice'];
+        }
+    }
+
+    $totalPrice = $child * $ticketPrices['child'] +
+                  $adult * $ticketPrices['adult'] +
+                  $senior * $ticketPrices['senior'];
+
+    $taxRate = 0.07;
+    $taxAmount = $totalPrice * $taxRate;
+    $totalWithTax = $totalPrice + $taxAmount;
+
+    // Retrieve users_id
+    $user_id = $_SESSION["users_id"];
+
+    // Retrieve payment methods
+    $paymentMethods = getPaymentMethods($user_id, $conn);
+    $hasPaymentMethods = !empty($paymentMethods);
+
+    // Apply promo code
+    $discount = isset($_GET['discount']) ? floatval($_GET['discount']) : 0;
+    $discountedPrice = $totalWithTax * (1 - $discount / 100);
+
+    $promo_code = isset($_GET['code']) ? $_GET['code'] : '';
+    $promo_code_applied = false;
+
+    if (isset($_GET["status"]) && $_GET["status"] == "success") {
+        $successMessage = urldecode($_GET["message"]);
+        $promo_code_applied = true;
+    } elseif (isset($_GET["message"])) {
+        $successMessage = urldecode($_GET["message"]);
+    }
+} else {
+    header("Location: index.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -67,60 +105,69 @@ session_start();
       <div class="ticket-details">
         <h2>Ticket Details</h2>
         <?php
-        // Loop through adult, child, and senior variables to generate ticket details
-              for ($i = 0; $i < $adult; $i++) {
+        if ($adult > 0) {
                 echo "<div class='ticket'>";
                 echo "<p class='ticket-info'>" . $movie['movie_title'] . "</p>";
                 echo "<p class='ticket-info'>Date: March 1, 2024</p>";
                 echo "<p class='ticket-info'>Time: 11:00 AM</p>";
-                echo "<p class='ticket-info'> Adult Ticket x1</p>";
+                echo "<p class='ticket-info'> Adult Ticket x". $adult ."</p>";
                 echo "<p class='ticket-info'> <span class='delete-ticket' onclick='deleteTicket(this)'>X</span></p>";
                 echo "</div>";
-              }
+        }
+        if ($child > 0) {
+                echo "<div class='ticket'>";
+                echo "<p class='ticket-info'>" . $movie['movie_title'] . "</p>";
+                echo "<p class='ticket-info'>Date: March 1, 2024</p>";
+                echo "<p class='ticket-info'>Time: 11:00 AM</p>";
+                echo "<p class='ticket-info'> Child Ticket x". $child ."</p>";
+                echo "<p class='ticket-info'> <span class='delete-ticket' onclick='deleteTicket(this)'>X</span></p>";
+                echo "</div>";
+        }
+        if ($senior > 0) {
+                echo "<div class='ticket'>";
+                echo "<p class='ticket-info'>" . $movie['movie_title'] . "</p>";
+                echo "<p class='ticket-info'>Date: March 1, 2024</p>";
+                echo "<p class='ticket-info'>Time: 11:00 AM</p>";
+                echo "<p class='ticket-info'> Senior Ticket x". $senior ."</p>";
+                echo "<p class='ticket-info'> <span class='delete-ticket' onclick='deleteTicket(this)'>X</span></p>";
+                echo "</div>";
+        }
 
-            for ($i = 0; $i < $child; $i++) {
-                echo "<div class='ticket'>";
-                echo "<p class='ticket-info'>" . $movie['movie_title'] . "</p>";
-                echo "<p class='ticket-info'>Date: March 1, 2024</p>";
-                echo "<p class='ticket-info'>Time: 11:00 AM</p>";
-                echo "<p class='ticket-info'> Child Ticket x1</p>";
-                echo "<p class='ticket-info'> <span class='delete-ticket' onclick='deleteTicket(this)'>X</span></p>";
-                echo "</div>";
-            }
-
-            for ($i = 0; $i < $senior; $i++) {
-                echo "<div class='ticket'>";
-                echo "<p class='ticket-info'>" . $movie['movie_title'] . "</p>";
-                echo "<p class='ticket-info'>Date: March 1, 2024</p>";
-                echo "<p class='ticket-info'>Time: 11:00 AM</p>";
-                echo "<p class='ticket-info'> Senior Ticket x1</p>";
-                echo "<p class='ticket-info'> <span class='delete-ticket' onclick='deleteTicket(this)'>X</span></p>";
-                echo "</div>";
-            }
         ?>
-        <div class="total">
-          <p><strong>Total Price: $</strong></p>
-        </div>
-      </div>
-      <div class="promo-code">
-      <form method="post" action="orderSummaryProcess.php?movie_id=<?php echo $movie_id ?>&adult=<?php echo $adult ?>&child=<?php echo $child ?>&senior=<?php echo $senior ?>">
-          <label for="promo_code">Promo Code:</label><br>
-          <input type="text" id="promo_code" name="promo_code">
-          <button type="submit" name="submitCode">Apply</button>
-          <?php
-              if (isset($_GET['success']) && $_GET['success'] === 'codeAdded') {
-                $successMessage = "Promo code applied successfully!";
-              }
-          ?>
-        </form>
-      </div>
+    <div class="total">
+                    <p><strong>Subtotal: $<span id="subtotal"><?php echo $totalPrice; ?></span></strong></p>
+                    <p><strong>Tax (7%): $<span id="tax"><?php echo number_format($taxAmount, 2); ?></span></strong></p>
+                    <p><strong>Total Price: $<span id="total-price"><?php echo number_format($totalWithTax, 2); ?></span></strong></p>
+                    <?php if ($discount > 0): ?>
+                        <p><strong>Discount: - $<span id="discount"><?php echo number_format($totalWithTax - $discountedPrice, 2); ?></span></strong></p>
+                    <?php endif; ?>
+                    <p><strong>Final Total Price: $<span id="final-price"><?php echo number_format($discountedPrice, 2); ?></span></strong></p>
+                </div>
+            </div>
+            <div class="promo-code">
+                <form method="post"
+                      action="orderSummaryProcess.php?movie_id=<?php echo $movie_id ?>&adult=<?php echo $adult ?>&child=<?php echo $child ?>&senior=<?php echo $senior ?>&promo_code=<?php echo htmlspecialchars($promo_code); ?>">
+                    <label for="promo_code">Promo Code:</label><br>
+                    <input type="text" id="promo_code" name="promo_code"
+                           value="<?php echo htmlspecialchars($promo_code); ?>"
+                           <?php echo $promo_code_applied ? 'readonly' : ''; ?>>
+                    <button type="submit" name="submitCode"
+                            <?php echo $promo_code_applied ? 'disabled' : ''; ?>>Apply
+                    </button>
+                    <?php
+                    if (!empty($successMessage)) {
+                        echo "<p>$successMessage</p>";
+                    }
+                    ?>
+                </form>
+            </div>
       <div class="payment-method">
     <label for="payment">Payment Method:</label>
     <select id="payment" name="payment">
     <?php
       $paymentMethods = getPaymentMethods($user_id, $conn);
       // Check if payment methods are available
-      if (!empty($paymentMethods)) {
+      if ($hasPaymentMethods) {
           // Loop through payment methods and generate options
           foreach ($paymentMethods as $method) {
               echo "<option value='" . $method . "'>" . $method . "</option>";
@@ -132,9 +179,12 @@ session_start();
       ?>
     </select>
 </div>
-      <div class="options">
+<div class="options">
         <button class="update-order" onclick="goToBooking()">Update Order</button>
-        <button class="confirm-order" onclick="goToCheckout()">Complete Checkout</button>
+        <button class="confirm-order" <?php echo $hasPaymentMethods ? '' : 'disabled'; ?> onclick="goToCheckout()">Complete Checkout</button>
+        <?php if (!$hasPaymentMethods): ?>
+            <p class="error">Please add a payment method before checking out.</p>
+        <?php endif; ?>
       </div>
     </div>
   </div>
@@ -144,17 +194,30 @@ session_start();
         if (confirm("Are you sure you want to delete this ticket?")) {
             let ticket = element.parentElement.parentElement; // Get the parent ticket element
             ticket.remove();
-            updateTotalPrice();
+            updateTotalPrice(-ticketPrice);
         }
     }
 
-    function updateTotalPrice() {
-        let totalPrice = 0;
-        document.querySelectorAll('.ticket').forEach(ticket => {
-            let priceString = ticket.querySelector('.ticket-info').innerText.split('-')[1].trim();
-            totalPrice += parseFloat(priceString.substring(1));
-        });
-        document.querySelector('.total p strong').innerText = 'Total Price: $' + totalPrice.toFixed(2);
+    function updateTotalPrice(amount) {
+        let subtotalElement = document.getElementById("subtotal");
+        let taxElement = document.getElementById("tax");
+        let totalPriceElement = document.getElementById("total-price");
+        let discountElement = document.getElementById("discount");
+        let finalPriceElement = document.getElementById("final-price");
+
+        let currentSubtotal = parseFloat(subtotalElement.innerText);
+        let newSubtotal = currentSubtotal + amount;
+
+        let newTax = newSubtotal * 0.05; // Assuming a tax rate of 5%
+        let newTotal = newSubtotal + newTax;
+
+        let currentDiscount = parseFloat(discountElement.innerText);
+        let newFinalTotal = newTotal - currentDiscount;
+
+        subtotalElement.innerText = newSubtotal.toFixed(2);
+        taxElement.innerText.toFixed(2);
+        totalPriceElement.innerText.toFixed(2);
+        finalPriceElement.innerText.toFixed(2);
     }
 
     function goToBooking() {

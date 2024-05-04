@@ -32,25 +32,46 @@ return $paymentMethods;
 }
 
 function applyPromoCode($code, $userID, $conn) {
+    $result = ["status" => "failure", "message" => "Unknown error.", "discount" => 0];
+
     if (isValidCode($code, $conn)) {
         if (!hasBeenUsed($code, $userID, $conn)) {
-            // Add promo code to PromoCodeUse table
-            $promoID = getPromoID($code, $conn);
-            if ($promoID !== false) {
-                if (addPromoCodeUse($promoID, $userID, $conn)) {
-                    return "Promo code applied successfully!";
+            // Retrieve the promotion details
+            $sql = "SELECT percentDiscount FROM promotion 
+                    WHERE promoCode = ? 
+                    AND CURDATE() BETWEEN 
+                        STR_TO_DATE(CONCAT(YEAR(CURDATE()), '-', startMonth, '-', startDay), '%Y-%c-%e') 
+                        AND 
+                        STR_TO_DATE(CONCAT(YEAR(CURDATE()), '-', endMonth, '-', endDay), '%Y-%c-%e')";
+
+            $stmt = mysqli_stmt_init($conn);
+            if (mysqli_stmt_prepare($stmt, $sql)) {
+                mysqli_stmt_bind_param($stmt, "s", $code);
+                mysqli_stmt_execute($stmt);
+                $resultData = mysqli_stmt_get_result($stmt);
+                $row = mysqli_fetch_assoc($resultData);
+                if ($row) {
+                    // Add promo code to PromoCodeUse table
+                    $promoID = getPromoID($code, $conn);
+                    if ($promoID !== false && addPromoCodeUse($promoID, $userID, $conn)) {
+                        $result["status"] = "success";
+                        $result["message"] = "Promo code applied successfully!";
+                        $result["discount"] = $row['percentDiscount'];
+                    } else {
+                        $result["message"] = "Failed to apply promo code. Please try again later.";
+                    }
                 } else {
-                    return "Failed to apply promo code. Please try again later.";
+                    $result["message"] = "Promo code not found or expired.";
                 }
-            } else {
-                return "Promo code not found.";
             }
         } else {
-            return "Promo code has already been used.";
+            $result["message"] = "Promo code has already been used.";
         }
     } else {
-        return "Invalid promo code.";
+        $result["message"] = "Invalid promo code.";
     }
+
+    return $result;
 }
 
 function isValidCode($code, $conn) {
