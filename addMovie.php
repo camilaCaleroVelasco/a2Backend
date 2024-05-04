@@ -32,17 +32,17 @@ checkIfAdmin();
     </header>
 
     <form action="addProcess.php" method="POST">
-        <input type="text" name="movie_title" placeholder="Movie Title">
-        <input type="text" name="category" placeholder="Movie Category">
-        <input type="text" name="director" placeholder="Director">
-        <input type="text" name="producer" placeholder="Producer">
-        <textarea id="synopsis" name="synopsis" placeholder="Enter movie description here..."></textarea>
+        <input type="text" name="movie_title" placeholder="Movie Title" required>
+        <input type="text" name="category" placeholder="Movie Category" required>
+        <input type="text" name="director" placeholder="Director" required>
+        <input type="text" name="producer" placeholder="Producer" required>
+        <textarea id="synopsis" name="synopsis" placeholder="Enter movie description here..."></textarea required>
 
 <!-- 
         <input type="text" name="reviews" placeholder="Reviews"> -->
         <!-- Select dropdown for Reviews -->
         
-        <select name="reviews" id="reviews">
+        <select name="reviews" id="reviews" required>
             <option value="" selected disabled class="placeholder">Reviews</option>
             <option value="0">0</option>
             <option value="1">1</option>
@@ -58,7 +58,7 @@ checkIfAdmin();
         <input type="text" name="video" placeholder="Youtube Link">
 
         <!-- Select dropdown for Rating -->
-        <select name="rating_code" id="rating_code">
+        <select name="rating_code" id="rating_code" required>
             <option value="" selected disabled class="placeholder">Select Rating</option>
             <option value="G">G</option>
             <option value="PG">PG</option>
@@ -68,13 +68,13 @@ checkIfAdmin();
         </select>
 
         <!-- Select dropdown for Movie Status -->
-        <select name="movie_status" id="movie_status">
+        <select name="movie_status" id="movie_status" required>
             <option value="" selected disabled class="placeholder">Select Movie Status</option>
             <option value="coming soon">Coming Soon</option>
             <option value="now playing">Now Playing</option>
         </select>
 
-        <input type="text" name="cast" placeholder="Cast">
+        <input type="text" name="cast" placeholder="Cast"required>
         <button type="submit" name="submit">Add</button>
     </form>
 
