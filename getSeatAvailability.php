@@ -1,21 +1,27 @@
 <?php
-// Include necessary files and establish database connection
-require_once "functions/bookingFunctions.php";
 require_once "includes/dbh.inc.php";
+require_once "functions/bookingFunctions.php";
 
-// Check if the show_id parameter is provided in the request
-if(isset($_GET['show_id'])) {
-    $show_id = $_GET['show_id'];
+header('Content-Type: application/json');
 
-    // Call the getSeatAvailability function to retrieve seat availability data
-    $seatAvailability = getSeatAvailability($conn, $show_id);
+$input = json_decode(file_get_contents('php://input'), true);
 
-    // Return the seat availability data as JSON
-    header('Content-Type: application/json');
-    echo json_encode($seatAvailability);
-} else {
-    // If show_id parameter is not provided, return an error response
-    http_response_code(400);
-    echo json_encode(array("error" => "show_id parameter is missing"));
+if (!isset($input['date'], $input['time'], $input['movie_id'])) {
+    echo json_encode([]);
+    exit();
 }
 
+$selectedDate = $input['date'];
+$selectedTime = $input['time'];
+$movie_id = $input['movie_id'];
+
+$showID = getShowId($conn, $selectedDate, $selectedTime, $movie_id);
+
+if (!$showID) {
+    echo json_encode([]);
+    exit();
+}
+
+$seatAvailability = getSeatAvailability($conn, $showID);
+
+echo json_encode($seatAvailability);

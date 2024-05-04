@@ -391,7 +391,7 @@ ini_set('display_errors', 1);
         
 
         // Send PIN
-        session_start();
+        //session_start();
         $email = $_POST["email-address"];
         $_SESSION["resetEmail"] = $email;
 //

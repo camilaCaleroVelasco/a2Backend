@@ -114,66 +114,27 @@
         return $showTimes;
     }
 
-    function getShowId($conn, $showDate, $showTime) {
-        // // Debuggin
-        // echo "Show Date: "; var_dump($showDate); echo "<br>";
-        // echo "Show Time: "; var_dump($showTime); echo "<br>";
-        
-        // $sql = "SELECT show_id FROM showing WHERE showDate = ? AND showTime IN (?)";
-        // $stmt = mysqli_stmt_init($conn);
-
-        // if (!mysqli_stmt_prepare($stmt, $sql)) {
-        //     header("Location: booking.php?error=stmtfailed");
-        //     exit();
-        // }
-
-        // $showTimesString = implode(",", $showTime);
-
-        // mysqli_stmt_bind_param($stmt, "ss", $showDate, $showTimesString);
-        // mysqli_stmt_execute($stmt);
-        // $result = mysqli_stmt_get_result($stmt);
-
-        // $row = mysqli_fetch_assoc($result);
-
-        // if ($row) {
-        //     return $row['show_id'];
-        // } else {
-        //     return null;
-        // }
-
-        $sql = "SELECT show_id FROM showing WHERE showDate = ? AND showTime IN (";
-
-        // Append placeholders for each show time
-        $placeholders = implode(',', array_fill(0, count($showTime), '?'));
-        $sql .= $placeholders . ')';
-
-        // Prepare the statement
+    function getShowId($conn, $showDate, $showTime, $movie_id) {
+        $sql = "SELECT show_id FROM Showing WHERE showDate = ? AND showTime = ? AND movie_id = ?";
         $stmt = $conn->prepare($sql);
-
-        // Construct the parameter types string
-        $paramTypes = str_repeat('s', count($showTime) + 1); // +1 for $showDate
-
-        // Bind parameters
-        $params = array_merge(array($paramTypes, $showDate), $showTime);
-        call_user_func_array(array($stmt, 'bind_param'), refValues($params));
-
-        // Execute the statement
+    
+        if (!$stmt) {
+            error_log("Statement preparation failed: " . $conn->error);
+            header("Location: booking.php?error=stmtfailed");
+            exit();
+        }
+    
+        $stmt->bind_param("ssi", $showDate, $showTime, $movie_id);
         $stmt->execute();
-
-        // Get the result
+    
         $result = $stmt->get_result();
-
-        // Fetch associative array
         $row = $result->fetch_assoc();
-
-        // Close the statement
+    
         $stmt->close();
-
-        // Return the show ID if found, otherwise null
-        return ($row ? $row['show_id'] : null);
-
+    
+        return $row ? $row['show_id'] : null;
     }
-
+    
     // Helper function to pass parameters by reference
     function refValues($arr){
         $refs = array();
