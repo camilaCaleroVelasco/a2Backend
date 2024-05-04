@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
     if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"]) && isset($_SESSION["email"])) {
 
@@ -100,10 +103,15 @@ session_start();
         </div>
       </div>
       <div class="promo-code">
-        <form method="post" action= 'orderSummaryProcess.php'>
+      <form method="post" action="orderSummaryProcess.php?movie_id=<?php echo $movie_id ?>&adult=<?php echo $adult ?>&child=<?php echo $child ?>&senior=<?php echo $senior ?>">
           <label for="promo_code">Promo Code:</label><br>
           <input type="text" id="promo_code" name="promo_code">
-          <button type="submit" name="submit">Apply</button>
+          <button type="submit" name="submitCode">Apply</button>
+          <?php
+              if (isset($_GET['success']) && $_GET['success'] === 'codeAdded') {
+                $successMessage = "Promo code applied successfully!";
+              }
+          ?>
         </form>
       </div>
       <div class="payment-method">
