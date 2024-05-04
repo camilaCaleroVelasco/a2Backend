@@ -1,15 +1,16 @@
 <?php
-     session_start();
-    
-    require_once "functions/checkIfAdminFunction.php"; 
+session_start();
 
-    // Checks if user is admin
-    checkIfAdmin();
- 
+require_once "functions/checkIfAdminFunction.php";
+
+// Checks if user is admin
+checkIfAdmin();
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +18,7 @@
     <link rel="stylesheet" href="css/addMovie.css">
 
 </head>
+
 <body>
     <header>
         <a href="admin.php"><img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo"></a>
@@ -35,7 +37,23 @@
         <input type="text" name="director" placeholder="Director">
         <input type="text" name="producer" placeholder="Producer">
         <textarea id="synopsis" name="synopsis" placeholder="Enter movie description here..."></textarea>
-        <input type="text" name="reviews" placeholder="Reviews">
+
+<!-- 
+        <input type="text" name="reviews" placeholder="Reviews"> -->
+        <!-- Select dropdown for Reviews -->
+        
+        <select name="reviews" id="reviews">
+            <option value="" selected disabled class="placeholder">Reviews</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="1">2</option>
+            <option value="1">3</option>
+            <option value="1">4</option>
+            <option value="1">5</option>
+        </select> 
+
+
+
         <input type="text" name="picture" placeholder="Picture link">
         <input type="text" name="video" placeholder="Youtube Link">
 
@@ -60,6 +78,52 @@
         <button type="submit" name="submit">Add</button>
     </form>
 
+
+
+
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <svg id="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="70"
+                height="70"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path fill="#023f9f"
+                    d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
+            </svg>
+
+            <p id="success-message">Movie added successfully!</p>
+        </div>
+
+        <a href="adminMovie.php" class="button" id="submit">Go to Movies</a>
+    </div>
+
+
+    <script>
+
+        // Function to show the popup
+        function showPopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "block";
+        }
+
+        // Function to hide the popup
+        function closePopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "none";
+        }
+
+    </script>
+
+
+
+
+    <?php
+    // Check if the success query parameter is set show popUp once movie is added succesuflly
+    if (isset($_GET['success']) && $_GET['success'] == 1) {
+        echo '<script>showPopup();</script>';
+    }
+    ?>
+
+
     <script>
         var x, i, j, l, ll, selElmnt, a, b, c;
         /*look for any elements with the class "custom-select":*/
@@ -81,7 +145,7 @@
                 create a new DIV that will act as an option item:*/
                 c = document.createElement("DIV");
                 c.innerHTML = selElmnt.options[j].innerHTML;
-                c.addEventListener("click", function(e) {
+                c.addEventListener("click", function (e) {
                     /*when an item is clicked, update the original select box,
                     and the selected item:*/
                     var y, i, k, s, h, sl, yl;
@@ -106,7 +170,7 @@
                 b.appendChild(c);
             }
             x[i].appendChild(b);
-            a.addEventListener("click", function(e) {
+            a.addEventListener("click", function (e) {
                 /*when the select box is clicked, close any other select boxes,
                 and open/close the current select box:*/
                 e.stopPropagation();
@@ -141,4 +205,5 @@
         document.addEventListener("click", closeAllSelect);
     </script>
 </body>
+
 </html>

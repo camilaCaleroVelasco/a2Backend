@@ -60,7 +60,7 @@ ini_set('display_errors', 1);
                 // Check rows if added new info
                 if(mysqli_stmt_affected_rows($stmtInsertPromo) > 0) {
                     sendEmailPromoToSubs($conn);
-                    header("Location: currentPromotions.php?success=completed");
+                    header("Location: promotions.php?success=completed");
                     exit();
                 }
                 else{

@@ -2,23 +2,23 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
-require_once "functions/checkIfAdminFunction.php"; 
+require_once "functions/checkIfAdminFunction.php";
 include "includes/dbh.inc.php";
 
 // Checks if user is admin
 checkIfAdmin();
 
-if (!$conn) {  
+if (!$conn) {
 
-  die('Could not connect: '.mysqli_connect_error());  
+    die('Could not connect: ' . mysqli_connect_error());
 
-}  
+}
 
 // Get category_id
 $category = $_POST['category'];
 $sqlCategory = "SELECT category_id FROM MovieCategory WHERE category = ?";
 $stmtCategory = mysqli_stmt_init($conn);
-if(!mysqli_stmt_prepare($stmtCategory, $sqlCategory)) {
+if (!mysqli_stmt_prepare($stmtCategory, $sqlCategory)) {
     header("Location: addMovie.php?error=stmtfailed");
     exit();
 }
@@ -71,15 +71,15 @@ if (mysqli_query($conn, $sql)) {
 
     $success = 1;
 
-} else {  
+} else {
 
-    echo "Could not insert record: ". mysqli_error($conn);  
+    echo "Could not insert record: " . mysqli_error($conn);
 
-}  
-   
+}
+
 if (isset($success)) {
- 
     header("Location: addMovie.php?success=1");
     exit();
-} 
+}
+
 
