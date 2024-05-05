@@ -143,3 +143,48 @@ function addPromoCodeUse($promoID, $userID, $conn) {
 
     return mysqli_stmt_execute($stmt);
 }
+
+function sendEmailConfirmation($email){
+
+    $mail = require "mailer.php";
+    $mail->setFrom("noreply@example.com");
+    $mail->addAddress($email);
+    $mail->Subject = "Order Confirmation";
+    $mail->Body = <<<END
+        Thank you for your purchase!
+    END;
+    try {
+        $mail->send();
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
+        exit();
+    }
+
+}
+
+function getEmail($user_id, $conn) {
+    $email = null;
+    $sql = "SELECT email FROM Users WHERE users_id = ?";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (mysqli_stmt_prepare($stmt, $sql)) {
+        mysqli_stmt_bind_param($stmt, "i", $user_id);
+        mysqli_stmt_execute($stmt);
+
+        // Get result
+        $result = mysqli_stmt_get_result($stmt);
+
+        // Get email from result
+        if ($row = mysqli_fetch_assoc($result)) {
+            $email = $row['email'];
+        }
+        // Close
+        mysqli_stmt_close($stmt);
+    }
+    return $email;
+
+}
+
+function updateBooking($conn) {
+
+}

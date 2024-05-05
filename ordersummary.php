@@ -228,8 +228,25 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"]) && isset($_S
 
     function goToCheckout() {
         if (confirm("Are you sure you want to complete the purchase?")) {
+            // Send email confirmation
+            sendEmailConfirmation();
             window.location.href = "confirmation.php";
         }
+    }
+
+    function sendEmailConfirmation() {
+        fetch("sendEmailConfirmation.php", {
+            method: "POST"
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to send email confirmation.");
+            }
+            return response.text();
+        }).then(data => {
+            console.log(data);
+        }).catch(error => {
+            console.error("Error:", error);
+        });
     }
   </script>
 
