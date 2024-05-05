@@ -184,6 +184,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"]) && isset($_S
         <button class="confirm-order" <?php echo $hasPaymentMethods ? '' : 'disabled'; ?> onclick="goToCheckout()">Complete Checkout</button>
         <?php if (!$hasPaymentMethods): ?>
             <p class="error">Please add a payment method before checking out.</p>
+            <a href="editProfile.php"  id="addPayment">Add Payment</a>
         <?php endif; ?>
       </div>
     </div>
@@ -248,6 +249,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"]) && isset($_S
             console.error("Error:", error);
         });
     }
+
+    
   </script>
 
 
