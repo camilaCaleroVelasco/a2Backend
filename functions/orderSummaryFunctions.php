@@ -143,3 +143,71 @@ function addPromoCodeUse($promoID, $userID, $conn) {
 
     return mysqli_stmt_execute($stmt);
 }
+
+function sendEmailConfirmation($email, $movie_title, $adult, $child, $senior, $subtotal, $taxAmount, $totalWithTax, $discount, $discountedPrice) {
+    $mail = require "mailer.php";
+    $mail->setFrom("noreply@example.com");
+    $mail->addAddress($email);
+    $mail->Subject = "Order Confirmation";
+        $body = "<h2>Thank you for your purchase!</h2>";
+        $body .= "<h3>Order Details:</h3>";
+        $body .= "<h4>Number of Seats:<br><br>";
+        $body .= "Movie: $movie_title <br><br>";
+        
+        if ($adult > 0) {
+            $body .= "Adult Tickets: $adult <br>";
+        }
+        if ($child > 0) {
+            $body .= "Child Tickets: $child <br>";
+        }
+        if ($senior > 0) {
+            $body .= "Senior Tickets: $senior <br>";
+        }
+
+        $body .= "<br>";
+        $body .= "Subtotal: $$subtotal <br>";
+        $body .= "Tax (7%): $$taxAmount <br>";
+        $body .= "Total Price: $$totalWithTax <br>";
+        // Add discount information if applicable
+        if ($discount > 0) {
+            $body .= "Discount: $$discount % <br>";
+        }
+        $body .= "Final Total Price: $$discountedPrice </h4><br>";
+        
+        $mail->Body = $body;
+
+    try {
+        $mail->send();
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
+        exit();
+    }
+
+}
+
+function getEmail($user_id, $conn) {
+    $email = null;
+    $sql = "SELECT email FROM Users WHERE users_id = ?";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (mysqli_stmt_prepare($stmt, $sql)) {
+        mysqli_stmt_bind_param($stmt, "i", $user_id);
+        mysqli_stmt_execute($stmt);
+
+        // Get result
+        $result = mysqli_stmt_get_result($stmt);
+
+        // Get email from result
+        if ($row = mysqli_fetch_assoc($result)) {
+            $email = $row['email'];
+        }
+        // Close
+        mysqli_stmt_close($stmt);
+    }
+    return $email;
+
+}
+
+function updateBooking($conn) {
+
+}

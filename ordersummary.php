@@ -194,6 +194,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
         <button class="confirm-order" <?php echo $hasPaymentMethods ? '' : 'disabled'; ?> onclick="goToCheckout()">Complete Checkout</button>
         <?php if (!$hasPaymentMethods): ?>
             <p class="error">Please add a payment method before checking out.</p>
+            <a href="editProfile.php"  id="addPayment">Add Payment</a>
         <?php endif; ?>
       </div>
     </div>
@@ -238,8 +239,28 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
 
     function goToCheckout() {
         if (confirm("Are you sure you want to complete the purchase?")) {
+            // Send email confirmation
+            sendEmailConfirmation();
             window.location.href = "confirmation.php";
         }
+    }
+
+    function sendEmailConfirmation() {
+        const encodedMovieTitle = encodeURIComponent("<?php echo urlencode($movie['movie_title']); ?>");
+        const url = `sendEmailConfirmation.php?movie_id=<?php echo $movie_id ?>&adult=<?php echo $adult ?>&child=<?php echo $child ?>&senior=<?php echo $senior ?>&movie_title=${encodedMovieTitle}&subtotal=<?php echo $totalPrice; ?>&taxAmount=<?php echo $taxAmount; ?>&totalWithTax=<?php echo $totalWithTax; ?>&discount=<?php echo $discount; ?>&discountedPrice=<?php echo $discountedPrice; ?>`;
+
+        fetch(url, {
+            method: "POST"
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to send email confirmation.");
+            }
+            return response.text();
+        }).then(data => {
+            console.log(data);
+        }).catch(error => {
+            console.error("Error:", error);
+        });
     }
   </script>
 
