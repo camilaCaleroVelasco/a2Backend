@@ -32,14 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['selectedSeats'] = explode(',', $_POST['selectedSeats']);
     }
 
-
     if (isset($_POST['totalTickets'])) {
         $_SESSION['totalTickets'] = $_POST['totalTickets'];
     }
 } else {
-    header("Location: index.php"); // Redirect if no movie ID
-    }
-
+    header("Location: index.php"); // Redirect if no POST data
+}
 ?>
 
 <!DOCTYPE html>
@@ -79,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           </div>
           <div class="quantity">
             <button class="quantity-btn minus">-</button>
-            <span class="quantity-value">0</span>
+            <span class="quantity-value" id="adult-quantity">0</span>
             <button class="quantity-btn plus">+</button>
           </div>
         </div>
@@ -94,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           </div>
           <div class="quantity">
             <button class="quantity-btn minus">-</button>
-            <span class="quantity-value">0</span>
+            <span class="quantity-value" id="child-quantity">0</span>
             <button class="quantity-btn plus">+</button>
           </div>
         </div>
@@ -109,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           </div>
           <div class="quantity">
             <button class="quantity-btn minus">-</button>
-            <span class="quantity-value">0</span>
+            <span class="quantity-value" id="senior-quantity">0</span>
             <button class="quantity-btn plus">+</button>
           </div>
         </div>
@@ -120,13 +118,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       </div>
     </div>
   </div>
-</body>
-  <!-- JavaScript -->
+  
   <script>
     document.addEventListener("DOMContentLoaded", function () {
         var adultQuantity = 0;
         var childQuantity = 0;
         var seniorQuantity = 0;
+        var totalQuantity = 0;
         var totalTickets = <?php echo isset($_SESSION['totalTickets']) ? intval($_SESSION['totalTickets']) : 0; ?>;
 
         function updateQuantities() {
@@ -134,16 +132,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             document.getElementById("child-quantity").textContent = childQuantity;
             document.getElementById("senior-quantity").textContent = seniorQuantity;
 
-            var totalQuantity = adultQuantity + childQuantity + seniorQuantity;
+            totalQuantity = adultQuantity + childQuantity + seniorQuantity;
             document.getElementById("total-quantity").textContent = totalQuantity;
 
-            // Disable plus buttons if total quantity exceeds total tickets limit
             document.querySelectorAll(".quantity-btn.plus").forEach(function(button) {
-                if (totalQuantity >= totalTickets) {
-                    button.disabled = true;
-                } else {
-                    button.disabled = false;
-                }
+                button.disabled = totalQuantity >= totalTickets;
+            });
+
+            document.querySelectorAll(".quantity-btn.minus").forEach(function(button) {
+                var ticketType = button.closest(".ticket-type");
+                var typeQuantity = parseInt(ticketType.querySelector(".quantity-value").textContent);
+                button.disabled = typeQuantity === 0;
             });
         }
 
@@ -152,13 +151,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 var ticketType = this.closest(".ticket-type");
                 var quantityElement = ticketType.querySelector(".quantity-value");
                 var quantity = parseInt(quantityElement.textContent);
-                
-                if (this.classList.contains("plus")) {
-                    if (totalTickets <= 0 || (adultQuantity + childQuantity + seniorQuantity) < totalTickets) {
-                        quantity++;
-                    }
-                } else {
-                    quantity = Math.max(0, quantity - 1);
+
+                if (this.classList.contains("plus") && totalQuantity < totalTickets) {
+                    quantity++;
+                } else if (this.classList.contains("minus") && quantity > 0) {
+                    quantity--;
                 }
 
                 quantityElement.textContent = quantity;
@@ -176,9 +173,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         });
 
         document.getElementById("continue-btn").addEventListener("click", function () {
-            var url = 'ordersummary.php?movie_id=<?php echo $movie["movie_id"]; ?>&adult=' + adultQuantity + '&child=' + childQuantity + '&senior=' + seniorQuantity;
-            window.location.href = url;
+            if (totalQuantity === totalTickets) {
+                var url = 'ordersummary.php?movie_id=<?php echo $movie["movie_id"]; ?>&adult=' + adultQuantity + '&child=' + childQuantity + '&senior=' + seniorQuantity;
+                window.location.href = url;
+            } else {
+                alert("Please select types for all tickets.");
+            }
         });
     });
-</script>
+  </script>
+</body>
 </html>

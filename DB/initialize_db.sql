@@ -239,16 +239,16 @@ CREATE TABLE ShowPeriod(
 );
 -- Key = 1
 INSERT INTO ShowPeriod(startTime)
-VALUES('11:00');
+VALUES('11:00 AM');
 -- Key = 2
 INSERT INTO ShowPeriod(startTime)
-VALUES('1:00');
+VALUES('1:00 PM');
 -- Key = 3
 INSERT INTO ShowPeriod(startTime)
-VALUES('4:30');
+VALUES('4:30 PM');
 -- Key = 4
 INSERT INTO ShowPeriod(startTime)
-VALUES('7:30');
+VALUES('7:30 PM');
 -- END OF ENUMERATION
 CREATE TABLE Showing(
     show_id INT PRIMARY KEY AUTO_INCREMENT,
