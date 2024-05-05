@@ -144,15 +144,38 @@ function addPromoCodeUse($promoID, $userID, $conn) {
     return mysqli_stmt_execute($stmt);
 }
 
-function sendEmailConfirmation($email){
-
+function sendEmailConfirmation($email, $movie_title, $adult, $child, $senior, $subtotal, $taxAmount, $totalWithTax, $discount, $discountedPrice) {
     $mail = require "mailer.php";
     $mail->setFrom("noreply@example.com");
     $mail->addAddress($email);
     $mail->Subject = "Order Confirmation";
-    $mail->Body = <<<END
-        Thank you for your purchase!
-    END;
+        $body = "<h2>Thank you for your purchase!</h2>";
+        $body .= "<h3>Order Details:</h3>";
+        $body .= "<h4>Number of Seats:<br><br>";
+        $body .= "Movie: $movie_title <br><br>";
+        
+        if ($adult > 0) {
+            $body .= "Adult Tickets: $adult <br>";
+        }
+        if ($child > 0) {
+            $body .= "Child Tickets: $child <br>";
+        }
+        if ($senior > 0) {
+            $body .= "Senior Tickets: $senior <br>";
+        }
+
+        $body .= "<br>";
+        $body .= "Subtotal: $$subtotal <br>";
+        $body .= "Tax (7%): $$taxAmount <br>";
+        $body .= "Total Price: $$totalWithTax <br>";
+        // Add discount information if applicable
+        if ($discount > 0) {
+            $body .= "Discount: $$discount % <br>";
+        }
+        $body .= "Final Total Price: $$discountedPrice </h4><br>";
+        
+        $mail->Body = $body;
+
     try {
         $mail->send();
     } catch (Exception $e) {
