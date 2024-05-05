@@ -3,9 +3,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 session_start();
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"]) && isset($_SESSION["email"])) {
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset($_SESSION["email"])) {
 
-    $movie_id = $_GET["movie_id"];
+    $movie_id = $_SESSION['movieId'];
     require_once "includes/dbh.inc.php";
     include "functions/orderSummaryFunctions.php";
 
@@ -111,7 +111,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"]) && isset($_S
                 echo "<p class='ticket-info'>Date: March 1, 2024</p>";
                 echo "<p class='ticket-info'>Time: 11:00 AM</p>";
                 echo "<p class='ticket-info'> Adult Ticket x". $adult ."</p>";
-                echo "<p class='ticket-info'> <span class='delete-ticket' onclick='deleteTicket(this)'>X</span></p>";
                 echo "</div>";
         }
         if ($child > 0) {
@@ -120,7 +119,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"]) && isset($_S
                 echo "<p class='ticket-info'>Date: March 1, 2024</p>";
                 echo "<p class='ticket-info'>Time: 11:00 AM</p>";
                 echo "<p class='ticket-info'> Child Ticket x". $child ."</p>";
-                echo "<p class='ticket-info'> <span class='delete-ticket' onclick='deleteTicket(this)'>X</span></p>";
                 echo "</div>";
         }
         if ($senior > 0) {
@@ -129,8 +127,20 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["movie_id"]) && isset($_S
                 echo "<p class='ticket-info'>Date: March 1, 2024</p>";
                 echo "<p class='ticket-info'>Time: 11:00 AM</p>";
                 echo "<p class='ticket-info'> Senior Ticket x". $senior ."</p>";
-                echo "<p class='ticket-info'> <span class='delete-ticket' onclick='deleteTicket(this)'>X</span></p>";
                 echo "</div>";
+        }
+
+        if (!empty($_SESSION['selectedSeats']) && is_array($_SESSION['selectedSeats'])) {
+            // Remove 's' from each seat ID and store the result back in the array
+            $cleanedSeats = array_map(function($seat) {
+                return substr($seat, 1); // Remove the first character
+            }, $_SESSION['selectedSeats']);
+        
+            echo "<div class='ticket'>";
+            echo "<p class='ticket-info'>Selected Seats: ";
+            echo htmlspecialchars(implode(', ', $cleanedSeats)); // Join array elements with a comma and a space
+            echo "</p>";
+            echo "</div>"; // Close the div
         }
 
         ?>

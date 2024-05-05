@@ -22,6 +22,8 @@ if (!$showID) {
     exit();
 }
 
+$_SESSION['showID'] = $showID;
+
 $seatAvailability = getSeatAvailability($conn, $showID);
 
 echo json_encode($seatAvailability);

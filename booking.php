@@ -94,16 +94,23 @@ if (!empty($showTime)) {
             </div>
         </div>
     </div>
+    <form id="seatForm" method="POST" action="ageselect.php">
+        <input type="hidden" name="movieId" value="<?php echo $movie_id; ?>">
+        <input type="hidden" name="selectedSeats" id="selectedSeats">
+        <input type="hidden" name="totalTickets" id="totalTicketsForm">
+    </form>
 
-<script>
+    </body>
+    
+    <script>
 document.addEventListener("DOMContentLoaded", function () {
     const movieId = <?php echo $movie_id; ?>;
-    const timesData = <?php echo $timesJson; ?>;
-    const initialSeatsData = <?php echo $initialSeatsJson; ?>;
+    const timesData = JSON.parse('<?php echo $timesJson; ?>');
+    const initialSeatsData = JSON.parse('<?php echo $initialSeatsJson; ?>');
 
     // Set up a default "completely booked" seat layout
     const defaultBookedSeatsData = {};
-    const numRows = 8;
+    const numRows = 6;
     const numCols = 8;
     for (let row = 0; row < numRows; row++) {
         const rowLetter = String.fromCharCode(65 + row);
@@ -111,33 +118,6 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let col = 0; col <= numCols; col++) {
             defaultBookedSeatsData[rowLetter][col] = "NO";
         }
-    }
-
-    function updateSeatAvailability(selectedDate, selectedTime) {
-        fetch('getSeatAvailability.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                date: selectedDate,
-                time: selectedTime,
-                movie_id: movieId,
-            }),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(seatsData => {
-            updateSeatsUI(seatsData);
-        })
-        .catch(error => {
-            console.error('Error fetching seat availability:', error);
-            updateSeatsUI(defaultBookedSeatsData);
-        });
     }
 
     function updateSeatsUI(seatsData) {
@@ -156,96 +136,114 @@ document.addEventListener("DOMContentLoaded", function () {
                 `);
             }
         }
+        attachSeatListeners(); // Attach listeners each time seats are updated
+    }
 
-        // Reattach event listeners to the new checkboxes
+    function attachSeatListeners() {
         const tickets = document.querySelectorAll("input[name='tickets']");
         tickets.forEach(ticket => {
             ticket.addEventListener("change", updateTotalTicketCount);
         });
-
-        updateTotalTicketCount(); // Update button state based on current ticket count
     }
 
     function updateTotalTicketCount() {
-        const selectedTickets = document.querySelectorAll("input[name='tickets']:checked");
-        const totalTickets = selectedTickets.length;
-        const totalElement = document.querySelector(".count");
-        totalElement.textContent = totalTickets;
+    const selectedTickets = document.querySelectorAll("input[name='tickets']:checked");
+    const totalTickets = selectedTickets.length;
+    const totalElement = document.querySelector(".count");
+    totalElement.textContent = totalTickets;
 
-        const bookButton = document.getElementById("bookButton");
-        if (totalTickets > 0) {
-            bookButton.disabled = false;
-        } else {
-            bookButton.disabled = true;
-        }
+    const bookButton = document.getElementById("bookButton");
+    bookButton.disabled = totalTickets === 0;
+    return totalTickets;
+}
 
-        return totalTickets;
-    }
+document.getElementById("bookButton").addEventListener("click", function () {
+    fetch('checkLogin.php')
+        .then(response => {
+            if (!response.ok) {
+                window.location.href = 'login.php?error=notLoggedIn';
+            } else {
+                const totalTickets = updateTotalTicketCount();
+                if (totalTickets > 0) {
+                    const selectedSeatsInput = document.getElementById("selectedSeats");
+                    const totalTicketsInput = document.getElementById("totalTicketsForm");
 
-    function initializePage() {
-        const dateRadios = document.querySelectorAll("input[name='date']");
+                    // Gather selected seat IDs
+                    const selectedSeats = Array.from(document.querySelectorAll("input[name='tickets']:checked"))
+                        .map(input => input.id);
+                    selectedSeatsInput.value = selectedSeats.join(',');
+                    totalTicketsInput.value = totalTickets;
 
-        if (dateRadios.length === 0 || Object.keys(timesData).length === 0) {
-            updateSeatsUI(defaultBookedSeatsData); // Display default booked seats
-        } else {
-            updateSeatsUI(initialSeatsData); // Display initial seat data
-        }
-
-        // Attach event listener to date radio buttons
-        dateRadios.forEach(radio => {
-            radio.addEventListener("change", () => {
-                const selectedDate = radio.value;
-                const availableTimes = timesData[selectedDate] || [];
-
-                // Update the available times based on the selected date
-                const timesContainer = document.querySelector(".times");
-                timesContainer.innerHTML = ""; // Clear existing times
-                if (availableTimes.length > 0) {
-                    availableTimes.forEach(time => {
-                        const timeId = `t-${selectedDate}-${time}`;
-                        timesContainer.insertAdjacentHTML(
-                            "beforeend",
-                            `<input type='radio' name='time' id='${timeId}' value='${time}' />
-                             <label for='${timeId}' class='time'>${time}</label>`
-                        );
-                    });
+                    // Submit form
+                    document.getElementById("seatForm").submit();
                 } else {
-                    timesContainer.innerHTML = "<p>Sorry, there are no show times available for this date.</p>";
+                    alert("Please select at least one ticket.");
                 }
-            });
-        });
-
-        document.addEventListener("change", function(event) {
-            if (event.target && event.target.matches("input[name='time']")) {
-                const selectedDate = document.querySelector("input[name='date']:checked").value;
-                const selectedTime = event.target.value;
-                updateSeatAvailability(selectedDate, selectedTime);
             }
         });
+});
 
-        document.getElementById("bookButton").addEventListener("click", function () {
-            fetch('checkLogin.php')
-                .then(response => {
-                    if (!response.ok) {
-                        window.location.href = 'login.php?error=notLoggedIn';
-                    } else {
-                        const totalTickets = updateTotalTicketCount();
-                        window.location.href = `ageselect.php?movie_id=${movieId}&totalTickets=${totalTickets}`;
-                    }
-                });
-        });
+    function updateSeatAvailability(selectedDate, selectedTime) {
+    fetch('getSeatAvailability.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            date: selectedDate,
+            time: selectedTime,
+            movie_id: movieId,
+        }),
+    })
+    .then(response => response.json())
+    .then(seatsData => {
+        updateSeatsUI(seatsData); // Update the seat display based on the fetched data
+    })
+    .catch(error => {
+        console.error('Error fetching seat availability:', error);
+        updateSeatsUI(defaultBookedSeatsData); // Fallback to the default "all booked" layout
+    });
+}
 
-        // Initially disable the "Continue" button
-        document.getElementById("bookButton").disabled = true;
+document.addEventListener("change", function(event) {
+    if (event.target && event.target.matches("input[name='date']")) {
+        const selectedDate = event.target.value;
+        const availableTimes = timesData[selectedDate] || [];
+        const timesContainer = document.querySelector(".times");
+        timesContainer.innerHTML = ""; // Clear existing times
 
-        updateTotalTicketCount();
+        if (availableTimes.length > 0) {
+            availableTimes.forEach(time => {
+                const timeId = `time-${selectedDate}-${time}`;
+                timesContainer.insertAdjacentHTML("beforeend", `
+                    <input type='radio' name='time' id='${timeId}' value='${time}' />
+                    <label for='${timeId}' class='time'>${time}</label>
+                `);
+            });
+        } else {
+            timesContainer.innerHTML = "<p>No available times for this date.</p>";
+        }
+        updateSeatsUI(defaultBookedSeatsData); // Reset seats until a time is selected
     }
 
-    initializePage();
+    if (event.target && event.target.matches("input[name='time']")) {
+        const selectedDate = document.querySelector("input[name='date']:checked")?.value;
+        const selectedTime = event.target.value;
+        if (selectedDate && selectedTime) {
+            updateSeatAvailability(selectedDate, selectedTime);
+        } else {
+            updateSeatsUI(defaultBookedSeatsData);
+        }
+    }
+});
 
-    initializePage();
+    function initializePage() {
+        updateSeatsUI(defaultBookedSeatsData); // Start with all seats as booked
+    }
+
+    initializePage(); // Call initializePage to set up the page initially
 });
 </script>
 
-</body>
+
 </html>
