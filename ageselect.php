@@ -1,9 +1,43 @@
 <?php
 session_start();
-require_once "Get/ageSelectGet.php"; 
-$movie = getMovieID($conn);
-$movie_id = $movie["movie_id"]; 
+require_once 'includes/dbh.inc.php';
 
+// Check if the POST data is present and then assign it to session variables
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['movieId'])) {
+        $_SESSION['movieId'] = $_POST['movieId'];
+        $movie_id = $_SESSION['movieId'];
+
+        // Retrieve movie information
+        $sql = "SELECT * FROM movies WHERE movie_id = ?";
+        $stmt = mysqli_stmt_init($conn);
+
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            header("Location: booking.php?error=stmtfailed");
+            exit();
+        }
+
+        mysqli_stmt_bind_param($stmt, "i", $movie_id);
+        mysqli_stmt_execute($stmt);
+        $resultData = mysqli_stmt_get_result($stmt);
+        $movie = mysqli_fetch_assoc($resultData);
+
+        if (!$movie) {
+            echo "<p>Movie not found.</p>";
+        }
+    }
+
+    if (isset($_POST['selectedSeats'])) {
+        // Convert the comma-separated seat IDs into an array
+        $_SESSION['selectedSeats'] = explode(',', $_POST['selectedSeats']);
+    }
+
+    if (isset($_POST['totalTickets'])) {
+        $_SESSION['totalTickets'] = $_POST['totalTickets'];
+    }
+} else {
+    header("Location: index.php"); // Redirect if no POST data
+}
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +77,7 @@ $movie_id = $movie["movie_id"];
           </div>
           <div class="quantity">
             <button class="quantity-btn minus">-</button>
-            <span class="quantity-value">0</span>
+            <span class="quantity-value" id="adult-quantity">0</span>
             <button class="quantity-btn plus">+</button>
           </div>
         </div>
@@ -58,7 +92,7 @@ $movie_id = $movie["movie_id"];
           </div>
           <div class="quantity">
             <button class="quantity-btn minus">-</button>
-            <span class="quantity-value">0</span>
+            <span class="quantity-value" id="child-quantity">0</span>
             <button class="quantity-btn plus">+</button>
           </div>
         </div>
@@ -73,7 +107,7 @@ $movie_id = $movie["movie_id"];
           </div>
           <div class="quantity">
             <button class="quantity-btn minus">-</button>
-            <span class="quantity-value">0</span>
+            <span class="quantity-value" id="senior-quantity">0</span>
             <button class="quantity-btn plus">+</button>
           </div>
         </div>
@@ -84,30 +118,31 @@ $movie_id = $movie["movie_id"];
       </div>
     </div>
   </div>
-</body>
-  <!-- JavaScript -->
+  
   <script>
     document.addEventListener("DOMContentLoaded", function () {
         var adultQuantity = 0;
         var childQuantity = 0;
         var seniorQuantity = 0;
-        var totalTickets = <?php echo isset($_GET['totalTickets']) ? intval($_GET['totalTickets']) : 0; ?>;
+        var totalQuantity = 0;
+        var totalTickets = <?php echo isset($_SESSION['totalTickets']) ? intval($_SESSION['totalTickets']) : 0; ?>;
 
         function updateQuantities() {
             document.getElementById("adult-quantity").textContent = adultQuantity;
             document.getElementById("child-quantity").textContent = childQuantity;
             document.getElementById("senior-quantity").textContent = seniorQuantity;
 
-            var totalQuantity = adultQuantity + childQuantity + seniorQuantity;
+            totalQuantity = adultQuantity + childQuantity + seniorQuantity;
             document.getElementById("total-quantity").textContent = totalQuantity;
 
-            // Disable plus buttons if total quantity exceeds total tickets limit
             document.querySelectorAll(".quantity-btn.plus").forEach(function(button) {
-                if (totalQuantity >= totalTickets) {
-                    button.disabled = true;
-                } else {
-                    button.disabled = false;
-                }
+                button.disabled = totalQuantity >= totalTickets;
+            });
+
+            document.querySelectorAll(".quantity-btn.minus").forEach(function(button) {
+                var ticketType = button.closest(".ticket-type");
+                var typeQuantity = parseInt(ticketType.querySelector(".quantity-value").textContent);
+                button.disabled = typeQuantity === 0;
             });
         }
 
@@ -116,13 +151,11 @@ $movie_id = $movie["movie_id"];
                 var ticketType = this.closest(".ticket-type");
                 var quantityElement = ticketType.querySelector(".quantity-value");
                 var quantity = parseInt(quantityElement.textContent);
-                
-                if (this.classList.contains("plus")) {
-                    if (totalTickets <= 0 || (adultQuantity + childQuantity + seniorQuantity) < totalTickets) {
-                        quantity++;
-                    }
-                } else {
-                    quantity = Math.max(0, quantity - 1);
+
+                if (this.classList.contains("plus") && totalQuantity < totalTickets) {
+                    quantity++;
+                } else if (this.classList.contains("minus") && quantity > 0) {
+                    quantity--;
                 }
 
                 quantityElement.textContent = quantity;
@@ -140,9 +173,14 @@ $movie_id = $movie["movie_id"];
         });
 
         document.getElementById("continue-btn").addEventListener("click", function () {
-            var url = 'ordersummary.php?movie_id=<?php echo $movie["movie_id"]; ?>&adult=' + adultQuantity + '&child=' + childQuantity + '&senior=' + seniorQuantity;
-            window.location.href = url;
+            if (totalQuantity === totalTickets) {
+                var url = 'ordersummary.php?movie_id=<?php echo $movie["movie_id"]; ?>&adult=' + adultQuantity + '&child=' + childQuantity + '&senior=' + seniorQuantity;
+                window.location.href = url;
+            } else {
+                alert("Please select types for all tickets.");
+            }
         });
     });
-</script>
+  </script>
+</body>
 </html>

@@ -69,3 +69,76 @@
         return $availableTimes;
 
     }
+
+    // Get the available seats
+    function getSeatAvailability($conn, $show_id) {
+        $sql = "SELECT * FROM seats WHERE show_id = ?";
+        $stmt = mysqli_stmt_init($conn);
+
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            header("Location: booking.php?error=stmtfailed");
+            exit();
+        }
+        mysqli_stmt_bind_param($stmt, "i", $show_id);
+        mysqli_stmt_execute($stmt);
+        $results = mysqli_stmt_get_result($stmt);
+
+        $bookingAvailability = array();
+        while ($row = mysqli_fetch_assoc($results)) {
+            $seatRow = $row['seatRow'];
+            $seatCol = $row['seatColumn'];
+            $isAvailable = $row['isAvailable'];
+            $bookingAvailability[$seatRow][$seatCol] = $isAvailable;
+        }
+
+        return  $bookingAvailability;
+
+    }
+
+
+    function getShowTimesByMovieIDAndDate($conn, $movie_id, $date) {
+        $sql = "SELECT DISTINCT showTime FROM showing WHERE movie_id = ? AND showDate = ?";
+        $stmt = $conn->prepare($sql);
+        
+        $stmt->bind_param("is", $movie_id, $date);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        $showTimes = array();
+        while ($row = $result->fetch_assoc()) {
+            $showTimes[] = $row['showTime'];
+        }
+        $stmt->close();
+        
+        return $showTimes;
+    }
+
+    function getShowId($conn, $showDate, $showTime, $movie_id) {
+        $sql = "SELECT show_id FROM Showing WHERE showDate = ? AND showTime = ? AND movie_id = ?";
+        $stmt = $conn->prepare($sql);
+    
+        if (!$stmt) {
+            error_log("Statement preparation failed: " . $conn->error);
+            header("Location: booking.php?error=stmtfailed");
+            exit();
+        }
+    
+        $stmt->bind_param("ssi", $showDate, $showTime, $movie_id);
+        $stmt->execute();
+    
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+    
+        $stmt->close();
+    
+        return $row ? $row['show_id'] : null;
+    }
+    
+    // Helper function to pass parameters by reference
+    function refValues($arr){
+        $refs = array();
+        foreach($arr as $key => $value)
+            $refs[$key] = &$arr[$key];
+        return $refs;
+    }

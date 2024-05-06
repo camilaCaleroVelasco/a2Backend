@@ -3,10 +3,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-session_start();
-require_once "functions/checkIfAdminFunction.php"; 
-include "includes/dbh.inc.php";
-include "functions/addShowtimesFunctions.php";
+    session_start();
+    require_once "functions/checkIfAdminFunction.php"; 
+    include "includes/dbh.inc.php";
+    include "functions/addShowtimesFunctions.php";
+    include "classes/seatinitializer.php";
+
 
 
 // Makes sure that the user is an admin
@@ -88,20 +90,26 @@ try {
                         exit(); // Make sure to exit after redirection
                     }
 
-                    $stmtSchedule->close();
+                        $stmtSchedule->close();
+
+                        // Initialize seats
+                        $show_id = $conn->insert_id;
+                        $seatInitializer = new SeatInitializer();
+                        $seatInitializer->initialize_seats($conn, $show_id);
+                    }
                 }
             }
         }
-    }
-    if(!empty($overlaps)) {
-        echo "<script>alert('Overlap Detected:\\n" . implode("\\n", $overlaps) . "');</script>";
-        // Redirect back to the form without processing
-        echo "<script>window.history.back();</script>";
-        exit();
-    }
-    
-} catch (Exception $e){
-    die("Error: " . $e->getMessage());
+        if(!empty($overlaps)) {
+            echo "<script>alert('Overlap Detected:\\n" . implode("\\n", $overlaps) . "');</script>";
+            // Redirect back to the form without processing
+            echo "<script>window.history.back();</script>";
+            exit();
+        }
+        
+        header("Location: adminmovie.php?success=1");
+    } catch (Exception $e){
+        die("Error: " . $e->getMessage());
 
 }
 ?>

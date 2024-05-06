@@ -13,28 +13,37 @@
 
           // Filter based on both search term and filter
           if(isset($_POST["coming-soon-button"])) {
+            $results = filterMoviesByRating($conn, "coming soon", $search);
+            if ($results == false) {
               $results = filterMoviesByStatus($conn, "coming soon", $search);
               if($results == false) {
                   $results = filterMoviesByCategory($conn, "coming soon", $search);
               }
+            }
 
           } elseif(isset($_POST["now-playing-button"])) {
+            $results = filterMoviesByRating($conn, "now playing", $search);
+            if ($results == false) {
               $results = filterMoviesByStatus($conn, "now playing", $search);
               if($results == false) {
                   $results = filterMoviesByCategory($conn, "now playing", $search);
               }
+            }
           }
       }
       // Check if only search term is provided
       elseif(isset($_POST["moviesearch"])) {
-          $_SESSION['search'] = $_POST["moviesearch"];
-
-          $search = $_POST["moviesearch"];
-
-          $results = searchMovieTitle($conn, $search);
-          //var_dump($results);
-          if($results == false) {
+        $_SESSION['search'] = $_POST["moviesearch"];
+        
+        $search = $_POST["moviesearch"];
+        
+        $results = searchMovieRating($conn, $search);
+        if ($results == false) {
+            $results = searchMovieTitle($conn, $search);
+            //var_dump($results);
+            if($results == false) {
               $results = searchMovieCategory($conn,$search);
-          }
-      }
+            }
+        }
+    } // elseif
   } 

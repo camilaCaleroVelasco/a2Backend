@@ -174,13 +174,13 @@ CREATE TABLE Booking(
     FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id),
     users_id INT,
     FOREIGN KEY (users_id) REFERENCES Users(users_id),
-    priceTotal INT
+    priceTotal VARCHAR(255)
 );
 -- TICKET TYPE ENUMERATION
 CREATE TABLE TicketType(
     ticketType_id INT PRIMARY KEY AUTO_INCREMENT,
-    ticketType VARCHAR(255), 
-    ticketPrice INT 
+    ticketType VARCHAR(255),
+    ticketPrice INT
 );
 -- Key = 1
 INSERT INTO TicketType(ticketType, ticketPrice)
@@ -192,7 +192,6 @@ VALUES('ADULT', '15');
 INSERT INTO TicketType(ticketType, ticketPrice)
 VALUES('SENIOR', '12');
 -- END OF ENUMERATION
-
 CREATE TABLE Theater(
     theater_id INT PRIMARY KEY AUTO_INCREMENT,
     theaterName VARCHAR(255),
@@ -201,7 +200,6 @@ CREATE TABLE Theater(
 );
 INSERT INTO Theater(theaterName, theaterLocation, numOfShowrooms)
 VALUES('A2Theater', '123 Athens', 3);
-
 CREATE TABLE Room(
     room_id INT PRIMARY KEY AUTO_INCREMENT,
     totalNumOfSeats INT,
@@ -210,18 +208,30 @@ CREATE TABLE Room(
     theater_id INT,
     FOREIGN KEY (theater_id) REFERENCES Theater(theater_id)
 );
-
 -- Key = 1
-INSERT INTO Room(totalNumOfSeats, roomTitle, roomNumber, theater_id)
-VALUES(54,'Platinum', '101', 1);
+INSERT INTO Room(
+        totalNumOfSeats,
+        roomTitle,
+        roomNumber,
+        theater_id
+    )
+VALUES(54, 'Platinum', '101', 1);
 -- Key = 2
-INSERT INTO Room(totalNumOfSeats, roomTitle, roomNumber, theater_id)
-VALUES(54,'Royal', '102', 1);
+INSERT INTO Room(
+        totalNumOfSeats,
+        roomTitle,
+        roomNumber,
+        theater_id
+    )
+VALUES(54, 'Royal', '102', 1);
 -- Key = 3
-INSERT INTO Room(totalNumOfSeats, roomTitle, roomNumber, theater_id)
-VALUES(54,'VIP', '103', 1);
-
-
+INSERT INTO Room(
+        totalNumOfSeats,
+        roomTitle,
+        roomNumber,
+        theater_id
+    )
+VALUES(54, 'VIP', '103', 1);
 -- SHOW PERIOD ENUMERATION
 CREATE TABLE ShowPeriod(
     showPeriod_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -229,19 +239,17 @@ CREATE TABLE ShowPeriod(
 );
 -- Key = 1
 INSERT INTO ShowPeriod(startTime)
-VALUES('11:00');
+VALUES('11:00 AM');
 -- Key = 2
 INSERT INTO ShowPeriod(startTime)
-VALUES('1:00');
+VALUES('1:00 PM');
 -- Key = 3
 INSERT INTO ShowPeriod(startTime)
-VALUES('4:30');
+VALUES('4:30 PM');
 -- Key = 4
 INSERT INTO ShowPeriod(startTime)
-VALUES('7:30');
-
+VALUES('7:30 PM');
 -- END OF ENUMERATION
-
 CREATE TABLE Showing(
     show_id INT PRIMARY KEY AUTO_INCREMENT,
     movie_id INT,
@@ -254,7 +262,6 @@ CREATE TABLE Showing(
     showTime VARCHAR(255),
     numOfAvailableSeats INT
 );
-
 CREATE TABLE Seats(
     seat_id INT PRIMARY KEY AUTO_INCREMENT,
     show_id INT,
@@ -273,4 +280,10 @@ CREATE TABLE Ticket(
     FOREIGN KEY (show_id) REFERENCES Showing(show_id),
     seat_id INT,
     FOREIGN KEY (seat_id) REFERENCES Seats(seat_id)
+);
+CREATE TABLE PromoCodeUse (
+    promo_id INT(11),
+    user_id INT(11),
+    FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id),
+    FOREIGN KEY (user_id) REFERENCES Users(users_id)
 );

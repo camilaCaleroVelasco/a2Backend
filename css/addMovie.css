@@ -74,7 +74,6 @@ select {
 }
 
 
-
 button[type="submit"] {
     width: 100%;
     padding: 10px;
@@ -100,3 +99,96 @@ button[type="submit"]:hover {
         margin-right: 5%;
     }
 }
+
+
+.popup {
+
+
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 9999; /* Ensure the popup is on top of other elements */
+    width: 400px;
+    border-radius: 6px;
+    height: 300px;
+    text-align: center;
+}
+
+.popup-content{
+
+    
+    padding: 12px 20px; /* Padding adjusted */
+    margin-top: 20px; /* Increased margin-top */
+    border: none;
+    border-radius: 5px;
+    height: 200px;
+    background-color: black;
+   
+ 
+ 
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+
+   
+   
+ 
+
+}
+
+#success-message{
+    text-decoration: none;
+    font-size: larger;
+    
+
+}
+
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 30px;
+   background-color: none;
+}
+
+
+
+
+
+#submit  {
+    width : 100%;
+    padding :16px 20px;
+    font-size: 1rem;
+    background:#317DFF;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: -10px;
+  
+   
+
+
+
+}
+
+
+
+#submit:hover {
+    border: 5px solid  #317DFF;
+    box-shadow: 0 0 30px   #317DFF, inset 0 0 30px  #317DFF;
+
+
+}
+
+

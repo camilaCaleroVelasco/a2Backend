@@ -7,6 +7,7 @@ if(isset($_GET['success']) && $_GET['success'] == 1) {
 
 
     require_once "Get/adminMovieGet.php";
+    require_once "includes/dbh.inc.php";
     $movie = adminMovieGet($conn);
     $resultNP = $movie['nowPlaying'];
     $resultCS = $movie['comingSoon'];

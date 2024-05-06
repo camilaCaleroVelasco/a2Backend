@@ -20,8 +20,8 @@ include 'promotionProcess.php';
 
 <body>
     <header>
-        <a href="index.php"><img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo"></a>
-        
+        <a href="admin.php"><img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo"></a>
+
     </header>
 
     <!-- Beginning Field for Register Info -->
@@ -29,6 +29,12 @@ include 'promotionProcess.php';
         <h1> Promotions </h1>
 
         <h2> Promotion Content</h2>
+        <?php if (isset($_GET["success"])) { {
+            echo "
+                            <h2>Promotions successfully added!</h2>
+                            <br>";
+        }
+    } ?>
 
 
         <form action="promotionProcess.php" method="post"> <!--push info to the DB -->
@@ -128,7 +134,7 @@ include 'promotionProcess.php';
 
             <div class="button-container">
 
-                <button type="submit" name="add-promotion-button"class="button" id="submit">
+                <button type="submit" name="add-promotion-button" class="button" id="submit">
                     Add Promotion </button>
                 <a href="currentPromotions.php" class="button" id="submit">View Current Promotions</a>
 
