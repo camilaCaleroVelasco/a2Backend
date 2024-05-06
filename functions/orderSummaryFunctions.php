@@ -176,7 +176,7 @@ function sendEmailConfirmation($email, $movie_title, $adult, $child, $senior, $s
             $body .= "Discount: $discount % <br>";
         }
 
-        $body .= "Payment: $paymentMethod <br>";
+        $body .= "Payment: XXXX-XXXX-$paymentMethod <br>";
 
         $body .= "Final Total Price: $$discountedPrice </h4><br>";
         
