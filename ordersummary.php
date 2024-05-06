@@ -201,22 +201,21 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
                 </form>
             </div>
       <div class="payment-method">
-    <label for="payment">Payment Method:</label>
-    <select id="payment" name="payment">
-    <?php
-      $paymentMethods = getPaymentMethods($user_id, $conn);
-      // Check if payment methods are available
-      if ($hasPaymentMethods) {
-          // Loop through payment methods and generate options
-          foreach ($paymentMethods as $method) {
-              echo "<option value='" . $method . "'>XXXX-XXXX-" . $method . "</option>";
-          }
-      } else {
-          // If no payment methods are available, display a default option
-          echo "<option value='None'>No Payment Methods Found.</option>";
-      }
-      ?>
-    </select>
+        <!-- Payment Method Selection -->
+        <label for="payment">Payment Method:</label>
+        <select id="payment" name="payment" onclick="submitPaymentMethod()">
+        <?php
+            $paymentMethods = getPaymentMethods($user_id, $conn);
+            if ($hasPaymentMethods) {
+                echo "<option value='' disabled selected>Please Select a Payment Method.</option>";
+                foreach ($paymentMethods as $method) {
+                    echo "<option value='" . $method . "'>XXXX-XXXX-" . $method . "</option>";
+                }
+            } else {
+                echo "<option value='None'>No Payment Methods Found.</option>";
+            }
+        ?>
+        </select>
 </div>
 <div class="options">
         <button class="update-order" onclick="goToBooking()">Update Order</button>
@@ -230,6 +229,26 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
   </div>
 </body>
   <script>
+function submitPaymentMethod() {
+    var paymentMethod = document.getElementById("payment").value;
+    if (paymentMethod !== 'None') {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "confirmOrder.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                console.log("Payment method set successfully");
+                // Optionally redirect or update the UI
+            } else {
+                console.error("Error setting payment method");
+            }
+        };
+        xhr.send("payment=" + encodeURIComponent(paymentMethod));
+    } else {
+        console.log("No payment method selected");
+    }
+}
+
    
     function updateTotalPrice(amount) {
         let subtotalElement = document.getElementById("subtotal");

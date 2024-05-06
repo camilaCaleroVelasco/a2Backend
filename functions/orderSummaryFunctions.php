@@ -173,7 +173,7 @@ function sendEmailConfirmation($email, $movie_title, $adult, $child, $senior, $s
         $body .= "Total Price: $$totalWithTax <br>";
         // Add discount information if applicable
         if ($discount > 0) {
-            $body .= "Discount: $$discount % <br>";
+            $body .= "Discount: $discount % <br>";
         }
         $body .= "Final Total Price: $$discountedPrice </h4><br>";
         

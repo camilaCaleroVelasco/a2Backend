@@ -56,6 +56,7 @@
         $child = $_SESSION['childTickets'];
         $senior = $_SESSION['seniorTickets'];
         $seats = $_SESSION['selectedSeats'];
+        $paymentMethod = $_SESSION['selectedPaymentMethod'];
 
 
 
@@ -145,6 +146,10 @@
                 echo "</p>";
                 echo "</div>"; // Close the div
             }
+
+            echo "<p class='ticket-info'> Payment Method: XXXX-XXXX-XXXX-". $paymentMethod ."</p>";
+
+            
 
         ?>
         <div class="total">
