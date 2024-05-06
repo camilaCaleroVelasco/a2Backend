@@ -18,6 +18,8 @@
             $numberOfSeats = $_SESSION['totalTickets'];
             $users_id = $_SESSION["users_id"];
             $priceTotal = $_SESSION['totalPrice'];
+            //echo "<p> Price Total variable: " . $priceTotal . "</p>";
+
             
             addBooking($conn, $bookingDate, $bookingTime, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal);
             $booking_id = getBookingId($conn, $bookingDate, $bookingTime, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal);

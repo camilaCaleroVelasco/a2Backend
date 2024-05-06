@@ -22,7 +22,7 @@
             exit();
         }
 
-        mysqli_stmt_bind_param($stmt, "ssiiii", $bookingDate, $bookingTime, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal);
+        mysqli_stmt_bind_param($stmt, "ssiiis", $bookingDate, $bookingTime, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
     }
@@ -69,7 +69,7 @@
             header("Location: ordersummary.php?error=stmtfailed");
             exit();
         }
-        mysqli_stmt_bind_param($stmt, "ssiiii", $bookingDate, $bookingTime, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal);
+        mysqli_stmt_bind_param($stmt, "ssiiis", $bookingDate, $bookingTime, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal);
         mysqli_stmt_execute($stmt);
         $resultData = mysqli_stmt_get_result($stmt);
         if ($row = mysqli_fetch_assoc($resultData)) {
