@@ -32,8 +32,23 @@ checkIfAdmin();
     </header>
 
     <form action="addProcess.php" method="POST">
-        <input type="text" name="movie_title" placeholder="Movie Title" required>
-        <input type="text" name="category" placeholder="Movie Category" required>
+    <input type="text" name="movie_title" placeholder="Movie Title" required>
+        <select name="category" required>
+            <option value="" selected disabled>Select Movie Category</option>
+            <option value="ACTION">Action</option>
+            <option value="ADVENTURE">Adventure</option>
+            <option value="ANIMATED">Animated</option>
+            <option value="COMEDY">Comedy</option>
+            <option value="DRAMA">Drama</option>
+            <option value="MUSIC">Music</option>
+            <option value="FANTASY">Fantasy</option>
+            <option value="HORROR">Horror</option>
+            <option value="ROMANCE">Romance</option>
+            <option value="SCI-FI">Sci-Fi</option>
+            <option value="SUSPENSE">Suspense</option>
+            <option value="THRILLER">Thriller</option>
+        </select>
+
         <input type="text" name="director" placeholder="Director" required>
         <input type="text" name="producer" placeholder="Producer" required>
         <textarea id="synopsis" name="synopsis" placeholder="Enter movie description here..."></textarea required>

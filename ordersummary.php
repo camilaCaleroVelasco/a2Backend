@@ -268,10 +268,26 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
     }
 
     function sendEmailConfirmation() {
-        const encodedMovieTitle = encodeURIComponent("<?php echo urlencode($movie['movie_title']); ?>");
-        const url = `sendEmailConfirmation.php?movie_id=<?php echo $movie_id ?>&adult=<?php echo $adult ?>&child=<?php echo $child ?>&senior=<?php echo $senior ?>&movie_title=${encodedMovieTitle}&subtotal=<?php echo $totalPrice; ?>&taxAmount=<?php echo $taxAmount; ?>&totalWithTax=<?php echo $totalWithTax; ?>&discount=<?php echo $discount; ?>&discountedPrice=<?php echo $discountedPrice; ?>`;
+        <?php
+        if (!empty($_SESSION['selectedSeats']) && is_array($_SESSION['selectedSeats'])) {
+            // Remove 's' from each seat ID and store the result back in the array
+            $cleanedSeats = array_map(function($seat) {
+                return substr($seat, 1); // Remove the first character
+            }, $_SESSION['selectedSeats']);
+            // Construct the selected seats string
+            $selectedSeatsStr = implode(', ', $cleanedSeats);
+        }
+        $encodedMovieTitle = urlencode($movie['movie_title']);
+        $encodedTime = urlencode($show['showTime']);
+        $encodedDate = urlencode($formattedDate);
 
-        fetch(url, {
+        $url = "sendEmailConfirmation.php?movie_id=${movie_id}"
+        ."&adult=${adult}&child=${child}&senior=${senior}&movie_title=${encodedMovieTitle}&selected_seats=${selectedSeatsStr}"
+        ."&date=${formattedDate}&time=${encodedTime}&subtotal=${totalPrice}&taxAmount=${taxAmount}&totalWithTax=${totalWithTax}"
+        ."&discount=${discount}&discountedPrice=${discountedPrice}";
+        ?>
+        
+        fetch("<?php echo $url; ?>", {
             method: "POST"
         }).then(response => {
             if (!response.ok) {

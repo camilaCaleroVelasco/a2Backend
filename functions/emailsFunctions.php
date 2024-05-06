@@ -21,7 +21,7 @@ function sendEmailEditProfileSuccess($email) {
 
 
 // Sending email to the subscribed users
-function sendEmailPromoToSubs($conn) {
+function sendEmailPromoToSubs($conn, $promo_code, $discount) {
     // Select the users that are subscribed to promos
     $sqlSubUsers = "SELECT email FROM Users WHERE promoSub_id = 1";
     $resultSubUsers = mysqli_query($conn, $sqlSubUsers);
@@ -36,9 +36,11 @@ function sendEmailPromoToSubs($conn) {
             $mail->addAddress($email);
             $mail->Subject = "New Promotion Available!";
             $mail->Body = <<<END
-                We want to kindly inform you that we have a new promotion available for you to use.<br><br>
+                <h4>We want to kindly inform you that we have a new promotion available for you to use.<br><br>
+                Promo Code: $promo_code<br>
+                Discount percentage: $discount %<br><br>
                 Enjoy your time at A2 Movies!<br><br>
-                Sincerely A2 Movies Team.
+                Sincerely A2 Movies Team.</h4>
             END;
             try {
                 $mail->send();
