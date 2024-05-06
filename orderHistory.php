@@ -1,3 +1,13 @@
+<?php
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+    session_start();
+    include "includes/dbh.inc.php";
+    include "functions/orderHistoryFunctions.php";
+
+    $orderHistory = getHistory($conn);
+?>
 <!DOCTYPE html>
 <html>
 
@@ -34,17 +44,25 @@
         <h1> Order History </h1>
 
         <div class="order-history-content">
+            <?php 
+            foreach($orderHistory as $order){
+                echo "<h2> Movie Name: " . $order['movie_title'] . "</h2>";
+                echo "<h2> Date: " . $order['showDate'] . "</h2>";
+                echo "<h2> Date: " . $order['showTime'] . "</h2>";
+                echo "<h2> Number of Tickets: " . $order['numberOfSeats'] . "</h2>";
+                $seatInfoStr = "";
+                foreach ($order['seatInfo'] as $seat) {
+                    $seatInfoStr .= $seat['seatRow'] . $seat['seatColumn'] . ", ";
+                }
+                $seatInfoStr = rtrim($seatInfoStr, ", ");
+                echo "<h2> Selected Seats: " . $seatInfoStr . "</h2>";
+                echo "<h2> Payment Method: XXXX-XXXX-" . $order['lastFour'] . "</h2>";
+                echo "<h2> SubTotal: $" . $order['priceTotal'] . "</h2>";
 
-            <h2> Movie Name:</h2>
-            <h2> Date:</h2>
-            <h2> Selected Tickets:</h2>
-            <h2>SubTotal:</h2>
-            <h2>Tax:</h2>
-            <h2>Total Price:</h2>
-            <h2>Discount:</h2>
-            <h2>Final Total Price:</h2>
-            <h2>Promo Code:</h2>
-            <h2>Payment Method:</h2>
+
+                echo "<br>";
+            }
+            ?>
 
 
         
