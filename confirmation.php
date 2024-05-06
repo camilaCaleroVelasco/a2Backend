@@ -51,6 +51,8 @@
         $priceTotal = $_SESSION['totalPrice'];
         $numberOfSeats = $_SESSION['totalTickets'];
         $users_id = $_SESSION["users_id"];
+
+        //echo "<p> Price Total variable: " . $priceTotal . "</p>";
         $booking_id = getBookingId($conn, $bookingDate, $bookingTime, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal);
         $adult = $_SESSION['adultTickets'];
         $child = $_SESSION['childTickets'];
@@ -60,6 +62,7 @@
         
         updateBookingLastFour($conn, $paymentMethod, $booking_id);
 
+        //var_dump($_SESSION);
 
 
         // Clear specific session variables
