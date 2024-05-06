@@ -1,6 +1,6 @@
 <?php
     session_start();
-    if (isset($_SESSION['movieId']) && isset($_SESSION["email"]) && isset($_SESSION['showID']) && isset($_SESSION['selectedPaymentMethod'])) {
+    if (isset($_SESSION['movieId']) && isset($_SESSION["email"]) && isset($_SESSION['showID'])) {
 
         $movie_id = $_SESSION['movieId'];
         $show_id = $_SESSION['showID'];
@@ -56,7 +56,6 @@
         $child = $_SESSION['childTickets'];
         $senior = $_SESSION['seniorTickets'];
         $seats = $_SESSION['selectedSeats'];
-        $paymentMethod = $_SESSION['selectedPaymentMethod'];
 
 
 
@@ -71,7 +70,6 @@
         unset($_SESSION['seniorTickets']);
         unset($_SESSION['bookingDate']);
         unset($_SESSION['bookingTime']);
-        unset($_SESSION['selectedPaymentMethod']);
     } else {
         header("Location: index.php");
         exit();
@@ -147,8 +145,6 @@
                 echo "</p>";
                 echo "</div>"; // Close the div
             }
-
-            echo "<p class='ticket-info'> Payment Method: XXXX-XXXX-XXXX-". $paymentMethod ."</p>";
 
         ?>
         <div class="total">
