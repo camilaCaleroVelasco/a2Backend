@@ -417,13 +417,25 @@ form .subscribe-promos input {
 
 }
 
-@media (max-width: 940px) {
-    .wrapper {
-        top: 50px; /* Adjust the top position for smaller screens */
-        width: 90%; /* Adjust the width for smaller screens */
-        max-width: 100%; /* Ensure it doesn't exceed the screen width */
-        height: auto; /* Allow the height to adjust based on content */
-        padding: 20px; /* Add padding for better spacing */
+
+
+@media(max-width:700px){
+    .wrapper{
+        margin-top: 20px;
+        min-width: 280px;
+        min-height: 380px;
+        overflow: auto;
+
+
+    }
+    .input-box {
+
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .input-box:nth-child(2n) {
+        justify-content: space-between;
     }
 }
 

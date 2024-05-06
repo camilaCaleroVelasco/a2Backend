@@ -33,6 +33,9 @@ include_once 'functions/registerFunctions.php';
     <div class="wrapper">
         <!-- div class wrapper starts here -->
         <h1> Edit Profile </h1>
+        <button id = "orderHistory" onclick="window.location.href = 'orderHistory.php';">Order History</button>
+
+     
         <h2> Personal Info</h2>
         <?php 
         errorCheck();
@@ -43,11 +46,11 @@ include_once 'functions/registerFunctions.php';
                     <br>";
             } 
         } ?>
+      
 
 
-        <form action="editProfileProcess.php" method="post">
-            <!--link to confirmation page when formed is filled out -->
-
+        <form action="editProfileProcess.php" method="post"> <!--link to confirmation page when formed is filled out -->
+          
 
             <div class="input-box">
                 <!-- div class input-box starts here -->
@@ -601,6 +604,9 @@ include_once 'functions/registerFunctions.php';
             </div>
 
             <button type="submit" class="button" id="submit" name="submit"> Submit </button>
+
+        
+
 
         </form>
 
