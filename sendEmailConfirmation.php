@@ -27,6 +27,7 @@
     $selected_seats = $_GET['selected_seats'];
     $date = $_GET['date'];
     $time = urldecode($_GET['time']);
+    $paymentMethod = $_SESSION['selectedPaymentMethod'];
     // Send email confirmation
-    sendEmailConfirmation($email, $movie_title, $adult, $child, $senior, $selected_seats, $date, $time, $subtotal, $taxAmount, $totalWithTax, $discount, $discountedPrice);
+    sendEmailConfirmation($email, $movie_title, $adult, $child, $senior, $selected_seats, $date, $time, $subtotal, $taxAmount, $totalWithTax, $discount, $discountedPrice, $paymentMethod);
     

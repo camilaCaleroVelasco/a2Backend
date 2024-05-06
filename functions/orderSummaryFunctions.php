@@ -144,7 +144,7 @@ function addPromoCodeUse($promoID, $userID, $conn) {
     return mysqli_stmt_execute($stmt);
 }
 
-function sendEmailConfirmation($email, $movie_title, $adult, $child, $senior, $selected_seats, $date, $time,  $subtotal, $taxAmount, $totalWithTax, $discount, $discountedPrice) {
+function sendEmailConfirmation($email, $movie_title, $adult, $child, $senior, $selected_seats, $date, $time,  $subtotal, $taxAmount, $totalWithTax, $discount, $discountedPrice, $paymentMethod) {
     $mail = require "mailer.php";
     $mail->setFrom("noreply@example.com");
     $mail->addAddress($email);
@@ -175,6 +175,9 @@ function sendEmailConfirmation($email, $movie_title, $adult, $child, $senior, $s
         if ($discount > 0) {
             $body .= "Discount: $discount % <br>";
         }
+
+        $body .= "Payment: $paymentMethod <br>";
+
         $body .= "Final Total Price: $$discountedPrice </h4><br>";
         
         $mail->Body = $body;
