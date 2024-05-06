@@ -209,7 +209,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
       if ($hasPaymentMethods) {
           // Loop through payment methods and generate options
           foreach ($paymentMethods as $method) {
-              echo "<option value='" . $method . "'>x" . $method . "</option>";
+              echo "<option value='" . $method . "'>XXXX-XXXX-" . $method . "</option>";
           }
       } else {
           // If no payment methods are available, display a default option
