@@ -84,8 +84,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
         $successMessage = urldecode($_GET["message"]);
     }
 
-    // Retrieve showing information
-    $sql = "SELECT * FROM showing WHERE show_id = ?";
+    // Retrieve Showing information
+    $sql = "SELECT * FROM Showing WHERE show_id = ?";
     $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {

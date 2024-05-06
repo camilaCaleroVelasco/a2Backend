@@ -167,12 +167,17 @@ VALUES('EXPIRED');
 CREATE TABLE Booking(
     booking_id INT PRIMARY KEY AUTO_INCREMENT,
     bookingDate VARCHAR(255),
+    bookingTime VARCHAR(255),
     bookingStatus_id INT,
     FOREIGN KEY (bookingStatus_id) REFERENCES BookingStatus(bookingStatus_id),
     bookingTime VARCHAR(255),
     numberOfSeats INT,
     users_id INT,
+<<<<<<< HEAD
     FOREIGN KEY (users_id) REFERENCES users(users_id),
+=======
+    FOREIGN KEY (users_id) REFERENCES Users(users_id),
+>>>>>>> main
     priceTotal VARCHAR(255),
     lastFour INT
 );
@@ -239,16 +244,16 @@ CREATE TABLE ShowPeriod(
 );
 -- Key = 1
 INSERT INTO ShowPeriod(startTime)
-VALUES('11:00');
+VALUES('11:00 AM');
 -- Key = 2
 INSERT INTO ShowPeriod(startTime)
-VALUES('1:00');
+VALUES('1:00 PM');
 -- Key = 3
 INSERT INTO ShowPeriod(startTime)
-VALUES('4:30');
+VALUES('4:30 PM');
 -- Key = 4
 INSERT INTO ShowPeriod(startTime)
-VALUES('7:30');
+VALUES('7:30 PM');
 -- END OF ENUMERATION
 CREATE TABLE Showing(
     show_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -282,6 +287,7 @@ CREATE TABLE Ticket(
     FOREIGN KEY (seat_id) REFERENCES Seats(seat_id)
 );
 CREATE TABLE PromoCodeUse (
+    codeUse_id INT(11) PRIMARY KEY AUTO_INCREMENT,
     promo_id INT(11),
     user_id INT(11),
     FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id),
