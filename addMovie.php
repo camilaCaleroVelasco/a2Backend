@@ -31,7 +31,21 @@
 
     <form action="addProcess.php" method="POST">
         <input type="text" name="movie_title" placeholder="Movie Title">
-        <input type="text" name="category" placeholder="Movie Category">
+        <!-- Dropdown for Movie Category -->
+        <select name="category" id="category">
+            <option value="" selected disabled>Select Movie Category</option>
+            <option value="ACTION">Action</option>
+            <option value="ADVENTURE">Adventure</option>
+            <option value="ANIMATEDCOMEDY">Animated Comedy</option>
+            <option value="DRAMA">Drama</option>
+            <option value="MUSIC">Music</option>
+            <option value="FANTASY">Fantasy</option>
+            <option value="HORROR">Horror</option>
+            <option value="ROMANCE">Romance</option>
+            <option value="SCI-FI">Sci-Fi</option>
+            <option value="SUSPENSE">Suspense</option>
+            <option value="THRILLER">Thriller</option>
+        </select>
         <input type="text" name="director" placeholder="Director">
         <input type="text" name="producer" placeholder="Producer">
         <textarea id="synopsis" name="synopsis" placeholder="Enter movie description here..."></textarea>
@@ -41,7 +55,7 @@
 
         <!-- Select dropdown for Rating -->
         <select name="rating_code" id="rating_code">
-            <option value="" selected disabled class="placeholder">Select Rating</option>
+            <option value="" selected disabled>Select Rating</option>
             <option value="G">G</option>
             <option value="PG">PG</option>
             <option value="PG-13">PG-13</option>
@@ -51,7 +65,7 @@
 
         <!-- Select dropdown for Movie Status -->
         <select name="movie_status" id="movie_status">
-            <option value="" selected disabled class="placeholder">Select Movie Status</option>
+            <option value="" selected disabled>Select Movie Status</option>
             <option value="coming soon">Coming Soon</option>
             <option value="now playing">Now Playing</option>
         </select>

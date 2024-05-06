@@ -1,4 +1,11 @@
 <?php
+
+// Check if success parameter is set and display alert
+if(isset($_GET['success']) && $_GET['success'] == 1) {
+    echo "<script>alert('Showtimes successfully added');</script>";
+}
+
+
     require_once "Get/adminMovieGet.php";
     $movie = adminMovieGet($conn);
     $resultNP = $movie['nowPlaying'];
