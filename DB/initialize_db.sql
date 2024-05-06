@@ -284,6 +284,7 @@ CREATE TABLE Ticket(
     FOREIGN KEY (seat_id) REFERENCES Seats(seat_id)
 );
 CREATE TABLE PromoCodeUse (
+    codeUse_id INT(11) PRIMARY KEY AUTO_INCREMENT,
     promo_id INT(11),
     user_id INT(11),
     FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id),
