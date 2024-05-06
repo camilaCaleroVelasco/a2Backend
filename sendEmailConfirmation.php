@@ -24,5 +24,9 @@
     $totalWithTax = $_GET['totalWithTax'];
     $discount = $_GET['discount'];
     $discountedPrice = $_GET['discountedPrice'];
+    $selected_seats = $_GET['selected_seats'];
+    $date = $_GET['date'];
+    $time = urldecode($_GET['time']);
     // Send email confirmation
-    sendEmailConfirmation($email, $movie_title, $adult, $child, $senior, $subtotal, $taxAmount, $totalWithTax, $discount, $discountedPrice);
+    sendEmailConfirmation($email, $movie_title, $adult, $child, $senior, $selected_seats, $date, $time, $subtotal, $taxAmount, $totalWithTax, $discount, $discountedPrice);
+    

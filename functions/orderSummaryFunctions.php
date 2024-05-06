@@ -144,15 +144,18 @@ function addPromoCodeUse($promoID, $userID, $conn) {
     return mysqli_stmt_execute($stmt);
 }
 
-function sendEmailConfirmation($email, $movie_title, $adult, $child, $senior, $subtotal, $taxAmount, $totalWithTax, $discount, $discountedPrice) {
+function sendEmailConfirmation($email, $movie_title, $adult, $child, $senior, $selected_seats, $date, $time,  $subtotal, $taxAmount, $totalWithTax, $discount, $discountedPrice) {
     $mail = require "mailer.php";
     $mail->setFrom("noreply@example.com");
     $mail->addAddress($email);
     $mail->Subject = "Order Confirmation";
         $body = "<h2>Thank you for your purchase!</h2>";
         $body .= "<h3>Order Details:</h3>";
-        $body .= "<h4>Number of Seats:<br><br>";
-        $body .= "Movie: $movie_title <br><br>";
+        $body .= "<h4>Movie: $movie_title <br><br>";
+        $body .= "Date: $date <br>";
+        $body .= "Time: $time <br><br>";
+        
+        $body .= "Seats Selected: $selected_seats <br><br>";
         
         if ($adult > 0) {
             $body .= "Adult Tickets: $adult <br>";
