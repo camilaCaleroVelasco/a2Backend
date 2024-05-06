@@ -96,6 +96,11 @@
   
 </head>
 <body>
+<header>
+    <a href="index.php">
+      <img class="logo" src="images/A2 movies Icon.jpeg" alt="logo">
+    </a>
+  </header>
   <div class="center">
     <div class="order-confirmation">
       <h2>Order Confirmed</h2>
