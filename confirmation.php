@@ -57,6 +57,8 @@
         $senior = $_SESSION['seniorTickets'];
         $seats = $_SESSION['selectedSeats'];
         $paymentMethod = $_SESSION['selectedPaymentMethod'];
+        
+        updateBookingLastFour($conn, $paymentMethod, $booking_id);
 
 
 
@@ -71,6 +73,7 @@
         unset($_SESSION['seniorTickets']);
         unset($_SESSION['bookingDate']);
         unset($_SESSION['bookingTime']);
+        unset($_SESSION['selectedPaymentMethod']);
     } else {
         header("Location: index.php");
         exit();

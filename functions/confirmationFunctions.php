@@ -80,3 +80,16 @@
         mysqli_stmt_close($stmt);
         return $result;
     }
+
+    function updateBookingLastFour($conn, $lastFour, $booking_id) {
+        $sql = "UPDATE booking SET lastFour = ? WHERE booking_id = ?;";
+        $stmt = mysqli_stmt_init($conn);
+        if(!mysqli_stmt_prepare($stmt, $sql)) {
+            header("Location: ordersummary.php?error=stmtfailed"); 
+            exit();
+        }
+
+        mysqli_stmt_bind_param($stmt, "ii", $lastFour, $booking_id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
