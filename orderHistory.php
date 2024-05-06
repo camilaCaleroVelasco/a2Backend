@@ -39,25 +39,27 @@
         </a>
     </header>
 
-    <!-- Beginning Field for Register Info -->
+   
     <div class="wrapper"> <!-- div class wrapper starts here -->
         <h1> Order History </h1>
+
+        <div class ="order-history-container">
 
         <div class="order-history-content">
             <?php 
             foreach($orderHistory as $order){
-                echo "<h2> Movie Name: " . $order['movie_title'] . "</h2>";
-                echo "<h2> Date: " . $order['showDate'] . "</h2>";
-                echo "<h2> Date: " . $order['showTime'] . "</h2>";
-                echo "<h2> Number of Tickets: " . $order['numberOfSeats'] . "</h2>";
+                echo "<p>" . $order['movie_title'] . "</p>";
+                echo "<p> Date: " . $order['showDate'] . "</p>";
+                echo "<p> Time: " . $order['showTime'] . "</p>";
+                echo "<p> Number of Tickets: " . $order['numberOfSeats'] . "</p>";
                 $seatInfoStr = "";
                 foreach ($order['seatInfo'] as $seat) {
                     $seatInfoStr .= $seat['seatRow'] . $seat['seatColumn'] . ", ";
                 }
                 $seatInfoStr = rtrim($seatInfoStr, ", ");
-                echo "<h2> Selected Seats: " . $seatInfoStr . "</h2>";
-                echo "<h2> Payment Method: XXXX-XXXX-" . $order['lastFour'] . "</h2>";
-                echo "<h2> SubTotal: $" . $order['priceTotal'] . "</h2>";
+                echo "<p> Selected Seats: " . $seatInfoStr . "</p>";
+                echo "<p> Payment Method: XXXX-XXXX-" . $order['lastFour'] . "</p>";
+                echo "<p> Total: $" . $order['priceTotal'] . "</p>";
 
 
                 echo "<br>";
@@ -67,6 +69,9 @@
 
         
         </div> <!-- div class wrapper ends here -->
+        </div>
+
+
 
 
 </body>

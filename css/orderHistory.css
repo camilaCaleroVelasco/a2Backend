@@ -1,3 +1,30 @@
-.order-history-content h2 {
-    margin-top: -20px; /* Adjust the bottom margin as needed */
+  .order-history-content h2 {
+     margin-top: 0; /* Remove default top margin for <h2> elements */
+      margin-bottom: 80px;
+    }
+   
+
+
+.order-history-content p {
+    text-align: center; 
+    margin-top: 15px;
+    font-weight:bolder;
+    font-size: larger;
 }
+
+.wrapper {
+    width: 80%; 
+    margin: 0 auto; 
+    padding: 20px; 
+  }
+  
+  .order-history-content {
+ 
+    padding: 20px; /* Add padding to the content */
+    margin-top: 50px; /* Add margin to separate each section */
+
+  }
+  
+  .order-history-content h2 {
+    margin-bottom: 10px; /* Add space between each heading */
+  }
