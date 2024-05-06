@@ -175,7 +175,8 @@ CREATE TABLE Booking(
     FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id),
     users_id INT,
     FOREIGN KEY (users_id) REFERENCES Users(users_id),
-    priceTotal VARCHAR(255)
+    priceTotal VARCHAR(255),
+    lastFour INT
 );
 -- TICKET TYPE ENUMERATION
 CREATE TABLE TicketType(
