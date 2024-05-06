@@ -26,11 +26,11 @@ body {
 .tickets {
   width: 80%; /* Adjust the width as needed */
   max-width: 900px; /* Set a maximum width if necessary */
-  height: 100.3vh; /* Adjust the height to fit within the viewport height */
+  height: 80vh; /* Reduce the height */
   border: 0.4mm solid rgba(0, 0, 0, 0.08);
   border-radius: 2mm;
   box-sizing: border-box;
-  padding: 10px;
+  padding: 20px; /* Increase padding */
   font-family: poppins;
   overflow: auto;
   background: rgba(255, 255, 255, 0.9);
@@ -45,8 +45,19 @@ body {
   flex-direction: column;
   box-sizing: border-box;
   padding: 20px;
-  height: 112%; /* Set height to auto for flexibility */
+  height: auto; /* Set height to auto */
 }
+
+.price {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px; /* Adjust margin-top as needed */
+}
+
 
 /* Additional styles for individual ticket types */
 .ticket-types {
