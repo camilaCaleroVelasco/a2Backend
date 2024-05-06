@@ -125,6 +125,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
 </head>
 <body>
   <header>
+ 
+    <a href="index.php">
+      <img class="logo" src="images/A2 movies Icon.jpeg" alt="logo">
+    </a>
+
+</header>
+
   <div class="center">
     <div class="order-summary">
       <div class="head">

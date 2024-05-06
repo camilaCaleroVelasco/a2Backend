@@ -62,11 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
 
-  <!-- <header>
+  <header>
     <a href="index.php">
       <img class="logo" src="images/A2 movies Icon.jpeg" alt="logo">
     </a>
-  </header> -->
+  </header>
   <!-- Centered container -->
   <div class="center">
     <!-- Tickets container -->
