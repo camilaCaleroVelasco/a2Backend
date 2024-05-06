@@ -44,6 +44,7 @@ if (!empty($showTime)) {
     <link rel="stylesheet" href="css/booking.css">
 </head>
 <body>
+<header> <a href="index.php"> <img class="logo" src="images/A2 movies Icon.jpeg" alt="logo"> </a> </header>
     <div class="center">
         <div class="tickets">
             <div class="ticket-selector">
