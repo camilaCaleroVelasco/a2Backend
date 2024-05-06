@@ -44,7 +44,7 @@ ini_set('display_errors', 1);
         $promoEndDay = $_POST["end-day"];
 
             // SQL to insert info into DB
-            $sqlInsertPromo = "INSERT INTO promotion (promoName, promoCode, startDay, startMonth, endDay, endMonth, promoStatus_id ,percentDiscount)
+            $sqlInsertPromo = "INSERT INTO Promotion (promoName, promoCode, startDay, startMonth, endDay, endMonth, promoStatus_id ,percentDiscount)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmtInsertPromo = mysqli_prepare($conn, $sqlInsertPromo);
             if (!$stmtInsertPromo) {

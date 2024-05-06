@@ -23,7 +23,7 @@ function sendEmailEditProfileSuccess($email) {
 // Sending email to the subscribed users
 function sendEmailPromoToSubs($conn) {
     // Select the users that are subscribed to promos
-    $sqlSubUsers = "SELECT email FROM Users WHERE promoSub_id = 1";
+    $sqlSubUsers = "SELECT email FROM users WHERE promoSub_id = 1";
     $resultSubUsers = mysqli_query($conn, $sqlSubUsers);
 
     // Look for subscribed users
