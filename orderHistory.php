@@ -23,7 +23,7 @@
 
 <body>
     <header>
-        <a href="admin.php">
+        <a href="index.php">
             <img class="logo" src="images/A2 Movies Icon.jpeg" alt="logo">
             <!--clicking a2 movies icon will link back to homepage-->
         </a>

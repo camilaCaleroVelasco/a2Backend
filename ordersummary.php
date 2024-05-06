@@ -189,15 +189,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
                     <label for="promo_code">Promo Code:</label><br>
                     <input type="text" id="promo_code" name="promo_code"
                            value="<?php echo htmlspecialchars($promo_code); ?>"
+                           class="<?php echo $promo_code_applied ? 'applied' : ''; ?>"
                            <?php echo $promo_code_applied ? 'readonly' : ''; ?>>
                     <button type="submit" name="submitCode"
                             <?php echo $promo_code_applied ? 'disabled' : ''; ?>>Apply
                     </button>
+                    <div class = "promo-message" id = promo-message>
                     <?php
                     if (!empty($successMessage)) {
                         echo "<p>$successMessage</p>";
                     }
                     ?>
+                    </div>
                 </form>
             </div>
       <div class="payment-method">

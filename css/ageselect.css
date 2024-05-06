@@ -18,6 +18,27 @@ body {
   justify-content: center;
 }
 
+
+
+header {
+  width:100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 10%;
+  font-weight: bold;
+}
+.logo{
+     
+    width: 300px;
+    cursor: pointer;
+    position: fixed;
+  
+}
+
+
+
+
 .tickets {
   width: 90%; /* Adjusted width for responsiveness */
   max-width: 850px; /* Set a maximum width for larger screens */

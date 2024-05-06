@@ -187,3 +187,11 @@ body {
 ::-webkit-scrollbar {
   display: none;
 }
+
+.promo-code input.applied {
+  background-color:  #b3b3b3; /* Change the color to grey when promo code is applied */
+}
+
+.promo-message {
+  margin-left: 30px;
+}

@@ -17,8 +17,8 @@
             while($rows = mysqli_fetch_assoc($resultCurrentPromo)) {
                 echo "<h2>" . $rows["promoName"] . "</h2>";
                 echo '<div class="promo">';
-                echo "<p>" . $rows["promoCode"] . "</p>";
-                echo "<p> ". $rows["percentDiscount"] . "%" ."</p>";
+                echo "<p>"  . $rows["promoCode"] . "</p>";
+                echo "<p>". $rows["percentDiscount"] . "%" ."</p>";
                 echo "<p>" . $rows["startMonth"] . "/" . $rows["startDay"] . " - " . $rows["endMonth"] . "/" . $rows["endDay"] . "</p>";
                 echo '</div>'; // Close the promo div
                 
