@@ -33,24 +33,24 @@ include_once 'functions/registerFunctions.php';
     <div class="wrapper">
         <!-- div class wrapper starts here -->
         <h1> Edit Profile </h1>
-        <button id = "orderHistory" onclick="window.location.href = 'orderHistory.php';">Order History</button>
+        <button id="orderHistory" onclick="window.location.href = 'orderHistory.php';">Order History</button>
 
-     
+
         <h2> Personal Info</h2>
-        <?php 
+        <?php
         errorCheck();
         if (isset($_GET["success"])) {
             if ($_GET["success"] == "editProfileUpdate") {
                 echo "
                     <h2>Profile successfully updated!</h2>
                     <br>";
-            } 
+            }
         } ?>
-      
+
 
 
         <form action="editProfileProcess.php" method="post"> <!--link to confirmation page when formed is filled out -->
-          
+
 
             <div class="input-box">
                 <!-- div class input-box starts here -->
@@ -324,11 +324,11 @@ include_once 'functions/registerFunctions.php';
                 </div>
 
                 <div class="field">
-                    <input type="text" placeholder="Card Number" name="card-number1" value="<?php 
-                    if($currentCard1LastFour == 0) {
+                    <input type="text" placeholder="Card Number" name="card-number1" value="<?php
+                    if ($currentCard1LastFour == 0) {
                         echo "";
-                    }else{
-                        echo "XXXX-XXXX-" .$currentCard1LastFour;
+                    } else {
+                        echo "XXXX-XXXX-" . $currentCard1LastFour;
                     } ?>">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
@@ -438,10 +438,10 @@ include_once 'functions/registerFunctions.php';
 
                 <div class="field">
                     <input type="text" placeholder="Card Number" name="card-number2" value="<?php
-                    if($currentCard2LastFour == 0) {
+                    if ($currentCard2LastFour == 0) {
                         echo "";
-                    }else{
-                        echo "XXXX-XXXX-" .$currentCard2LastFour;
+                    } else {
+                        echo "XXXX-XXXX-" . $currentCard2LastFour;
                     } ?>">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
@@ -524,7 +524,7 @@ include_once 'functions/registerFunctions.php';
 
                 <div class="field">
                     <select name="card-type3" class="card-type-select" id="card-type">
-                    <?php if ($currentCard3CardType === NULL): ?>
+                        <?php if ($currentCard3CardType === NULL): ?>
                             <option value="" selected disabled> Card Type </option>
                         <?php endif; ?>
                         <option value="1" <?php if (isset($currentCard3CardType) && $currentCard3CardType == "1")
@@ -547,10 +547,10 @@ include_once 'functions/registerFunctions.php';
 
                 <div class="field">
                     <input type="text" placeholder="Card Number" name="card-number3" value="<?php
-                    if($currentCard3LastFour == 0) {
+                    if ($currentCard3LastFour == 0) {
                         echo "";
-                    }else{
-                        echo "XXXX-XXXX-" .$currentCard3LastFour;
+                    } else {
+                        echo "XXXX-XXXX-" . $currentCard3LastFour;
                     } ?>">
                     <!-- mail icon from fontawesome -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="#FFFFFF"
@@ -605,7 +605,7 @@ include_once 'functions/registerFunctions.php';
 
             <button type="submit" class="button" id="submit" name="submit"> Submit </button>
 
-        
+
 
 
         </form>
@@ -631,13 +631,10 @@ include_once 'functions/registerFunctions.php';
 
 
 
-
-
-
     <script>
         // Function to set readonly attribute for filled fields within the card section
-        const setReadonlyForFilledFields = () => {
-            const fields = document.querySelectorAll('.card-information input');
+        const setReadonlyForFilledFields = (cardSection) => {
+            const fields = cardSection.querySelectorAll('input');
             let anyFieldFilled = false;
             for (const field of fields) {
                 if (field.value.trim()) {
@@ -645,32 +642,35 @@ include_once 'functions/registerFunctions.php';
                     anyFieldFilled = true; // Set to true if any field is filled
                 }
             }
-            // Disable the select box
-            const selectBox = document.getElementById('card-type'); // Ensure this ID matches your select box
-            if (selectBox && anyFieldFilled) {
-                selectBox.disabled = true;
-            }
-        };
-
-        // Function to remove readonly attribute from all fields within the card section
-        const removeReadonlyFromAllFields = () => {
-            const fields = document.querySelectorAll('.card-information input');
-            for (const field of fields) {
-                field.readOnly = false;
-            }
-            // Enable the select box
-            const selectBox = document.getElementById('card-type'); // Ensure this ID matches your select box
-            if (selectBox) {
+            // Enable the select box if all fields are not filled
+            const selectBox = cardSection.querySelector('.card-type-select');
+            if (selectBox && !anyFieldFilled) {
                 selectBox.disabled = false;
+            } else {
+                selectBox.disabled = true;
             }
         };
 
         // Function to handle deletion of card information
         const handleCardDeletion = () => {
             // Remove readonly attribute from all input fields within the card section
-            removeReadonlyFromAllFields();
-            // Set readonly attribute for filled fields within the card section
-            setReadonlyForFilledFields();
+            const cardSections = document.querySelectorAll('.card-information');
+            for (const cardSection of cardSections) {
+                removeReadonlyFromAllFields(cardSection);
+                // Enable the select box
+                const selectBox = cardSection.querySelector('.card-type-select');
+                if (selectBox) {
+                    selectBox.disabled = false;
+                }
+            }
+        };
+
+        // Function to remove readonly attribute from all fields within the card section
+        const removeReadonlyFromAllFields = (cardSection) => {
+            const fields = cardSection.querySelectorAll('input');
+            for (const field of fields) {
+                field.readOnly = false;
+            }
         };
 
         // Get the delete button
@@ -679,33 +679,15 @@ include_once 'functions/registerFunctions.php';
         // Add event listener to delete button
         deleteButton.addEventListener('click', handleCardDeletion);
 
-        // Check if all fields are filled and set readonly attribute within the card section
+        // Check if all fields are filled and set readonly attribute within each card section
         window.addEventListener('DOMContentLoaded', () => {
-            // Set readonly attribute for filled fields within the card section
-            setReadonlyForFilledFields();
+            // Set readonly attribute for filled fields within each card section
+            const cardSections = document.querySelectorAll('.card-information');
+            for (const cardSection of cardSections) {
+                setReadonlyForFilledFields(cardSection);
+            }
         });
     </script>
-
-
-    <script>
-        function enableSelectBox() {
-            const selectBox = document.getElementById('card-type'); // Replace 'card-type' with the actual ID of your select box
-            if (selectBox) {
-                selectBox.disabled = false;
-            }
-        }
-    </script>
-
-
-
-
-
-
-
-
-
-
-
 
 
 
