@@ -46,10 +46,10 @@ checkIfAdmin();
             <option value="" selected disabled class="placeholder">Reviews</option>
             <option value="0">0</option>
             <option value="1">1</option>
-            <option value="1">2</option>
-            <option value="1">3</option>
-            <option value="1">4</option>
-            <option value="1">5</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
         </select> 
 
 

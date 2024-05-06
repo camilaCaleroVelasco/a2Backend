@@ -235,12 +235,39 @@ if (isset($_SESSION["users_id"])) {
             $firstName = $_POST["card-first-name1"];
             $lastName = $_POST["card-last-name1"];
             $cardType = $_POST["card-type1"];
-            $cardNumber = $_POST["card-number1"];
+            $cardNumber = $_POST["card-number1"] ?? "";
+            $cleanCardNumber1 = str_replace('-', '', $cardNumber1);
+            if (!empty($cleanCardNumber1) && strlen($cleanCardNumber1) != 12) {
+                header("Location: editProfile.php?error=cardlength1");
+                exit();
+            }
+            
             $lastFour = substr($cardNumber, -4); //store last 4 numbers of the card
             $encryptionKey = 'encription-012df';
             $encryptedCardNumber = openssl_encrypt($cardNumber, 'aes-256-cbc', $encryptionKey, 0, $encryptionKey);
             $expMonth = $_POST["expiration-month1"];
             $expYear = $_POST["expiration-year1"];
+            // Validate the expiration year is exactly four digits
+            if (!preg_match('/^\d{4}$/', $expYear)) {
+                header("Location: editProfile.php?error=expyear1");
+                exit();
+            }
+
+            // Validate the expiration month is between 1 and 12
+            if ($expMonth < 1 || $expMonth > 12) {
+                header("Location: editProfile.php?error=expmonth1");
+                exit();
+            }
+
+            // Get the current month and year
+            $currentMonth = date('n');  // 'n' gives numeric representation of current month without leading zeros
+            $currentYear = date('Y');   // 'Y' gives the full numeric representation of a year, 4 digits
+
+            // Compare the entered expiration date to the current date
+            if ($expYear < $currentYear || ($expYear == $currentYear && $expMonth < $currentMonth)) {
+                header("Location: editProfile.php?error=cardexp1");
+                exit();
+            }
             $email = $_SESSION["email"];
 
                 if (!userPaymentCard1Exists($conn, $email)) {
@@ -262,12 +289,39 @@ if (isset($_SESSION["users_id"])) {
             $firstName = $_POST["card-first-name2"];
             $lastName = $_POST["card-last-name2"];
             $cardType = $_POST["card-type2"];
-            $cardNumber = $_POST["card-number2"];
+            $cardNumber = $_POST["card-number2"] ?? "";
+            $cleanCardNumber2 = str_replace('-', '', $cardNumber2);
+            if (!empty($cleanCardNumber2) && strlen($cleanCardNumber2) != 12) {
+                header("Location: editProfile.php?error=cardlength2");
+                exit();
+            }
             $lastFour = substr($cardNumber, -4); //store last 4 numbers of the card
             $encryptionKey = 'encription-012df';
             $encryptedCardNumber = openssl_encrypt($cardNumber, 'aes-256-cbc', $encryptionKey, 0, $encryptionKey);
             $expMonth = $_POST["expiration-month2"];
             $expYear = $_POST["expiration-year2"];
+            // Validate the expiration year is exactly four digits
+            if (!preg_match('/^\d{4}$/', $expYear)) {
+                header("Location: editProfile.php?error=expyear2");
+                exit();
+            }
+
+            // Validate the expiration month is between 1 and 12
+            if ($expMonth < 1 || $expMonth > 12) {
+                header("Location: editProfile.php?error=expmonth2");
+                exit();
+            }
+
+            // Get the current month and year
+            $currentMonth = date('n');  // 'n' gives numeric representation of current month without leading zeros
+            $currentYear = date('Y');   // 'Y' gives the full numeric representation of a year, 4 digits
+
+            // Compare the entered expiration date to the current date
+            if ($expYear < $currentYear || ($expYear == $currentYear && $expMonth < $currentMonth)) {
+                header("Location: editProfile.php?error=cardexp2");
+                exit();
+            }
+
             $email = $_SESSION["email"];
                 if (!userPaymentCard2Exists($conn, $email)) {
                     $usersid = getUsersID($conn, $email);
@@ -289,13 +343,41 @@ if (isset($_SESSION["users_id"])) {
             $firstName = $_POST["card-first-name3"];
             $lastName = $_POST["card-last-name3"];
             $cardType = $_POST["card-type3"];
-            $cardNumber = $_POST["card-number3"];
+            $cardNumber = $_POST["card-number3"] ?? "";
+            $cleanCardNumber3 = str_replace('-', '', $cardNumber3);
+            if (!empty($cleanCardNumber3) && strlen($cleanCardNumber3) != 12) {
+                header("Location: editProfile.php?error=cardlength3");
+                exit();
+            }
             $lastFour = substr($cardNumber, -4); //store last 4 numbers of the card
 
             $encryptionKey = 'encription-012df';
             $encryptedCardNumber = openssl_encrypt($cardNumber, 'aes-256-cbc', $encryptionKey, 0, $encryptionKey);
             $expMonth = $_POST["expiration-month3"];
             $expYear = $_POST["expiration-year3"];
+
+            // Validate the expiration year is exactly four digits
+            if (!preg_match('/^\d{4}$/', $expYear)) {
+                header("Location: editProfile.php?error=expyear3");
+                exit();
+            }
+
+            // Validate the expiration month is between 1 and 12
+            if ($expMonth < 1 || $expMonth > 12) {
+                header("Location: editProfile.php?error=expmonth3");
+                exit();
+            }
+
+            // Get the current month and year
+            $currentMonth = date('n');  // 'n' gives numeric representation of current month without leading zeros
+            $currentYear = date('Y');   // 'Y' gives the full numeric representation of a year, 4 digits
+
+            // Compare the entered expiration date to the current date
+            if ($expYear < $currentYear || ($expYear == $currentYear && $expMonth < $currentMonth)) {
+                header("Location: editProfile.php?error=cardexp3");
+                exit();
+            }
+            
             $email = $_SESSION["email"];
             
                 if (!userPaymentCard3Exists($conn, $email)) {

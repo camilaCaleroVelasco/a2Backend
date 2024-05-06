@@ -1,6 +1,7 @@
 <?php
 //session_start();
 include_once 'editProfileProcess.php';
+include_once 'functions/registerFunctions.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,12 +34,14 @@ include_once 'editProfileProcess.php';
         <!-- div class wrapper starts here -->
         <h1> Edit Profile </h1>
         <h2> Personal Info</h2>
-        <?php if (isset($_GET["success"])) {
+        <?php 
+        errorCheck();
+        if (isset($_GET["success"])) {
             if ($_GET["success"] == "editProfileUpdate") {
                 echo "
-                            <h2>Profile successfully updated!</h2>
-                            <br>";
-            }
+                    <h2>Profile successfully updated!</h2>
+                    <br>";
+            } 
         } ?>
 
 

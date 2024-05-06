@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
         $successMessage = urldecode($_GET["message"]);
     }
 
-    // Retrieve movie information
+    // Retrieve showing information
     $sql = "SELECT * FROM showing WHERE show_id = ?";
     $stmt = mysqli_stmt_init($conn);
 
@@ -133,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
       <div class="ticket-details">
         <h2>Ticket Details</h2>
         <?php 
-       // Ticket Info
+        // Ticket Info
         echo "<div class='ticket'>";
         echo "<p class='ticket-info'>" . $movie['movie_title'] . "</p>";
 

@@ -7,13 +7,20 @@
     
         // set variables for booking
             $bookingDate = date("Y-m-d");
+            $_SESSION['bookingDate'] = $bookingDate;
+
+            // Set the timezone to your specific region
+            date_default_timezone_set('America/New_York');  // Change this to your timezone
+            $bookingTime = date('h:i a');
+
+            $_SESSION['bookingTime'] = $bookingTime;
             $bookingStatus_id = 1;
             $numberOfSeats = $_SESSION['totalTickets'];
             $users_id = $_SESSION["users_id"];
             $priceTotal = $_SESSION['totalPrice'];
             
-            addBooking($conn, $bookingDate, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal);
-            $booking_id = getBookingId($conn, $bookingDate, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal);
+            addBooking($conn, $bookingDate, $bookingTime, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal);
+            $booking_id = getBookingId($conn, $bookingDate, $bookingTime, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal);
 
         // Add tickets to database
 
@@ -53,18 +60,6 @@
                 }
                 updateSeatAvailability($conn, $seat_id);
             }
-
-        
-
-        // Clear specific session variables
-        unset($_SESSION['selectedSeats']);
-        unset($_SESSION['movieId']);
-        unset($_SESSION['totalTickets']);
-        unset($_SESSION['showID']);
-        unset($_SESSION['totalPrice']);
-        unset($_SESSION['adultTickets']);
-        unset($_SESSION['childTickets']);
-        unset($_SESSION['seniorTickets']);
 
         // Navigate to confirmation page
         header("Location: confirmation.php");

@@ -167,6 +167,7 @@ VALUES('EXPIRED');
 CREATE TABLE Booking(
     booking_id INT PRIMARY KEY AUTO_INCREMENT,
     bookingDate VARCHAR(255),
+    bookingTime VARCHAR(255),
     bookingStatus_id INT,
     FOREIGN KEY (bookingStatus_id) REFERENCES BookingStatus(bookingStatus_id),
     numberOfSeats INT,

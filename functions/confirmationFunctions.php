@@ -14,15 +14,15 @@
         mysqli_stmt_close($stmt);
     }
 
-    function addBooking($conn, $bookingDate, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal) {
-        $sql = "INSERT INTO booking (bookingDate, bookingStatus_id, numberOfSeats, users_id, priceTotal) VALUES (?, ?, ?, ?, ?)";
+    function addBooking($conn, $bookingDate, $bookingTime, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal) {
+        $sql = "INSERT INTO booking (bookingDate, bookingTime, bookingStatus_id, numberOfSeats, users_id, priceTotal) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
             header("Location: ordersummary.php?error=stmtfailed"); 
             exit();
         }
 
-        mysqli_stmt_bind_param($stmt, "siiii", $bookingDate, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal);
+        mysqli_stmt_bind_param($stmt, "ssiiii", $bookingDate, $bookingTime, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
     }
@@ -61,15 +61,15 @@
     }
 
 
-    function getBookingId($conn, $bookingDate, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal) {
-        $sql = "SELECT booking_id FROM booking WHERE (bookingDate = ? AND bookingStatus_id = ? 
+    function getBookingId($conn, $bookingDate, $bookingTime, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal) {
+        $sql = "SELECT booking_id FROM booking WHERE (bookingDate = ? AND bookingTime = ? AND bookingStatus_id = ? 
         AND numberOfSeats = ? AND users_id = ? AND priceTotal = ?)";
         $stmt = mysqli_stmt_init($conn);
         if (!mysqli_stmt_prepare($stmt, $sql)) {
             header("Location: ordersummary.php?error=stmtfailed");
             exit();
         }
-        mysqli_stmt_bind_param($stmt, "siiii", $bookingDate, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal);
+        mysqli_stmt_bind_param($stmt, "ssiiii", $bookingDate, $bookingTime, $bookingStatus_id, $numberOfSeats, $users_id, $priceTotal);
         mysqli_stmt_execute($stmt);
         $resultData = mysqli_stmt_get_result($stmt);
         if ($row = mysqli_fetch_assoc($resultData)) {
