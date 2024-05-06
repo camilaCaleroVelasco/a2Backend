@@ -40,13 +40,29 @@ body {
   flex-direction: column;
   box-sizing: border-box;
   padding: 20px;
+  height: 112%; /* Set height to auto for flexibility */
 }
 
+/* Additional styles for individual ticket types */
 .ticket-types {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  margin-bottom: 20px; /* Add bottom margin between ticket types */
+  flex-basis: 30%; /* Set initial width for ticket types */
+  max-width: 300px; /* Limit max-width of ticket types */
 }
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+  .ticket-selector {
+    padding: 10px; /* Reduce padding for smaller screens */
+  }
+  
+  .ticket-types {
+    flex-basis: 100%; /* Take full width on smaller screens */
+    max-width: none; /* Remove max-width constraint on smaller screens */
+  }
+}
+
+
 
 .type {
   display: flex;
