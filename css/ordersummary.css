@@ -8,6 +8,7 @@ body {
   background-size: cover; /* Cover the entire background */
   background-position: center; /* Center the background image */
   background-repeat: no-repeat; /* Prevent background image from repeating */
+  overflow: hidden;
 }
 
 .center {
@@ -186,4 +187,29 @@ body {
 /* Hide scrollbar */
 ::-webkit-scrollbar {
   display: none;
+}
+
+.promo-code input.applied {
+  background-color:  #b3b3b3; /* Change the color to grey when promo code is applied */
+}
+
+.promo-message {
+  margin-left: 30px;
+}
+
+
+header {
+  width:100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 10%;
+  font-weight: bold;
+}
+.logo{
+     
+    width: 300px;
+    cursor: pointer;
+    position: fixed;
+  
 }

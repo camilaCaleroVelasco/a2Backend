@@ -8,6 +8,7 @@ body {
   background-size: cover; /* Cover the entire background */
   background-position: center; /* Center the background image */
   background-repeat: no-repeat; /* Prevent background image from repeating */
+  overflow: hidden; 
 }
 
 .center {
@@ -61,3 +62,27 @@ button:hover {
     width: 80%; /* Further adjustment for larger screens */
   }
 }
+
+
+.center::-webkit-scrollbar {
+  display: none;  /* hide form scrollbar */
+}
+
+
+header {
+  width:100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 10%;
+  font-weight: bold;
+}
+.logo{
+     
+    width: 300px;
+    cursor: pointer;
+    position: fixed;
+  
+}
+
+

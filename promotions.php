@@ -65,7 +65,7 @@ include 'promotionProcess.php';
                 </div>
 
                 <div class="field">
-                    <input type="number" placeholder="Promotion Code" name="promotion-code" required>
+                    <input type="text" placeholder="Promotion Code" name="promotion-code" required>
                     <!-- user icon from fontawesome -->
                     <svg id="mail-icon" class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="20"
                         fill="#FFFFFF"

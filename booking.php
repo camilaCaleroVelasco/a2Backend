@@ -40,10 +40,11 @@ if (!empty($showTime)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA Compatible" content="IE=edge">
     <title>Ticket Booking</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round|Material+Icons+Sharp|Material+Icons+Two+Tone" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/booking.css">
 </head>
 <body>
+<header> <a href="index.php"> <img class="logo" src="images/A2 movies Icon.jpeg" alt="logo"> </a> </header>
     <div class="center">
         <div class="tickets">
             <div class="ticket-selector">
@@ -54,7 +55,7 @@ if (!empty($showTime)) {
                     <div class="status">
                         <div class="item">Available</div>
                         <div class="item">Booked</div>
-                        <div class "item">Selected</div>
+                        <div class= "item">Selected</div>
                     </div>
                     <br>
                     <div class="all-seats">

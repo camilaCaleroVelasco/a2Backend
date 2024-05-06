@@ -1,20 +1,17 @@
-
-
-.wrapper div{
+.wrapper div {
     color: #fff;    
     padding: 20px;
     font-size: 1rem;
     position: relative;
     align-items: center;
     right: -5px; 
+
+    
+  
 }
 
-
-
 #add-promo {
-
-   
-    padding :20px 5px;
+    padding: 20px 5px;
     font-size: 1rem;
     background: #317DFF;
     border: none;
@@ -23,50 +20,44 @@
     border-radius: 4px;
     font-weight: 500;
     cursor: pointer;
-   
     text-decoration: none;
     margin-left: 700px;
-  
-   
-  
-
-   
-
 }
 
 #add-promo:hover {
-    border: 5px solid  #317DFF;
-    box-shadow: 0 0 30px   #317DFF, inset 0 0 30px  #317DFF;
-
-
+    border: 5px solid #317DFF;
+    box-shadow: 0 0 30px #317DFF, inset 0 0 30px #317DFF;
 }
 
 .promo {
     display: flex;
-    justify-content: space-between;
     margin-bottom: 20px; /* Adjust margin between promotion blocks */
+    padding: 10px; /* Add padding for spacing within columns */
+    margin-left: 40px;
+    font-size: larger;
+    font-size: larger;
+    background-color: rgba(42, 41, 41, 0.7);
+    width : 625px;
 }
 
-.column {
-    width: 300%; /* Adjust width for columns */
-  
 
-}
+.wrapper h2 {
+    margin-top: 0; 
+    color: #fff;
+ 
+    font-size: larger;
+    font-weight: 200;
 
-/* Optional: Adjust styles for individual elements within the columns */
-.promo h2 {
-    margin-top: 0; /* Remove top margin for h2 */
 }
 
 .promo p {
-    margin: 5px 0; /* Adjust margins for paragraphs space between lines */
-}
-
-
-.column {
-    background-color: #000000; /* Example background color */
-    padding: 10px; /* Add padding for spacing within columns */
-    max-width: 800px; /* Set maximum width for the columns */
-    margin-bottom: 5px; /* Add margin between columns */
+    margin: 20px 40px 20px; /* Adjust margins for paragraphs space between lines */
+    margin-right: 100px;
+    font-size: larger;
    
+
 }
+
+
+
+

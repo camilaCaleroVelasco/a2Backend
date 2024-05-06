@@ -52,7 +52,7 @@ INSERT INTO moviecategory(category)
 VALUES('THRILLER');
 
 
-CREATE TABLE Movies(
+CREATE TABLE movies(
     movie_id INT PRIMARY KEY AUTO_INCREMENT,
     movie_title VARCHAR(255) NOT NULL UNIQUE,
     category_id INT,
@@ -68,7 +68,7 @@ CREATE TABLE Movies(
     FOREIGN KEY (category_id) REFERENCES moviecategory(category_id)
 );
 
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -94,7 +94,7 @@ VALUES (
         'R',
         'now playing'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -120,7 +120,7 @@ VALUES (
         'NR',
         'now playing'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -146,7 +146,7 @@ VALUES (
         'PG-13',
         'now playing'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -172,7 +172,7 @@ VALUES (
         'PG-13',
         'now playing'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -198,7 +198,7 @@ VALUES (
         'R',
         'now playing'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -224,7 +224,7 @@ VALUES (
         'R',
         'now playing'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -250,7 +250,7 @@ VALUES (
         'PG-13',
         'now playing'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -276,7 +276,7 @@ VALUES (
         'R',
         'now playing'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -302,7 +302,7 @@ VALUES (
         'PG-13',
         'now playing'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -328,7 +328,7 @@ VALUES (
         'PG-13',
         'now playing'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -354,7 +354,7 @@ VALUES (
         'NR',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -380,7 +380,7 @@ VALUES (
         'NR',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -406,7 +406,7 @@ VALUES (
         'PG-13',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -432,7 +432,7 @@ VALUES (
         'NR',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -458,7 +458,7 @@ VALUES (
         'NR',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -484,7 +484,7 @@ VALUES (
         'NR',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -510,7 +510,7 @@ VALUES (
         'NR',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -536,7 +536,7 @@ VALUES (
         'PG',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -562,7 +562,7 @@ VALUES (
         'R',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -588,7 +588,7 @@ VALUES (
         'PG-13',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -614,7 +614,7 @@ VALUES (
         'PG-13',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -640,7 +640,7 @@ VALUES (
         'PG-13',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -666,7 +666,7 @@ VALUES (
         'NR',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -692,7 +692,7 @@ VALUES (
         'NR',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -718,7 +718,7 @@ VALUES (
         'R',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -744,7 +744,7 @@ VALUES (
         'PG',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -770,7 +770,7 @@ VALUES (
         'R',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -796,7 +796,7 @@ VALUES (
         'NR',
         'coming soon'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -822,7 +822,7 @@ VALUES (
         'R',
         'now playing'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -848,7 +848,7 @@ VALUES (
         'NR',
         'now playing'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,
@@ -874,7 +874,7 @@ VALUES (
         'NR',
         'now playing'
     );
-INSERT INTO Movies(
+INSERT INTO movies(
         movie_title,
         category_id,
         cast,

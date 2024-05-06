@@ -100,7 +100,6 @@ form .subscribe-promos label {
     font-weight: 500;
     cursor: pointer;
     text-decoration: none;
-    color: #fff;
     margin-left :400px;
     margin-bottom: 60px;
  
@@ -108,6 +107,48 @@ form .subscribe-promos label {
 
 .input-filled {
     background-color:#aaaaaa; 
+}
+
+
+
+#orderHistory {
+    width : 200px;
+    padding :16px 10px;
+    font-size: 1rem;
+    background: #317DFF;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+
+    margin-left: 50%; /* Remove the margin-left property */
+    display: block; /* Ensure the button takes full width */
+    position: absolute;
+    left: 150px; /* Adjust the left position as needed */
+    top: 80px; /* Adjust the top position as needed */
+  
+
+}
+
+
+#orderHistory:hover {
+    border: 5px solid  #317DFF;
+    box-shadow: 0 0 30px   #317DFF, inset 0 0 30px  #317DFF;
+
+
+}
+
+
+/* Media query for smaller screens */
+@media only screen and (max-width: 600px) {
+    form {
+        margin-left: 5%; /* Move the form to the left on smaller screens */
+        margin-right: 5%;
+    }
 }
 
 

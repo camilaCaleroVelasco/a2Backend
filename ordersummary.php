@@ -3,9 +3,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 session_start();
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset($_SESSION["email"])) {
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset($_SESSION["email"]) && isset($_SESSION['showID'])) {
 
     $movie_id = $_SESSION['movieId'];
+    $show_id = $_SESSION['showID'];
     require_once "includes/dbh.inc.php";
     include "functions/orderSummaryFunctions.php";
 
@@ -31,6 +32,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
     $adult = isset($_GET['adult']) ? intval($_GET['adult']) : 0;
     $child = isset($_GET['child']) ? intval($_GET['child']) : 0;
     $senior = isset($_GET['senior']) ? intval($_GET['senior']) : 0;
+
+    //Set the Session Variables
+    $_SESSION['adultTickets'] = $adult;
+    $_SESSION['childTickets'] = $child;
+    $_SESSION['seniorTickets'] = $senior;
 
     // Retrieve ticket prices
     $ticketPrices = [];
@@ -65,6 +71,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
     // Apply promo code
     $discount = isset($_GET['discount']) ? floatval($_GET['discount']) : 0;
     $discountedPrice = $totalWithTax * (1 - $discount / 100);
+    $_SESSION['totalPrice'] = number_format($discountedPrice, 2);
+
 
     $promo_code = isset($_GET['code']) ? $_GET['code'] : '';
     $promo_code_applied = false;
@@ -75,6 +83,26 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
     } elseif (isset($_GET["message"])) {
         $successMessage = urldecode($_GET["message"]);
     }
+
+    // Retrieve showing information
+    $sql = "SELECT * FROM showing WHERE show_id = ?";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("Location: booking.php?error=stmtfailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "i", $show_id);
+    mysqli_stmt_execute($stmt);
+    $resultData = mysqli_stmt_get_result($stmt);
+    $show = mysqli_fetch_assoc($resultData);
+
+    if (!$show) {
+        echo "<p>Showing not found.</p>";
+    }
+    
+
 } else {
     header("Location: index.php");
     exit();
@@ -97,6 +125,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
 </head>
 <body>
   <header>
+ 
+    <a href="index.php">
+      <img class="logo" src="images/A2 movies Icon.jpeg" alt="logo">
+    </a>
+
+</header>
+
   <div class="center">
     <div class="order-summary">
       <div class="head">
@@ -104,44 +139,45 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
       </div>
       <div class="ticket-details">
         <h2>Ticket Details</h2>
-        <?php
-        if ($adult > 0) {
-                echo "<div class='ticket'>";
-                echo "<p class='ticket-info'>" . $movie['movie_title'] . "</p>";
-                echo "<p class='ticket-info'>Date: March 1, 2024</p>";
-                echo "<p class='ticket-info'>Time: 11:00 AM</p>";
-                echo "<p class='ticket-info'> Adult Ticket x". $adult ."</p>";
-                echo "</div>";
-        }
-        if ($child > 0) {
-                echo "<div class='ticket'>";
-                echo "<p class='ticket-info'>" . $movie['movie_title'] . "</p>";
-                echo "<p class='ticket-info'>Date: March 1, 2024</p>";
-                echo "<p class='ticket-info'>Time: 11:00 AM</p>";
-                echo "<p class='ticket-info'> Child Ticket x". $child ."</p>";
-                echo "</div>";
-        }
-        if ($senior > 0) {
-                echo "<div class='ticket'>";
-                echo "<p class='ticket-info'>" . $movie['movie_title'] . "</p>";
-                echo "<p class='ticket-info'>Date: March 1, 2024</p>";
-                echo "<p class='ticket-info'>Time: 11:00 AM</p>";
-                echo "<p class='ticket-info'> Senior Ticket x". $senior ."</p>";
-                echo "</div>";
-        }
+        <?php 
+        // Ticket Info
+        echo "<div class='ticket'>";
+        echo "<p class='ticket-info'>" . $movie['movie_title'] . "</p>";
 
-        if (!empty($_SESSION['selectedSeats']) && is_array($_SESSION['selectedSeats'])) {
-            // Remove 's' from each seat ID and store the result back in the array
-            $cleanedSeats = array_map(function($seat) {
-                return substr($seat, 1); // Remove the first character
-            }, $_SESSION['selectedSeats']);
-        
+        // Format the date
+        $date = new DateTime($show['showDate']);
+        $formattedDate = $date->format('F j, Y'); // e.g., January 1, 2024
+
+        echo "<p class='ticket-info'>Date: " . $formattedDate . "</p>";
+        echo "<p class='ticket-info'>Time: " . $show['showTime'] . "</p>";
+        echo "</div>";
+
             echo "<div class='ticket'>";
-            echo "<p class='ticket-info'>Selected Seats: ";
-            echo htmlspecialchars(implode(', ', $cleanedSeats)); // Join array elements with a comma and a space
-            echo "</p>";
-            echo "</div>"; // Close the div
-        }
+            echo "<p class='ticket-info'>Selected Tickets: ";
+            if ($adult > 0) {
+                    echo "<p class='ticket-info'> Adult Ticket x". $adult ."</p>";
+            }
+            if ($child > 0) {
+                    echo "<p class='ticket-info'> Child Ticket x". $child ."</p>";
+            }
+            if ($senior > 0) {
+                    echo "<p class='ticket-info'> Senior Ticket x". $senior ."</p>";
+            }
+            echo "</div>";
+
+            // Seat Display
+            if (!empty($_SESSION['selectedSeats']) && is_array($_SESSION['selectedSeats'])) {
+                // Remove 's' from each seat ID and store the result back in the array
+                $cleanedSeats = array_map(function($seat) {
+                    return substr($seat, 1); // Remove the first character
+                }, $_SESSION['selectedSeats']);
+            
+                echo "<div class='ticket'>";
+                echo "<p class='ticket-info'>Selected Seats: ";
+                echo htmlspecialchars(implode(', ', $cleanedSeats)); // Join array elements with a comma and a space
+                echo "</p>";
+                echo "</div>"; // Close the div
+            }
 
         ?>
     <div class="total">
@@ -160,34 +196,36 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
                     <label for="promo_code">Promo Code:</label><br>
                     <input type="text" id="promo_code" name="promo_code"
                            value="<?php echo htmlspecialchars($promo_code); ?>"
+                           class="<?php echo $promo_code_applied ? 'applied' : ''; ?>"
                            <?php echo $promo_code_applied ? 'readonly' : ''; ?>>
                     <button type="submit" name="submitCode"
                             <?php echo $promo_code_applied ? 'disabled' : ''; ?>>Apply
                     </button>
+                    <div class = "promo-message" id = promo-message>
                     <?php
                     if (!empty($successMessage)) {
                         echo "<p>$successMessage</p>";
                     }
                     ?>
+                    </div>
                 </form>
             </div>
       <div class="payment-method">
-    <label for="payment">Payment Method:</label>
-    <select id="payment" name="payment">
-    <?php
-      $paymentMethods = getPaymentMethods($user_id, $conn);
-      // Check if payment methods are available
-      if ($hasPaymentMethods) {
-          // Loop through payment methods and generate options
-          foreach ($paymentMethods as $method) {
-              echo "<option value='" . $method . "'>" . $method . "</option>";
-          }
-      } else {
-          // If no payment methods are available, display a default option
-          echo "<option value='None'>No Payment Methods Found.</option>";
-      }
-      ?>
-    </select>
+        <!-- Payment Method Selection -->
+        <label for="payment">Payment Method:</label>
+        <select id="payment" name="payment" onclick="submitPaymentMethod()">
+        <?php
+            $paymentMethods = getPaymentMethods($user_id, $conn);
+            if ($hasPaymentMethods) {
+                echo "<option value='' disabled selected>Please Select a Payment Method.</option>";
+                foreach ($paymentMethods as $method) {
+                    echo "<option value='" . $method . "'>XXXX-XXXX-" . $method . "</option>";
+                }
+            } else {
+                echo "<option value='None'>No Payment Methods Found.</option>";
+            }
+        ?>
+        </select>
 </div>
 <div class="options">
         <button class="update-order" onclick="goToBooking()">Update Order</button>
@@ -201,14 +239,27 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
   </div>
 </body>
   <script>
-    function deleteTicket(element) {
-        if (confirm("Are you sure you want to delete this ticket?")) {
-            let ticket = element.parentElement.parentElement; // Get the parent ticket element
-            ticket.remove();
-            updateTotalPrice(-ticketPrice);
-        }
+function submitPaymentMethod() {
+    var paymentMethod = document.getElementById("payment").value;
+    if (paymentMethod !== 'None') {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "confirmOrder.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                console.log("Payment method set successfully");
+                // Optionally redirect or update the UI
+            } else {
+                console.error("Error setting payment method");
+            }
+        };
+        xhr.send("payment=" + encodeURIComponent(paymentMethod));
+    } else {
+        console.log("No payment method selected");
     }
+}
 
+   
     function updateTotalPrice(amount) {
         let subtotalElement = document.getElementById("subtotal");
         let taxElement = document.getElementById("tax");
@@ -241,15 +292,31 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
         if (confirm("Are you sure you want to complete the purchase?")) {
             // Send email confirmation
             sendEmailConfirmation();
-            window.location.href = "confirmation.php";
+            window.location.href = "confirmationProcess.php";
         }
     }
 
     function sendEmailConfirmation() {
-        const encodedMovieTitle = encodeURIComponent("<?php echo urlencode($movie['movie_title']); ?>");
-        const url = `sendEmailConfirmation.php?movie_id=<?php echo $movie_id ?>&adult=<?php echo $adult ?>&child=<?php echo $child ?>&senior=<?php echo $senior ?>&movie_title=${encodedMovieTitle}&subtotal=<?php echo $totalPrice; ?>&taxAmount=<?php echo $taxAmount; ?>&totalWithTax=<?php echo $totalWithTax; ?>&discount=<?php echo $discount; ?>&discountedPrice=<?php echo $discountedPrice; ?>`;
+        <?php
+        if (!empty($_SESSION['selectedSeats']) && is_array($_SESSION['selectedSeats'])) {
+            // Remove 's' from each seat ID and store the result back in the array
+            $cleanedSeats = array_map(function($seat) {
+                return substr($seat, 1); // Remove the first character
+            }, $_SESSION['selectedSeats']);
+            // Construct the selected seats string
+            $selectedSeatsStr = implode(', ', $cleanedSeats);
+        }
+        $encodedMovieTitle = urlencode($movie['movie_title']);
+        $encodedTime = urlencode($show['showTime']);
+        $encodedDate = urlencode($formattedDate);
 
-        fetch(url, {
+        $url = "sendEmailConfirmation.php?movie_id=${movie_id}"
+        ."&adult=${adult}&child=${child}&senior=${senior}&movie_title=${encodedMovieTitle}&selected_seats=${selectedSeatsStr}"
+        ."&date=${formattedDate}&time=${encodedTime}&subtotal=${totalPrice}&taxAmount=${taxAmount}&totalWithTax=${totalWithTax}"
+        ."&discount=${discount}&discountedPrice=${discountedPrice}";
+        ?>
+        
+        fetch("<?php echo $url; ?>", {
             method: "POST"
         }).then(response => {
             if (!response.ok) {
