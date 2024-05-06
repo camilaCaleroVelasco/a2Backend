@@ -70,9 +70,9 @@
 
     }
 
-    // Get the available seats
+    // Get the available Seats
     function getSeatAvailability($conn, $show_id) {
-        $sql = "SELECT * FROM seats WHERE show_id = ?";
+        $sql = "SELECT * FROM Seats WHERE show_id = ?";
         $stmt = mysqli_stmt_init($conn);
 
         if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -97,7 +97,7 @@
 
 
     function getShowTimesByMovieIDAndDate($conn, $movie_id, $date) {
-        $sql = "SELECT DISTINCT showTime FROM showing WHERE movie_id = ? AND showDate = ?";
+        $sql = "SELECT DISTINCT showTime FROM Showing WHERE movie_id = ? AND showDate = ?";
         $stmt = $conn->prepare($sql);
         
         $stmt->bind_param("is", $movie_id, $date);

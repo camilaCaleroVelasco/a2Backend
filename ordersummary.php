@@ -34,9 +34,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['movieId']) && isset(
 
     // Retrieve ticket prices
     $ticketPrices = [];
-    $ticketTypes = ["child", "adult", "senior"];
-    foreach ($ticketTypes as $type) {
-        $sql = "SELECT ticketPrice FROM tickettype WHERE ticketType = ?";
+    $TicketTypes = ["child", "adult", "senior"];
+    foreach ($TicketTypes as $type) {
+        $sql = "SELECT ticketPrice FROM TicketType WHERE TicketType = ?";
         if (mysqli_stmt_prepare($stmt, $sql)) {
             $upperType = strtoupper($type);
             mysqli_stmt_bind_param($stmt, "s", $upperType);

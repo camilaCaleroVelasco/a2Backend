@@ -35,7 +35,7 @@
         }
         else {
 
-        $sql = "SELECT * FROM paymentcard1 WHERE users_id = ?;";
+        $sql = "SELECT * FROM PaymentCard1 WHERE users_id = ?;";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
             header("Location: editProfile.php?error=stmtfailed"); 
@@ -61,7 +61,7 @@
     // Add card 1
     function addUserPaymentCard1($conn, $usersid, $cardNum, $lastFour, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
         //encrypt payment card code here 
-        $sql = "INSERT INTO paymentcard1 (cardNum, lastFour, cardType_id, expMonth, expYear,
+        $sql = "INSERT INTO PaymentCard1 (cardNum, lastFour, cardType_id, expMonth, expYear,
         firstName, lastName, users_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
@@ -84,7 +84,7 @@
         }
         else {
 
-        $sql = "SELECT * FROM paymentcard2 WHERE users_id = ?;";
+        $sql = "SELECT * FROM PaymentCard2 WHERE users_id = ?;";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
             header("Location: editProfile.php?error=stmtfailed"); 
@@ -110,7 +110,7 @@
     // adds card 2
     function addUserPaymentCard2($conn, $usersid, $cardNum, $lastFour, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
         //encrypt payment card code here 
-        $sql = "INSERT INTO paymentcard2 (cardNum, lastFour, cardType_id, expMonth, expYear,
+        $sql = "INSERT INTO PaymentCard2 (cardNum, lastFour, cardType_id, expMonth, expYear,
         firstName, lastName, users_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
@@ -133,7 +133,7 @@
         }
         else {
 
-        $sql = "SELECT * FROM paymentcard3 WHERE users_id = ?;";
+        $sql = "SELECT * FROM PaymentCard3 WHERE users_id = ?;";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
             header("Location: editProfile.php?error=stmtfailed"); 
@@ -159,7 +159,7 @@
     // adds card 3
     function addUserPaymentCard3($conn, $usersid, $cardNum, $lastFour, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
         //encrypt payment card code here 
-        $sql = "INSERT INTO paymentcard3 (cardNum, lastFour, cardType_id, expMonth, expYear,
+        $sql = "INSERT INTO PaymentCard3 (cardNum, lastFour, cardType_id, expMonth, expYear,
         firstName, lastName, users_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
@@ -219,7 +219,7 @@
 
     //
     function updateUserPaymentCard1($conn, $usersid, $cardNum, $lastFour,  $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
-        $sql = "UPDATE paymentcard1 SET cardNum = ?, lastFour = ?, cardType_id = ?, expMonth = ?, expYear = ?,
+        $sql = "UPDATE PaymentCard1 SET cardNum = ?, lastFour = ?, cardType_id = ?, expMonth = ?, expYear = ?,
         firstName = ?, lastName = ? WHERE users_id = ?;";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
@@ -234,7 +234,7 @@
 
     //
     function updateUserPaymentCard2($conn, $usersid, $cardNum, $lastFour, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
-        $sql = "UPDATE paymentcard2 SET cardNum = ?, lastFour = ?, cardType_id = ?, expMonth = ?, expYear = ?,
+        $sql = "UPDATE PaymentCard2 SET cardNum = ?, lastFour = ?, cardType_id = ?, expMonth = ?, expYear = ?,
         firstName = ?, lastName = ? WHERE users_id = ?;";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) { 
@@ -249,7 +249,7 @@
 
     //
     function updateUserPaymentCard3($conn, $usersid, $cardNum, $lastFour, $cardType_id, $expMonth, $expYear, $firstName, $lastName) {
-        $sql = "UPDATE paymentcard3 SET cardNum = ?, lastFour = ?, cardType_id = ?, expMonth = ?, expYear = ?,
+        $sql = "UPDATE PaymentCard3 SET cardNum = ?, lastFour = ?, cardType_id = ?, expMonth = ?, expYear = ?,
         firstName = ?, lastName = ? WHERE users_id = ?;";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
@@ -265,7 +265,7 @@
     // Delete functions
     //
     function deleteUserPaymentCard1($conn, $usersid) {
-        $sql = "UPDATE paymentcard1 SET cardNum = '', lastFour ='0', cardType_id = null, expMonth = '', expYear = '',
+        $sql = "UPDATE PaymentCard1 SET cardNum = '', lastFour ='0', cardType_id = null, expMonth = '', expYear = '',
         firstName = '', lastName = '' WHERE users_id = ?;";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
@@ -280,7 +280,7 @@
 
     //
     function deleteUserPaymentCard2($conn, $usersid) {
-        $sql = "UPDATE paymentcard2 SET cardNum = '', lastFour = '0', cardType_id = null, expMonth = '', expYear = '',
+        $sql = "UPDATE PaymentCard2 SET cardNum = '', lastFour = '0', cardType_id = null, expMonth = '', expYear = '',
         firstName = '', lastName = '' WHERE users_id = ?;";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
@@ -295,7 +295,7 @@
 
     //
     function deleteUserPaymentCard3($conn, $usersid) {
-        $sql = "UPDATE paymentcard3 SET cardNum = '', lastFour ='0', cardType_id = null, expMonth = '', expYear = '',
+        $sql = "UPDATE PaymentCard3 SET cardNum = '', lastFour ='0', cardType_id = null, expMonth = '', expYear = '',
         firstName = '', lastName = '' WHERE users_id = ?;";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
