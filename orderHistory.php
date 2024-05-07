@@ -5,8 +5,8 @@
     session_start();
     include "includes/dbh.inc.php";
     include "functions/orderHistoryFunctions.php";
-
-    $orderHistory = getHistory($conn, $_SESSION['users_id']);
+    $user_id = $_SESSION["users_id"];
+    $orderHistory = getHistory($conn, $user_id);
 ?>
 <!DOCTYPE html>
 <html>
