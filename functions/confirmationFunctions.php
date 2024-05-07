@@ -1,8 +1,12 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
     function addTicket($conn, $TicketType, $Booking_id, $show_id, $seat_id) {
         //encrypt payment card code here 
-        $sql = "INSERT INTO Ticket (TicketType_id, Booking_id, show_id, seat_id) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO Ticket (ticketType_id, booking_id, show_id, seat_id) VALUES (?, ?, ?, ?)";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
             header("Location: ordersummary.php?error=stmtfailed"); 
@@ -15,7 +19,7 @@
     }
 
     function addBooking($conn, $BookingDate, $BookingTime, $BookingStatus_id, $numberOfSeats, $users_id, $priceTotal) {
-        $sql = "INSERT INTO Booking (BookingDate, BookingTime, BookingStatus_id, numberOfSeats, users_id, priceTotal) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO Booking (bookingDate, bookingTime, bookingStatus_id, numberOfSeats, users_id, priceTotal) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
             header("Location: ordersummary.php?error=stmtfailed"); 
@@ -62,7 +66,7 @@
 
 
     function getBookingId($conn, $BookingDate, $BookingTime, $BookingStatus_id, $numberOfSeats, $users_id, $priceTotal) {
-        $sql = "SELECT Booking_id FROM Booking WHERE (BookingDate = ? AND BookingTime = ? AND BookingStatus_id = ? 
+        $sql = "SELECT booking_id FROM Booking WHERE (bookingDate = ? AND bookingTime = ? AND bookingStatus_id = ? 
         AND numberOfSeats = ? AND users_id = ? AND priceTotal = ?)";
         $stmt = mysqli_stmt_init($conn);
         if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -73,7 +77,7 @@
         mysqli_stmt_execute($stmt);
         $resultData = mysqli_stmt_get_result($stmt);
         if ($row = mysqli_fetch_assoc($resultData)) {
-            $result = $row['Booking_id'];
+            $result = $row['booking_id'];
         } else {
             $result = false;
         }
@@ -82,7 +86,7 @@
     }
 
     function updateBookingLastFour($conn, $lastFour, $Booking_id) {
-        $sql = "UPDATE Booking SET lastFour = ? WHERE Booking_id = ?;";
+        $sql = "UPDATE Booking SET lastFour = ? WHERE booking_id = ?;";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
             header("Location: ordersummary.php?error=stmtfailed"); 
