@@ -193,7 +193,7 @@ function sendEmailConfirmation($email, $movie_title, $adult, $child, $senior, $s
 
 function getEmail($user_id, $conn) {
     $email = null;
-    $sql = "SELECT email FROM Users WHERE users_id = ?";
+    $sql = "SELECT email FROM users WHERE users_id = ?";
     $stmt = mysqli_stmt_init($conn);
 
     if (mysqli_stmt_prepare($stmt, $sql)) {
