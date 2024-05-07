@@ -238,7 +238,7 @@ if (isset($_SESSION["users_id"])) {
             $cardType = $_POST["card-type1"];
             $cardNumber = $_POST["card-number1"] ?? "";
             $cleanCardNumber1 = str_replace('-', '', $cardNumber1);
-            if (!empty($cleanCardNumber1) && strlen($cleanCardNumber1) != 12) {
+            if (!empty($cleanCardNumber1) && strlen($cleanCardNumber1) != 16) {
                 header("Location: editProfile.php?error=cardlength1");
                 exit();
             }
@@ -292,7 +292,7 @@ if (isset($_SESSION["users_id"])) {
             $cardType = $_POST["card-type2"];
             $cardNumber = $_POST["card-number2"] ?? "";
             $cleanCardNumber2 = str_replace('-', '', $cardNumber2);
-            if (!empty($cleanCardNumber2) && strlen($cleanCardNumber2) != 12) {
+            if (!empty($cleanCardNumber2) && strlen($cleanCardNumber2) != 16) {
                 header("Location: editProfile.php?error=cardlength2");
                 exit();
             }
@@ -346,7 +346,7 @@ if (isset($_SESSION["users_id"])) {
             $cardType = $_POST["card-type3"];
             $cardNumber = $_POST["card-number3"] ?? "";
             $cleanCardNumber3 = str_replace('-', '', $cardNumber3);
-            if (!empty($cleanCardNumber3) && strlen($cleanCardNumber3) != 12) {
+            if (!empty($cleanCardNumber3) && strlen($cleanCardNumber3) != 16) {
                 header("Location: editProfile.php?error=cardlength3");
                 exit();
             }
