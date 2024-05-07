@@ -114,12 +114,15 @@
             echo "<div class='ticket'>";
             echo "<p class='ticket-info'>" . $movie['movie_title'] . "</p>";
             echo "<p class='ticket-info'>Booking ID: " . $booking_id . "</p>";
+            echo "<hr>"; // horizontal line
+            ;
 
             $bookingDate = new DateTime($bookingDate);
             $formattedBookingDate = $bookingDate->format('F j, Y'); // e.g., January 1, 2024
 
             echo "<p class='ticket-info'>Booking Date: " . $formattedBookingDate . "</p>";
             echo "<p class='ticket-info'>Booking Time: " . $bookingTime . "</p>";
+            echo "<hr>"; // horizontal line
             echo "</div>";
 
             // Format the date
@@ -129,6 +132,7 @@
             echo "<div class='ticket'>";
             echo "<p class='ticket-info'>Date: " . $formattedDate . "</p>";
             echo "<p class='ticket-info'>Time: " . $show['showTime'] . "</p>";
+            echo "<hr>"; // horizontal line
             echo "</div>";
 
             echo "<div class='ticket'>";
@@ -155,6 +159,7 @@
                 echo "<p class='ticket-info'>Selected Seats: ";
                 echo htmlspecialchars(implode(', ', $cleanedSeats)); // Join array elements with a comma and a space
                 echo "</p>";
+                echo "<hr>"; // horizontal line
                 echo "</div>"; // Close the div
             }
 
