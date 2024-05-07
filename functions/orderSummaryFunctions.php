@@ -7,9 +7,9 @@ include "includes/dbh.inc.php";
 function getPaymentMethods($user_id, $conn) {
     $paymentMethods = array();
     
-    // Loop through payment card tables (paymentcard1, paymentcard2, paymentcard3)
+    // Loop through payment card tables (PaymentCard1, PaymentCard2, PaymentCard3)
     for ($i = 1; $i <= 3; $i++) {
-        $tableName = "paymentcard" . $i;
+        $tableName = "PaymentCard" . $i;
         $sql = "SELECT lastFour FROM $tableName WHERE users_id = ? AND cardNum IS NOT NULL AND cardNum != ''";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)) {
@@ -37,7 +37,7 @@ function applyPromoCode($code, $userID, $conn) {
     if (isValidCode($code, $conn)) {
         if (!hasBeenUsed($code, $userID, $conn)) {
             // Retrieve the promotion details
-            $sql = "SELECT percentDiscount FROM promotion 
+            $sql = "SELECT percentDiscount FROM Promotion 
                     WHERE promoCode = ? 
                     AND CURDATE() BETWEEN 
                         STR_TO_DATE(CONCAT(YEAR(CURDATE()), '-', startMonth, '-', startDay), '%Y-%c-%e') 

@@ -27,7 +27,7 @@
         }
 
         // Retrieve show information
-        $sql = "SELECT * FROM showing WHERE show_id = ?";
+        $sql = "SELECT * FROM Showing WHERE show_id = ?";
         $stmt = mysqli_stmt_init($conn);
 
         if (!mysqli_stmt_prepare($stmt, $sql)) {

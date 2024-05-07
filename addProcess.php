@@ -16,7 +16,7 @@ if (!$conn) {
 
 // Get category_id
 $category = $_POST['category'];
-$sqlCategory = "SELECT category_id FROM MovieCategory WHERE category = ?";
+$sqlCategory = "SELECT category_id FROM moviecategory WHERE category = ?";
 $stmtCategory = mysqli_stmt_init($conn);
 if (!mysqli_stmt_prepare($stmtCategory, $sqlCategory)) {
     header("Location: addMovie.php?error=stmtfailed");
@@ -40,7 +40,7 @@ $rating_code = $_POST['rating_code'];
 $movie_status = $_POST['movie_status'];
 $cast = $_POST['cast'];
 
-$sql = "INSERT INTO Movies(
+$sql = "INSERT INTO movies(
     movie_title,
     category_id,
     cast,

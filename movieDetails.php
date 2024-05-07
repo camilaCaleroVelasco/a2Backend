@@ -27,7 +27,7 @@
                 echo "<p> Hello, " . $currentFirstName . "</p>";
                 echo "<li><a href='editProfile.php'>VIEW PROFILE</a></li>";
                 echo "<li><a href='logout.php'>LOGOUT</a></li>";
-                if($_SESSION["userType_id"] == 2) {
+                if($_SESSION["usertype_id"] == 2) {
                     echo "<li><a href='admin.php'>ADMIN</a></li>";
                 }
             }

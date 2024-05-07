@@ -53,7 +53,7 @@ ini_set('display_errors', 1);
     
     //Check if email already exists
     $email = $_POST["email-address"];
-    $sqlEmailCheck = "SELECT COUNT(*) AS count FROM Users WHERE email = ?";
+    $sqlEmailCheck = "SELECT COUNT(*) AS count FROM users WHERE email = ?";
     $stmtEmailCheck = mysqli_prepare($conn, $sqlEmailCheck);
     mysqli_stmt_bind_param($stmtEmailCheck, "s", $email);
     mysqli_stmt_execute($stmtEmailCheck);
@@ -65,33 +65,33 @@ ini_set('display_errors', 1);
         exit();
     }
 
-    // Get $userStatus_id
-    $userStatus = 'Inactive'; //user just created account so Inactive
-    $sqlUserStatus = "SELECT userStatus_id FROM UserStatus WHERE status = ?";
-    $stmtUserStatus = mysqli_prepare($conn, $sqlUserStatus);
-    mysqli_stmt_bind_param($stmtUserStatus, "s", $userStatus);
-    mysqli_stmt_execute($stmtUserStatus);
-    $resultUserStatus = mysqli_stmt_get_result($stmtUserStatus);
-    $userStatusRow = mysqli_fetch_assoc($resultUserStatus);
-    if ($userStatusRow) {
-        $userStatus_id = $userStatusRow['userStatus_id'];
+    // Get $userstatus_id
+    $userstatus = 'Inactive'; //user just created account so Inactive
+    $sqluserstatus = "SELECT userstatus_id FROM userstatus WHERE status = ?";
+    $stmtuserstatus = mysqli_prepare($conn, $sqluserstatus);
+    mysqli_stmt_bind_param($stmtuserstatus, "s", $userstatus);
+    mysqli_stmt_execute($stmtuserstatus);
+    $resultuserstatus = mysqli_stmt_get_result($stmtuserstatus);
+    $userstatusRow = mysqli_fetch_assoc($resultuserstatus);
+    if ($userstatusRow) {
+        $userstatus_id = $userstatusRow['userstatus_id'];
     } else {
-        die("UserStatus not found");
+        die("userstatus not found");
         exit();
     }
 
-    // Get $userType_id
-    $userType = 'Customer'; // Default user creation has to be customer
-    $sqlUserType = "SELECT userType_id FROM UserType WHERE type = ?";
-    $stmtUserType = mysqli_prepare($conn, $sqlUserType);
-    mysqli_stmt_bind_param($stmtUserType, "s", $userType);
-    mysqli_stmt_execute($stmtUserType);
-    $resultUserType = mysqli_stmt_get_result($stmtUserType);
-    $userTypeRow = mysqli_fetch_assoc($resultUserType);
-    if ($userTypeRow) {
-        $userType_id = $userTypeRow['userType_id'];
+    // Get $usertype_id
+    $usertype = 'Customer'; // Default user creation has to be customer
+    $sqlusertype = "SELECT usertype_id FROM usertype WHERE type = ?";
+    $stmtusertype = mysqli_prepare($conn, $sqlusertype);
+    mysqli_stmt_bind_param($stmtusertype, "s", $usertype);
+    mysqli_stmt_execute($stmtusertype);
+    $resultusertype = mysqli_stmt_get_result($stmtusertype);
+    $usertypeRow = mysqli_fetch_assoc($resultusertype);
+    if ($usertypeRow) {
+        $usertype_id = $usertypeRow['usertype_id'];
     } else {
-        die("UserType not found");
+        die("usertype not found");
     }
 
     // Get Phone Number
@@ -255,18 +255,18 @@ ini_set('display_errors', 1);
     // Promo Subscription 
     $promoSubscription = isset($_POST['subscribe-promos']) ? 1 : 2;
 
-    // Add into Users table
-    $sqlUsers = "INSERT INTO Users (email, password, firstName, lastName, phoneNumber, userStatus_id, userType_id, promoSub_id, billing_id, delivery_id)
+    // Add into users table
+    $sqlusers = "INSERT INTO users (email, password, firstName, lastName, phoneNumber, userstatus_id, usertype_id, promoSub_id, billing_id, delivery_id)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmtUsers = mysqli_prepare($conn, $sqlUsers);
-    if (!$stmtUsers) {
+    $stmtusers = mysqli_prepare($conn, $sqlusers);
+    if (!$stmtusers) {
         die("SQL error: " . mysqli_error($conn));
     }
 
-    // Users execute 
-    mysqli_stmt_bind_param($stmtUsers, "sssssiiiii", $_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $phoneNumber, $userStatus_id, $userType_id, $promoSubscription, $billingAddressId, $deliveryAddressId);
-    if (!mysqli_stmt_execute($stmtUsers)) {
-        die("Error: Failed to insert into Users table. " . mysqli_error($conn));
+    // users execute 
+    mysqli_stmt_bind_param($stmtusers, "sssssiiiii", $_POST["email-address"], $password_hash, $_POST["first-name"], $_POST["last-name"], $phoneNumber, $userstatus_id, $usertype_id, $promoSubscription, $billingAddressId, $deliveryAddressId);
+    if (!mysqli_stmt_execute($stmtusers)) {
+        die("Error: Failed to insert into users table. " . mysqli_error($conn));
     }
 
     // Check if the rows are affected
@@ -415,12 +415,12 @@ ini_set('display_errors', 1);
         
         exit;
     } else {
-        die("Error: Failed to insert into Users table.");
+        die("Error: Failed to insert into users table.");
     }
 
 
     // Close statement
-    mysqli_stmt_close($stmtUsers);
+    mysqli_stmt_close($stmtusers);
 
     // Close connection
     mysqli_close($conn);

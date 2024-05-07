@@ -5,8 +5,9 @@ ini_set('display_errors', 1);
 include "includes/dbh.inc.php";
 
 function getHistory($conn, $user_id){
+
     $sql = "SELECT b.*, s.showDate, s.showTime, s.numOfAvailableSeats, m.movie_title, 
-    t.ticketType_id, GROUP_CONCAT(t.seat_id) as seat_ids, p.percentDiscount
+    t.ticketType_id, GROUP_CONCAT(t.seat_id) as seat_id, p.percentDiscount
     FROM Booking b 
     INNER JOIN Ticket t ON b.booking_id = t.booking_id
     INNER JOIN Showing s ON t.show_id = s.show_id
@@ -20,7 +21,7 @@ function getHistory($conn, $user_id){
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             // Explode seat IDs into an array
-            $seatIds = explode(',', $row['seat_ids']);
+            $seatIds = explode(',', $row['seat_id']);
             $seatInfo = [];
             foreach ($seatIds as $seatId) {
                 // Get seat information for each seat ID

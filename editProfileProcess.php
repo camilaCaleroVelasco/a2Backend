@@ -8,7 +8,7 @@ require_once 'includes/dbh.inc.php';
 require_once 'functions/cardFunctions.php';
 require_once 'functions/emailsFunctions.php';
 
-$userSuccess = false;
+$usersuccess = false;
 $billingSuccess = false;
 $deliverySuccess = false;
 $subscriptionSucess = false;
@@ -18,11 +18,11 @@ $changePWDSuccess = false;
 if (isset($_SESSION["users_id"])) {
     $users_id = $_SESSION["users_id"];
 
-    // Get the current Users information including billing address
-    $sql = "SELECT Users.*, BillingAddress.*, DeliveryAddress.*
-            FROM Users 
-            LEFT JOIN BillingAddress ON Users.billing_id = BillingAddress.billing_id 
-            LEFT JOIN DeliveryAddress ON Users.delivery_id = DeliveryAddress.delivery_id 
+    // Get the current users information including billing address
+    $sql = "SELECT users.*, BillingAddress.*, DeliveryAddress.*
+            FROM users 
+            LEFT JOIN BillingAddress ON users.billing_id = BillingAddress.billing_id 
+            LEFT JOIN DeliveryAddress ON users.delivery_id = DeliveryAddress.delivery_id 
             WHERE users_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $users_id);
@@ -54,8 +54,8 @@ if (isset($_SESSION["users_id"])) {
         mysqli_stmt_close($stmt);
 
 
-        // Get the current paymentcard1 information including billing address
-        $sql1 = "SELECT * FROM paymentcard1 WHERE users_id = ?";
+        // Get the current PaymentCard1 information including billing address
+        $sql1 = "SELECT * FROM PaymentCard1 WHERE users_id = ?";
         $stmt1 = mysqli_prepare($conn, $sql1);
         mysqli_stmt_bind_param($stmt1, "i", $users_id);
         mysqli_stmt_execute($stmt1);
@@ -72,8 +72,8 @@ if (isset($_SESSION["users_id"])) {
 
             mysqli_stmt_close($stmt1);
 
-            // Get the current paymentcard2 information including billing address
-            $sql = "SELECT * FROM paymentcard2 WHERE users_id = ?";
+            // Get the current PaymentCard2 information including billing address
+            $sql = "SELECT * FROM PaymentCard2 WHERE users_id = ?";
             $stmt2 = mysqli_prepare($conn, $sql);
             mysqli_stmt_bind_param($stmt2, "i", $users_id);
             mysqli_stmt_execute($stmt2);
@@ -89,8 +89,8 @@ if (isset($_SESSION["users_id"])) {
                 $currentCard2LastFour = $row['lastFour'];
                 mysqli_stmt_close($stmt2);
 
-                // Get the current paymentcard2 information including billing address
-                $sql = "SELECT * FROM paymentcard3 WHERE users_id = ?;";
+                // Get the current PaymentCard2 information including billing address
+                $sql = "SELECT * FROM PaymentCard3 WHERE users_id = ?;";
                 $stmt3 = mysqli_prepare($conn, $sql);
                 mysqli_stmt_bind_param($stmt3, "i", $users_id);
                 mysqli_stmt_execute($stmt3);
@@ -121,13 +121,13 @@ if (isset($_SESSION["users_id"])) {
             $updateEmail = mysqli_real_escape_string($conn, $_POST['email-address']);
             $updatePhoneNumber = mysqli_real_escape_string($conn, $_POST['phone-number']);
 
-            $sqlUpdateUser = "UPDATE Users SET email=?, firstName=?, lastName=?, phoneNumber=? WHERE users_id=?";
+            $sqlUpdateUser = "UPDATE users SET email=?, firstName=?, lastName=?, phoneNumber=? WHERE users_id=?";
             $stmtUpdateUser = mysqli_prepare($conn, $sqlUpdateUser);
             mysqli_stmt_bind_param($stmtUpdateUser, "ssssi", $updateEmail, $updateFirstName, $updateLastName, $updatePhoneNumber, $users_id);
             mysqli_stmt_execute($stmtUpdateUser);
 
             if (mysqli_stmt_affected_rows($stmtUpdateUser) > 0) {
-                $userSuccess = true;
+                $usersuccess = true;
                 echo "User information updated successfully<br>";
                 echo "Form submitted successfully<br>";
                 var_dump($_POST); // Check form data
@@ -188,7 +188,7 @@ if (isset($_SESSION["users_id"])) {
         $promoSubs = isset($_POST['subscribe-promos']) ? 1 : 2;
         
         // Update the promotional subscription status in the database
-        $sqlUpdatePromoSub = "UPDATE Users SET promoSub_id = ? WHERE users_id = ?";
+        $sqlUpdatePromoSub = "UPDATE users SET promoSub_id = ? WHERE users_id = ?";
         $stmtUpdatePromoSub = mysqli_prepare($conn, $sqlUpdatePromoSub);
         mysqli_stmt_bind_param($stmtUpdatePromoSub, "ii", $promoSubs, $users_id);
         mysqli_stmt_execute($stmtUpdatePromoSub);
@@ -228,7 +228,7 @@ if (isset($_SESSION["users_id"])) {
             }
         }
 
-        //Check if paymentcard1 was updated
+        //Check if PaymentCard1 was updated
         if(!empty($_POST["card-first-name1"]) ||  !empty($_POST["card-last-name1"]) || !empty($_POST["card-type1"]) || !empty($_POST["card-number1"]) 
         || !empty($_POST["expiration-month1"]) || !empty($_POST["expiration-year1"])) {
 
@@ -271,18 +271,18 @@ if (isset($_SESSION["users_id"])) {
             $email = $_SESSION["email"];
 
                 if (!userPaymentCard1Exists($conn, $email)) {
-                    $usersid = getUsersID($conn, $email);
+                    $usersid = getusersID($conn, $email);
                     addUserPaymentCard1($conn, $usersid, $encryptedCardNumber, $lastFour, $cardType, $expMonth, $expYear, $firstName, $lastName);
                     updateNumCard($conn, $email, 1);
                 }
                 else if (userPaymentCard1Exists($conn, $email) ) {
-                    $usersid = getUsersID($conn, $email);
+                    $usersid = getusersID($conn, $email);
                     updateUserPaymentCard1($conn, $usersid, $encryptedCardNumber, $lastFour, $cardType, $expMonth, $expYear, $firstName, $lastName);
                 }
         }
         
         
-        //Check if paymentcard2 was updated
+        //Check if PaymentCard2 was updated
         if(!empty($_POST["card-first-name2"]) ||  !empty($_POST["card-last-name2"]) || !empty($_POST["card-type2"]) || !empty($_POST["card-number2"]) 
                 || !empty($_POST["expiration-month2"]) || !empty($_POST["expiration-year2"])) {
         
@@ -324,19 +324,19 @@ if (isset($_SESSION["users_id"])) {
 
             $email = $_SESSION["email"];
                 if (!userPaymentCard2Exists($conn, $email)) {
-                    $usersid = getUsersID($conn, $email);
+                    $usersid = getusersID($conn, $email);
                     addUserPaymentCard2($conn, $usersid, $encryptedCardNumber, $lastFour, $cardType, $expMonth, $expYear, $firstName, $lastName);
                     updateNumCard($conn, $email, 2);
                     header("Location: editProfile.php?success=paymentAdded");
                 }
                 else if (userPaymentCard2Exists($conn, $email) ) {
-                $usersid = getUsersID($conn, $email);
+                $usersid = getusersID($conn, $email);
                 updateUserPaymentCard2($conn, $usersid, $encryptedCardNumber, $lastFour, $cardType, $expMonth, $expYear, $firstName, $lastName);
                 header("Location: editProfile.php?success=paymentAdded");
                 }
         }
 
-        //Check if paymentcard3 was updated
+        //Check if PaymentCard3 was updated
         if(!empty($_POST["card-first-name3"]) ||  !empty($_POST["card-last-name3"]) || !empty($_POST["card-type3"]) || !empty($_POST["card-number3"]) 
                 || !empty($_POST["expiration-month3"]) || !empty($_POST["expiration-year3"])) {
         
@@ -381,19 +381,19 @@ if (isset($_SESSION["users_id"])) {
             $email = $_SESSION["email"];
             
                 if (!userPaymentCard3Exists($conn, $email)) {
-                    $usersid = getUsersID($conn, $email);
+                    $usersid = getusersID($conn, $email);
                     addUserPaymentCard3($conn, $usersid, $encryptedCardNumber, $lastFour, $cardType, $expMonth, $expYear, $firstName, $lastName);
                     updateNumCard($conn, $email, 3);
                 }
                 else if (userPaymentCard3Exists($conn, $email) ) {
-                $usersid = getUsersID($conn, $email);
+                $usersid = getusersID($conn, $email);
                 updateUserPaymentCard3($conn, $usersid, $encryptedCardNumber, $lastFour, $cardType, $expMonth, $expYear, $firstName, $lastName);
                 }
         }
 
         
 
-        if ($userSuccess == true || $billingSuccess == true || $deliverySuccess == true ||
+        if ($usersuccess == true || $billingSuccess == true || $deliverySuccess == true ||
          $subscriptionSucess == true || $changePWDSuccess == true) {
 
             // Created a function inside of functions that has the emailing 

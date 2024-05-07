@@ -8,7 +8,7 @@
     checkIfAdmin();
 
     function displayCurrentPromos($conn) {
-        $sqlCurrentPromos = "SELECT * FROM promotion";
+        $sqlCurrentPromos = "SELECT * FROM Promotion";
         $resultCurrentPromo = mysqli_query($conn, $sqlCurrentPromos);
     
         //Check rows

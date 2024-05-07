@@ -54,8 +54,8 @@
         else if ($checkpwd == true) {
             session_start();
             $_SESSION["email"] =  $emailExists["email"];
-            $_SESSION["userType_id"] =  $emailExists["userType_id"];
-            $_SESSION["userStatus_id"] =  $emailExists["userStatus_id"];
+            $_SESSION["usertype_id"] =  $emailExists["usertype_id"];
+            $_SESSION["userstatus_id"] =  $emailExists["userstatus_id"];
             $_SESSION["firstName"] =  $emailExists["firstName"];
             $_SESSION["users_id"] = $emailExists["users_id"];
             $_SESSION["lastName"] = $emailExists["lastName"];
@@ -66,13 +66,13 @@
             $_SESSION["delivery_id"] = $emailExists["delivery_id"];
 
                 // if user attempting to login is a CUSTOMER and ACTIVE
-                if($emailExists["userType_id"] == 1 && $emailExists["userStatus_id"] == 1) {
+                if($emailExists["usertype_id"] == 1 && $emailExists["userstatus_id"] == 1) {
                     header("Location: index.php");
                     exit();
                 }
 
                 //if user is a CUSTOMER and INACTIVE
-                else if ($emailExists["userType_id"] == 1 && $emailExists["userStatus_id"] == 2) {
+                else if ($emailExists["usertype_id"] == 1 && $emailExists["userstatus_id"] == 2) {
                     
                     session_start();
                     session_unset();
@@ -83,7 +83,7 @@
                 }
 
                 //if user is a CUSTOMER and SUSPENDED
-                else if ($emailExists["userType_id"] == 1 && $emailExists["userStatus_id"] == 3) {
+                else if ($emailExists["usertype_id"] == 1 && $emailExists["userstatus_id"] == 3) {
                     
                     session_start();
                     session_unset();
@@ -94,13 +94,13 @@
                 }
 
                 //if user is an ADMIN and ACTIVE
-                else if ($emailExists["userType_id"] == 2 && $emailExists["userStatus_id"] == 1) {
+                else if ($emailExists["usertype_id"] == 2 && $emailExists["userstatus_id"] == 1) {
                     header("Location: admin.php");
                     exit();
                 }
 
                  //if user is an ADMIN and INACTIVE 
-                 else if ($emailExists["userType_id"] == 2 && $emailExists["userStatus_id"] == 2) {
+                 else if ($emailExists["usertype_id"] == 2 && $emailExists["userstatus_id"] == 2) {
                     
                     session_start();
                     session_unset();

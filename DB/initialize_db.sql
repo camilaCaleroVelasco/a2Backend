@@ -1,16 +1,16 @@
 -- Status enumeration stored in separate table, accessed using primary key
-CREATE TABLE UserStatus(
+CREATE TABLE userstatus(
     userStatus_id INT PRIMARY KEY AUTO_INCREMENT,
     status VARCHAR(255)
 );
 -- Key = 1
-INSERT INTO UserStatus(status)
+INSERT INTO userstatus(status)
 VALUES('ACTIVE');
 -- Key = 2
-INSERT INTO UserStatus(status)
+INSERT INTO userstatus(status)
 VALUES('INACTIVE');
 -- Key = 3
-INSERT INTO UserStatus(status)
+INSERT INTO userstatus(status)
 VALUES('SUSPENDED');
 -- End of setting up Status enumeration
 -- PROMO STATUS ENUMERATION
@@ -38,15 +38,15 @@ CREATE TABLE Promotion(
     percentDiscount INT
 );
 -- Create User Type Enumeration
-CREATE TABLE UserType(
-    userType_id INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE usertype(
+    usertype_id INT PRIMARY KEY AUTO_INCREMENT,
     type VARCHAR(255)
 );
 -- Key = 1
-INSERT INTO UserType(type)
+INSERT INTO usertype(type)
 VALUES('CUSTOMER');
 -- Key = 2
-INSERT INTO UserType(type)
+INSERT INTO usertype(type)
 VALUES('ADMIN');
 -- END OF ENUMERATION
 CREATE TABLE BillingAddress(
@@ -75,8 +75,8 @@ VALUES('SUBSCRIBED');
 INSERT INTO PromoSubscription(type)
 VALUES('NOT-SUBSCRIBED');
 -- END OF ENUMERATION
--- Create Users table
-CREATE TABLE Users(
+-- Create users table
+CREATE TABLE users(
     users_id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255),
     password VARCHAR(255),
@@ -84,13 +84,13 @@ CREATE TABLE Users(
     lastName VARCHAR(255),
     phoneNumber VARCHAR(255),
     userStatus_id INT,
-    userType_id INT,
+    usertype_id INT,
     pwdResetPin1 INT,
     pwdResetPin2 INT,
     pwdResetPin3 INT,
     pwdResetPin4 INT,
-    FOREIGN KEY (userStatus_id) REFERENCES UserStatus(userStatus_id),
-    FOREIGN KEY (userType_id) REFERENCES UserType(userType_id),
+    FOREIGN KEY (userStatus_id) REFERENCES userstatus(userStatus_id),
+    FOREIGN KEY (usertype_id) REFERENCES usertype(usertype_id),
     promoSub_id INT,
     FOREIGN KEY (promoSub_id) REFERENCES PromoSubscription(promoSub_id),
     billing_id INT,
@@ -123,7 +123,7 @@ CREATE TABLE PaymentCard1(
     firstName VARCHAR(255),
     lastName VARCHAR(255),
     users_id INT,
-    FOREIGN KEY (users_id) REFERENCES Users(users_id),
+    FOREIGN KEY (users_id) REFERENCES users(users_id),
     FOREIGN KEY (cardType_id) REFERENCES PaymentCardType(cardType_id)
 );
 CREATE TABLE PaymentCard2(
@@ -136,7 +136,7 @@ CREATE TABLE PaymentCard2(
     firstName VARCHAR(255),
     lastName VARCHAR(255),
     users_id INT,
-    FOREIGN KEY (users_id) REFERENCES Users(users_id),
+    FOREIGN KEY (users_id) REFERENCES users(users_id),
     FOREIGN KEY (cardType_id) REFERENCES PaymentCardType(cardType_id)
 );
 CREATE TABLE PaymentCard3(
@@ -149,7 +149,7 @@ CREATE TABLE PaymentCard3(
     firstName VARCHAR(255),
     lastName VARCHAR(255),
     users_id INT,
-    FOREIGN KEY (users_id) REFERENCES Users(users_id),
+    FOREIGN KEY (users_id) REFERENCES users(users_id),
     FOREIGN KEY (cardType_id) REFERENCES PaymentCardType(cardType_id)
 );
 -- BOOKING STATUS ENUMERATION
@@ -170,11 +170,14 @@ CREATE TABLE Booking(
     bookingTime VARCHAR(255),
     bookingStatus_id INT,
     FOREIGN KEY (bookingStatus_id) REFERENCES BookingStatus(bookingStatus_id),
+    bookingTime VARCHAR(255),
     numberOfSeats INT,
-    promo_id INT,
-    FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id),
     users_id INT,
+<<<<<<< HEAD
+    FOREIGN KEY (users_id) REFERENCES users(users_id),
+=======
     FOREIGN KEY (users_id) REFERENCES Users(users_id),
+>>>>>>> main
     priceTotal VARCHAR(255),
     lastFour INT
 );
@@ -288,5 +291,5 @@ CREATE TABLE PromoCodeUse (
     promo_id INT(11),
     user_id INT(11),
     FOREIGN KEY (promo_id) REFERENCES Promotion(promo_id),
-    FOREIGN KEY (user_id) REFERENCES Users(users_id)
+    FOREIGN KEY (user_id) REFERENCES users(users_id)
 );
