@@ -4,14 +4,15 @@ ini_set('display_errors', 1);
 
 include "includes/dbh.inc.php";
 
-function getHistory($conn){
+function getHistory($conn, $user_id){
     $sql = "SELECT b.*, s.showDate, s.showTime, s.numOfAvailableSeats, m.movie_title, 
     t.ticketType_id, GROUP_CONCAT(t.seat_id) as seat_ids, p.percentDiscount
     FROM Booking b 
     INNER JOIN Ticket t ON b.booking_id = t.booking_id
     INNER JOIN Showing s ON t.show_id = s.show_id
-    INNER JOIN Movies m ON s.movie_id = m.movie_id
+    INNER JOIN movies m ON s.movie_id = m.movie_id
     LEFT JOIN Promotion p ON b.promo_id = p.promo_id
+    WHERE b.users_id = $user_id
     GROUP BY b.booking_id";
     $result = mysqli_query($conn, $sql);
 
