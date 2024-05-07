@@ -37,7 +37,7 @@ function applyPromoCode($code, $userID, $conn) {
     if (isValidCode($code, $conn)) {
         if (!hasBeenUsed($code, $userID, $conn)) {
             // Retrieve the promotion details
-            $sql = "SELECT percentDiscount FROM promotion 
+            $sql = "SELECT percentDiscount FROM Promotion 
                     WHERE promoCode = ? 
                     AND CURDATE() BETWEEN 
                         STR_TO_DATE(CONCAT(YEAR(CURDATE()), '-', startMonth, '-', startDay), '%Y-%c-%e') 
