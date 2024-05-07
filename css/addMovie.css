@@ -12,7 +12,11 @@ body {
     background-size: contain; /* Change from 'cover' to 'contain' */
     background-position: center;
     background-repeat: no-repeat;
+    background-image: url("../images/background1.jpg"); 
 }
+
+
+
 
 header {
     width: 100%;
@@ -55,6 +59,7 @@ header {
     padding: 20px;
     background-color: #333;
     border-radius: 10px;
+   
 }
 option.placeholder {
     color: gray;
