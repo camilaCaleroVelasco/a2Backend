@@ -7,6 +7,7 @@ session_start();
 require_once 'includes/dbh.inc.php';
 require_once 'functions/cardFunctions.php';
 require_once 'functions/emailsFunctions.php';
+require_once 'functions/editProfileFunctions.php';
 
 $usersuccess = false;
 $billingSuccess = false;
